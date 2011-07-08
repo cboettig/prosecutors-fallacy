@@ -58,25 +58,28 @@
 \section{Method Summary}
 For each dataset, parameters are estimated by maximum likelihood for a stable model and a model of a system approaching a critical transition (see Section~\ref{modelderivations}, and Section~\ref{likelihood} for the corresponding likelihood equations.)  The models are stochastic equations that can be used to simulate data under the same sampling regime as the original data, or at any specified set of time points.  Distributions are determined by a parametric bootstrap: 500 replicate datasets are simulated under both stable and deteriorating stability model (for each dataset).  For each replicate, the summary statistics (variance, autocorrelation, skew, and coefficient of variation) were computed over a sliding window equal to half the observed time, and a Kendall's correlation test applied to estimate correlation coefficient $\tau$.  The estimates of $\tau$ under the replicate simulations from the stable system and the estimates under the deteriorating stability system make up the two distributions which are integrated at different thresholds to create the ROC curves.  
 
-The likelihood test is performed as in the parametric bootstrap; but instead of calculating summary-statistics, each simulated replicate is refit to both stable and deteriorating models to generate a difference in likelihood scores, (Cox's delta statistic, see Section~\ref{Cox}).  Note that steps such as simulating under either model or estimating each of the indicator statistics are much faster than estimating the model parameters by maximum likelihood, and that estimating the deteriorating stability model is substantially more intensive than estimating the stable model which has a closed form solution for the likelihood expression, see~\citet{likelihood}.  While in the summary-statistic approach outlined above this is estimated only once, for the likelihood approach this must be estimated 1000 times (once on each of the 500 replicates from the stable simulation and the 500 replicates from the deteriorating stability simulation), making this approach nearly 1000 times slower.  Refitting the models on each replicate, rather merely computing the likelihood under the original estimates, is essential to the power of this approach~\citep{Huelsenbeck1996}.⁠
+The likelihood test is performed as in the parametric bootstrap; but instead of calculating summary-statistics, each simulated replicate is refit to both stable and deteriorating models to generate a difference in likelihood scores, (Cox's $\delta$ statistic, see Section~\ref{Cox}).  Note that steps such as simulating under either model or estimating each of the indicator statistics are much faster than estimating the model parameters by maximum likelihood, and that estimating the deteriorating stability model is substantially more intensive than estimating the stable model which has a closed form solution for the likelihood expression, see~\ref{likelihood}.  While in the summary-statistic approach outlined above this is estimated only once, for the likelihood approach this must be estimated 1000 times (once on each of the 500 replicates from the stable simulation and the 500 replicates from the deteriorating stability simulation), making this approach nearly 1000 times slower.  Refitting the models on each replicate, rather merely computing the likelihood under the original estimates, is essential to the power of this approach~\citep{Huelsenbeck1996}.
 
+When replicates are created by simulation under the estimated models, we record data at the same time intervals observed in the original data (as in Fig. 3, main text).  It is straight forward to allow this interval to be different, representing the effect of increased or decreased sampling effort on the reliability-sensitivity trade-off in the ROC curve.  The warning statistics are then estimated on each set of simulated data as before.  
 
 \section{The data sets}\label{data}
 All data sets and analyses performed are included in the accompanying R package.
 The simulated data sets are produced with 40 data points
-sampled evenly sampled over a time interval (0,100) using an individual-based model of a system containing a saddle-node bifurcation, see~\ref{modelderivations}.
-The deteriorating environment was produced under the LSN model~\eqref{LSN}, with $\theta=500$, $\sigma = 5$, $R(t) = 5 - 0.04999 t$.  
-The constant data is produced using the simulation method for the constant environment model~\eqref{OU},
-with parameters estimated from the deteriorating data-set to correspond as nearly as possible to a similar system.
+sampled evenly sampled over a time interval (0,100) using an individual-based model of a system containing a saddle-node bifurcation, see~\ref{modelderivations}.  The data was then fit to the LSN model (see~\ref{modelderivations}) to compute the ROC curves.  
+%The deteriorating environment was produced under the LSN model~\eqref{LSN}, with $\theta=500$, $\sigma = 5$, $R(t) = 5 - 0.04999 t$.  
+%The constant data is produced using the simulation method for the constant environment model~\eqref{OU},
+%with parameters estimated from the deteriorating data-set to correspond as nearly as possible to a similar system.  
 
-The Glaciation data comes from~\citet{Petit1999}, accessible from NOAA:
+The Glaciation data comes from~\citet{Petit1999}, accessible from NOAA:\\
 \href{http://www.ncdc.noaa.gov/paleo/metadata/noaa-icecore-2453.html}{http://www.ncdc.noaa.gov/paleo/metadata/noaa-icecore-2453.html}.
 The data is preprocessed by interpoplation and detrending to be as consistent as possible with the analysis presented in~\citet{Dakos2008},
 analyzing the third glaciation event. 
 The processed data consists of 121 sample points. 
 The match is not exact since~\citet{Dakos2008} estimates the de-trending window size manually,
 but the estimated correlations in the first-order auto-regression coefficients are in close agreement with that analysis. 
-The code for processing the data from the original~\citet{Petit1999} file is included in the accompanying R package.
+The code for processing the data from the original~\citet{Petit1999} file is included in the accompanying R package.  
+
+
 The \emph{Daphnia} example comes from the chemostat ``H6'' in the experiments in \emph{Daphnia magna} populations of~\citet{Drake2010}. 
 The analysis in that paper focuses on data averaged over the ensembles, though the supplement includes analysis over individual replicates. 
 This individual replicates was chosen as an example of a single replicate 
@@ -280,7 +283,7 @@ Let $L_0$ be the likelihood function for model 0, let $\theta_0 = \arg \max \the
 $\delta = -2 (\log L_0 - \log L_1 )$
 
 This approach has since been applied to the problem of model adequacy~\citep{Goldman1993} and model choice~\citep{Huelsenbeck1996}.  
-We have extended the approach by generating the test distribution as well as a null distribution, allowing estimate of power and Type II error.  
+We have extended the approach by generating the test distribution as well as a null distribution in order to compute ROC curves.  
 
 
 

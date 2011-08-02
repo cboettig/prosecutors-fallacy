@@ -45,7 +45,7 @@
 \renewcommand*\theequation{S\arabic{equation}}
 
 \section{Method Summary}
-For each dataset, parameters are estimated by maximum likelihood for a stable model and a model of a system approaching a critical transition (see~\ref{modelderivations} and~\ref{likelihood} for the corresponding likelihood equations).  The models are stochastic equations that can be used to simulate data under the same sampling regime as the original data, or at any specified set of time points.  Distributions are determined by a parametric bootstrap: 500 replicate datasets are simulated under both stable and deteriorating stability model (for each dataset).  For each replicate, the summary statistics (variance, autocorrelation, skew, and coefficient of variation) were computed over a sliding window equal to half the observed time, and a Kendall's correlation test applied to estimate correlation coefficient $\tau$.  The estimates of $\tau$ under the replicate simulations from the stable system and the estimates under the deteriorating stability system make up the two distributions which are integrated at different thresholds to create the ROC curves.  
+For each dataset, parameters are estimated by maximum likelihood for a stable model and a model of a system approaching a critical transition (see~\ref{modelderivations} and~\ref{likelihood} for the corresponding likelihood expressions).  The models are stochastic differential equations that can be used to simulate data under the same sampling regime as the original data, or at any specified set of time points.  Distributions are determined by a parametric bootstrap: 500 replicate datasets are simulated under both stable and deteriorating stability model (for each dataset).  For each replicate, the summary statistics (variance, autocorrelation, skew, and coefficient of variation) were computed over a sliding window equal to half the observed time, and a Kendall's correlation test applied to estimate correlation coefficient $\tau$.  The estimates of $\tau$ under the replicate simulations from the stable system and the estimates under the deteriorating stability system make up the two distributions which are integrated at different thresholds to create the ROC curves. 
 
 The likelihood test is performed as in the parametric bootstrap; but instead of calculating summary-statistics, each simulated replicate is refit to both stable and deteriorating models to generate a difference in likelihood scores, (Cox's $\delta$ statistic, see Section~\ref{Cox}).  Note that steps such as simulating under either model or estimating each of the indicator statistics are much faster than estimating the model parameters by maximum likelihood, and that estimating the deteriorating stability model is substantially more intensive than estimating the stable model which has a closed form solution for the likelihood expression, see~\ref{likelihood}.  While in the summary-statistic approach outlined above this is estimated only once, for the likelihood approach this must be estimated 1000 times (once on each of the 500 replicates from the stable simulation and the 500 replicates from the deteriorating stability simulation), making this approach nearly 1000 times slower.  Refitting the models on each replicate, rather merely computing the likelihood under the original estimates, is essential to the power of this approach~\citep{Huelsenbeck1996}.
 
@@ -56,10 +56,9 @@ In addition to the descriptions provided here, the source code for implementing 
 \section{The data sets}\label{data}
 All data sets and analyses performed are included in the accompanying R package, described in~\ref{R}.
 The simulated data sets are produced with 40 data points
-sampled evenly sampled over a time interval (0,100) using an individual-based model of a system containing a saddle-node bifurcation, see~\ref{modelderivations}.  The data was then fit to the LSN model, Eq~\eqref{LSN}, to compute the ROC curves. Code to run this individual-based simulation under a specified parameter values is provided in the \texttt{R} package.  See \verb|ibm_sims.R| demo for the example used here.  
-%The deteriorating environment was produced under the LSN model~\eqref{LSN}, with $\theta=500$, $\sigma = 5$, $R(t) = 5 - 0.04999 t$.  
-%The constant data is produced using the simulation method for the constant environment model~\eqref{OU},
-%with parameters estimated from the deteriorating data-set to correspond as nearly as possible to a similar system.  
+sampled evenly sampled over a time interval (0,100) using an individual-based model of a system containing a saddle-node bifurcation, see~\ref{modelderivations}.  The data was then fit to the LSN model, Eq~\eqref{LSN}, to compute the ROC curves. 
+Code to run this individual-based simulation under a specified parameter values is provided in the \texttt{R} package.  
+See \verb|ibm_sims.R| demo for the example used here.  
 
 The Glaciation data comes from~\citet{Petit1999}, accessible from NOAA:\\
 \href{http://www.ncdc.noaa.gov/paleo/metadata/noaa-icecore-2453.html}{http://www.ncdc.noaa.gov/paleo/metadata/noaa-icecore-2453.html}.
@@ -86,8 +85,8 @@ There are many possible models that can contain such a transition.
 These may be highly nonlinear models with multiple attractors.
 The diversity of possible models can be classified by the type of bifurcation,
 such as the saddle-node bifurcation in which a stable point (node) and unstable point (saddle) collide and annihilate,
-or a trans-critical bifurcation, in which a stable point becomes unstable.  
-(Any dynamical systems textbook, such as \citet{Guckenheimer1983} can give a good overview of such models and bifurcations). 
+or a transcritical bifurcation, in which a stable point becomes unstable.  
+(A dynamical systems text such as \citet{Guckenheimer1983} will give a good overview of such bifurcations). 
 In general we will be unable to estimate such models accurately if the system has only been observed near the favorable attractor
 (i.e. before the critical transition occurs),
 even if we knew the functional form of the model.
@@ -96,11 +95,9 @@ predicting changes in the dynamics near the current attractor.
 Consequently, it is as unnecessary as it is impossible to estimate a fully nonlinear model,
 but only the linearized model near the bifurcation.
 
-Near the region of the bifurcation,
-we can use the simple normal form equation for the bifurcation rather than the full model,
-but these are still non-linear and difficult to estimate accurately from the data.
-Critical slowing down is based on taking this one step further -- looking at the eigenvalue around the stable point.
-This is equivalent to linearizing the normal forms of the bifurcations around the stable point.
+The theory of critical slowing down (\emph{e.g.} \citet{Scheffer2009}) is based on taking this one step further -- 
+looking at the eigenvalue around the stable point.
+This is equivalent to linearizing the bifurcations around the stable point.
 By so doing we obtain a simple but general models we can estimate from data.
 We are left with explicit, stochastic models that reflect the behavior of the more complicated systems around the stable point,
 and we can see how they change as they approach the bifurcation.  
@@ -297,10 +294,10 @@ Figure 1 (main text) shows hypothetical distributions of a test statistic under 
 
 
 
-\section{On a hypothesis-testing framework}
+\section{On a hypothesis-testing framework}\label{Dakos}
 It is possible to frame the question of sensitivity, reliability, and adequate data in the language of hypothesis testing. As this introduces the unnecessary nuisance parameter, the statistical significance criterion, it is not presented in the text.  In the hypothesis testing framework, a false positive is a Type I error, which is defined relative to some arbitrary statistical significance criterion, most commonly 0.05.  By changing this criterion, one can increase or decrease the probability of the Type I error at the cost of decreasing or increasing the Type II error, also defined relative to this criterion.  
 
-The work by~\citet{Dakos2008} is one of the few commendable examples that attempts a careful quantification of the statistical significance of its approaches.  While the $p$-values presented in the main text of that work are based on parametric assumptions not met by the data, the rather different $p$ values presented in appendix of~\citet{Dakos2008}, Table S3 are constructed with more reasonable null hypotheses (in particular, H$_0$-2 and H$_0$-3 are very similar to our stable system, though H$_0$-1 has lost the correlation structure expected in any time-series).  The plots in Fig. 3 confirm our finding that almost any value of Kendall's $\tau$ is possible under the null hypothesis, and the $p$-values in table S3 show that the detection method is not significant in any of the time series that had fewer than 400 points.  Our approach replicate these findings for the $\tau$-statistic.  We were glad to find that our likelihood-based approach does not have this difficulty, easily identifying the warning signal in these shorter time series, while also reliably avoiding false alarms.  
+The work by~\citet{Dakos2008} is one of the few commendable examples that attempts a careful quantification of the statistical significance of its approaches.  We note that the $p$-values presented in the main text of that work are based on parametric assumptions not met by the data -- the autocorrelation is computed by a sliding window, and the points are part of a time series, both conditions that do not satisfy the null hypothesis that $x$ and $y$ are independent, which is used in approximating a normal distribution of $\tau$ values.  For this reason we generate the null distribution directly from the model as outlined above.   The rather different $p$ values presented in appendix of~\citet{Dakos2008}, Table S3 are constructed with more reasonable null hypotheses (in particular, H$_0$-2 and H$_0$-3 are very similar to our stable system, though H$_0$-1 has lost the correlation structure expected in any time-series).  The plots in Fig. 3 confirm our finding that almost any value of Kendall's $\tau$ is possible under the null hypothesis, and the $p$-values in table S3 show that the detection method is not significant in any of the time series that had fewer than 400 points.  Our approach replicate these findings for the $\tau$-statistic.  We were glad to find that our likelihood-based approach does not have this difficulty, easily identifying the warning signal in these shorter time series, while also reliably avoiding false alarms.  
 
 The approach taken by~\citet{Dakos2008} does not present the corresponding analysis of power or Type II error.  As statistical significance could be achieved with a method that selects less than one in every twenty data sets at random, it is impossible to know whether the approach is actually detecting a signal or simply a random pattern in the noise without a test of power.  Fig. S3, highlights the importance of so doing -- the null distribution is almost uniform across all possible values of $\tau$.  The distribution of $\tau$ under the test distribution will not be able to avoid at least some overlap on this bounded domain.  The reality is worse, we find it overlaps almost completely.  We were glad to see that in estimating the distribution of $\tau$ for very large data sets, it does tighten around zero, while the distribution expected under a true positive condenses around more positive values, indicating that there is at least some discriminative ability in the test. 
 

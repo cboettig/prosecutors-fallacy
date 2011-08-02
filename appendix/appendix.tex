@@ -36,15 +36,13 @@
 \author[davis]{Carl Boettiger\corref{cor1}}
 \ead{cboettig@ucdavis.edu}
 \author[davis]{Alan M Hastings}
-%\author[davis]{}
 \cortext[cor1]{Corresponding author.}
 \address[davis]{Center for Population Biology, University of California, Davis, United States}
-
-
 \end{frontmatter}
 
-
 \appendix
+\renewcommand*\thefigure{S\arabic{figure}}
+\renewcommand*\theequation{S\arabic{equation}}
 
 \section{Method Summary}
 For each dataset, parameters are estimated by maximum likelihood for a stable model and a model of a system approaching a critical transition (see~\ref{modelderivations} and~\ref{likelihood} for the corresponding likelihood equations).  The models are stochastic equations that can be used to simulate data under the same sampling regime as the original data, or at any specified set of time points.  Distributions are determined by a parametric bootstrap: 500 replicate datasets are simulated under both stable and deteriorating stability model (for each dataset).  For each replicate, the summary statistics (variance, autocorrelation, skew, and coefficient of variation) were computed over a sliding window equal to half the observed time, and a Kendall's correlation test applied to estimate correlation coefficient $\tau$.  The estimates of $\tau$ under the replicate simulations from the stable system and the estimates under the deteriorating stability system make up the two distributions which are integrated at different thresholds to create the ROC curves.  
@@ -140,7 +138,7 @@ which gives the model we refer to as the Linearized Saddle Node, LSN:
 
 
 \subsection{Transcritical Bifurcation}
-Another simple bifurcation that may be common in ecological systems with alternative stable states is the transcritical bifurcation; for instance, \citet{Drake2010} induce such a bifurcation in laboratory populations of \emph{Daphnia magna} for purpose of testing early warning signals~\citep{Drake2010}.  To see how this bifurcation arises, consider for example, the stochastic Levin's model~\citep{Levins1969} (a logistic model), where $X_t$ is the number of occupied patches of some total number $K$, $c_t$ is a (time-dependent) colonization rate and $e_t$ an extinction rate (both scaled by the number of patches $K$).  
+Another simple bifurcation that may be common in ecological systems is the transcritical bifurcation; for instance, \citet{Drake2010} induce such a bifurcation in laboratory populations of \emph{Daphnia magna} for purpose of testing early warning signals~\citep{Drake2010}.  To see how this bifurcation arises, consider for example, the stochastic Levin's model~\citep{Levins1969} (a logistic model), where $X_t$ is the number of occupied patches of some total number $K$, $c_t$ is a (time-dependent) colonization rate and $e_t$ an extinction rate (both scaled by the number of patches $K$).  
 \begin{equation}
 \ud X_t = \left( c_t X_t (1-X_t/K) - e_t X_t \right) \ud t + \sigma \sqrt{\frac{e_t}{c_t}} \ud B_t \label{levins},
 \end{equation}
@@ -153,9 +151,9 @@ such a model can be derived from an individual-based description with or without
 We can rewrite the deterministic part of the Levins model, Eq~\ref{levins} in normal form without loss of generality by taking $r_t = 1 - e_t/c_t$.  
 We can linearize around the stable equilibrium value $\hat x(t) = 1 - e_t/c_t = r_t$, 
 \begin{align}
-\dot x &=  f(x) \approx f'(x)|_{\hat x} (x - \hat x) + \ldots, \\
- &= (r_t - 2 x_t|_{x=\hat x}) (x - \hat x), \\
- &= r_t(r_t - x).
+\dot x &=  f(x) \approx f'(x)|_{\hat x} (x - \hat x) + \ldots, \nonumber \\
+ &= (r_t - 2 x_t|_{x=\hat x}) (x - \hat x), \nonumber\\
+ &= r_t(r_t - x). \nonumber
 \end{align}
 Note the equilibrium time dependence arises not from the internal dynamics but from the changing parameter values.  We can express the linearized stochastic dynamics then by the time dependent mean-reverting process.  We refer to this model as the linearized transcritical bifurcation, LTC.  
 
@@ -163,7 +161,7 @@ Note the equilibrium time dependence arises not from the internal dynamics but f
 \ud X_t = r_t (r_t - X_t/K) \ud t + \sigma \sqrt{1+r_t} \ud B_t \label{LTC}
 \end{equation}
 
-The pattern of the saddle-node differs from that of the transcritical in the square-root dependence on the bifurcation parameter.
+The pattern of the saddle-node differs from that of the transcritical in the square-root dependence on the bifurcation parameter.  We note that the transcritical bifurcation involves a gradual decline towards zero, whereas the saddle-node bifurcation involves a sudden transition from a non-trivial equilibrium point. Thus saddle-node bifurcations are the more typical focus of early warning efforts, even though both exhibit the phenomenon of critical slowing down.  We include this example for the \emph{Daphnia} data from~\citet{Drake2010}, showing how our approach could be applied in that scenario.  
 
 
 \subsection{Modeling limitations}
@@ -272,13 +270,16 @@ Comparing models whose parameters have been estimated by maximum likelihood is f
 and has since been developed in this simulation estimation of the null distribution~\citep{McLachlan1987}, by parametric bootstrap estimate~\citep{Efron1987}.  
 Cox's $\delta$ statistic is simply the difference between the log likelihoods of these maximum likelihood estimates, defined as follows.
 
-Let $L_0$ be the likelihood function for model 0, let $\theta_0 = \arg \max \theta_0 \in \Omega_0$, ($L_0 (\theta_0 |X)$) be the maximum likelihood estimator for $\theta_0$ given $X$, and let $L_0 = L_0 (\theta_0 |X)$; and define $L_1$ , $\theta_1$ , $L_1$ similarly for model 1. The statistic we will use is $\delta$, defined to be twice the difference in log likelihood of observing the data under the two MLE models,
-$\delta = -2 (\log L_0 - \log L_1 )$
-
-This approach has since been applied to the problem of model adequacy~\citep{Goldman1993} and model choice~\citep{Huelsenbeck1996}.  
-We have extended the approach by generating the test distribution as well as a null distribution in order to compute ROC curves.  
-
-
+Let $L_0$ be the likelihood function for model 0, 
+let $\theta_0 = \arg \max \theta_0 \in \Omega_0$, ($L_0 (\theta_0 |X)$) 
+be the maximum likelihood estimator for $\theta_0$ given $X$, and let $L_0 = L_0 (\theta_0 |X)$; 
+and define $L_1$, $\theta_1$, $L_1$ similarly for model 1. 
+The statistic we will use is $\delta$, 
+defined to be twice the difference in log likelihood of observing the data under the two MLE models,
+$\delta = -2 (\log L_0 - \log L_1 )$.  
+This approach has been applied to the problem of model adequacy~\citep{Goldman1993} and model choice~\citep{Huelsenbeck1996} in other contexts.  
+We have extended the approach by generating the test distribution as well as a null distribution of the statistic $\delta$ in order to compute ROC curves.  
+Our results have shown that $\delta$ tends to result in lower error rates than $\tau$, the measure of increase in a summary statistic.  
 
 
 \pagebreak
@@ -289,26 +290,22 @@ Figure 1 (main text) shows hypothetical distributions of a test statistic under 
   \begin{center}
     \includegraphics[width=.6\linewidth]{3dist}
   \end{center}
-  \caption{The distributions underlying the ROC curves presented in Figure 3 of the main text.  As in Figure 1 (main text), the blue distribution corresponds to the stable model, while the red distribution corresponds to the model of a system approaching a critical transition.  Both models are estimated from the data by maximum likelihood.  The top panel shows the likelihood statistic, where the $x$-axis is the likelihood ratio $\delta$.  The increase in the various summary statistics is characterized by an Kendall's $\tau$.  The value of the statistic ($\tau$, $\delta$) estimated from the data set is shown by the triangle. Highly overlapping distributions correspond to ROC curves near the 1:1 line.}
+  \caption{The distributions underlying the ROC curves presented in Figure 3 of the main text.  As in Figure 1 (main text), the blue distribution corresponds to the stable model, while the red distribution corresponds to the model of a system approaching a critical transition.  Both models are estimated from the data by maximum likelihood.  The top panel shows the likelihood statistic, where the $x$-axis is the likelihood ratio $\delta$.  The increase in the various summary statistics is characterized by an Kendall's $\tau$.  The value of the statistic ($\tau$, $\delta$) estimated from the data set is shown by the triangle. Highly overlapping distributions correspond to ROC curves near the 1:1 line in Figure 3.}
   \label{fig:3dist}
 \end{figure}
+
+
 
 
 \section{On a hypothesis-testing framework}
 It is possible to frame the question of sensitivity, reliability, and adequate data in the language of hypothesis testing. As this introduces the unnecessary nuisance parameter, the statistical significance criterion, it is not presented in the text.  In the hypothesis testing framework, a false positive is a Type I error, which is defined relative to some arbitrary statistical significance criterion, most commonly 0.05.  By changing this criterion, one can increase or decrease the probability of the Type I error at the cost of decreasing or increasing the Type II error, also defined relative to this criterion.  
 
-The work by~\citet{Dakos2008} is one of the few commendable examples that attempts a careful quantification of the statistical significance of its approaches.  While the $p$-values presented in the main text are based on parametric assumptions not met by the data, the rather different $p$ values presented in appendix table S3 are constructed with more reasonable null hypotheses (in particular, H$_0$ 2 and H$_0$ 3 are very similar to our stable system, though H$_0$ 1 has lost the correlation structure expected in any time-series).  The plots in Fig. 3 confirm our finding that almost any value of Kendall's $\tau$ is possible under the null hypothesis, and the $p$-values in table S3 show that the detection method is not significant in any of the time series that had fewer than 400 points.  Our approach replicate these findings for the $\tau$-statistic.  We were glad to find that our likelihood-based approach does not have this difficulty, easily identifying the warning signal in these shorter time series, while also reliably avoiding false alarms.  
+The work by~\citet{Dakos2008} is one of the few commendable examples that attempts a careful quantification of the statistical significance of its approaches.  While the $p$-values presented in the main text of that work are based on parametric assumptions not met by the data, the rather different $p$ values presented in appendix of~\citet{Dakos2008}, Table S3 are constructed with more reasonable null hypotheses (in particular, H$_0$-2 and H$_0$-3 are very similar to our stable system, though H$_0$-1 has lost the correlation structure expected in any time-series).  The plots in Fig. 3 confirm our finding that almost any value of Kendall's $\tau$ is possible under the null hypothesis, and the $p$-values in table S3 show that the detection method is not significant in any of the time series that had fewer than 400 points.  Our approach replicate these findings for the $\tau$-statistic.  We were glad to find that our likelihood-based approach does not have this difficulty, easily identifying the warning signal in these shorter time series, while also reliably avoiding false alarms.  
 
 The approach taken by~\citet{Dakos2008} does not present the corresponding analysis of power or Type II error.  As statistical significance could be achieved with a method that selects less than one in every twenty data sets at random, it is impossible to know whether the approach is actually detecting a signal or simply a random pattern in the noise without a test of power.  Fig. S3, highlights the importance of so doing -- the null distribution is almost uniform across all possible values of $\tau$.  The distribution of $\tau$ under the test distribution will not be able to avoid at least some overlap on this bounded domain.  The reality is worse, we find it overlaps almost completely.  We were glad to see that in estimating the distribution of $\tau$ for very large data sets, it does tighten around zero, while the distribution expected under a true positive condenses around more positive values, indicating that there is at least some discriminative ability in the test. 
 
 The essential features of these overlapping distributions are easily captured in the ROC curves, which provides a natural language to discuss the issues of uncertainty -- such as ``accepting a higher false-alarm rate in order to avoid a catastrophic shift'' rather than ``using a more liberal threshold for $p$-values in order to avoid costly Type II error.''  
 
-
-
-\section{Model choice and model adequacy}\label{modelchoice}
-Any approach is only as good as its underlying assumptions.  In this paper we have leveraged the machinery of likelihood-based approaches to both evaluate the performance of existing methods and provide a statistical test that more closely matches the assumptions of the basic theory.  For this approach to be useful, the data must still be well-approximated by the models used.  We have provided two different simple bifurcation models that could each represent the hypothesis of gradual decline in stability: linearized transcritical bifurcation and the linearized saddle-node bifurcation; Equations~\eqref{LTC},~\eqref{LSN}.  As they both represent a gradual loss of stability either can be used, but the test will be most powerful by using the one that best corresponds to the data.  While knowledge of the system alone can suggest this (such as in the case of~\citet{Drake2010}), it is straight forward to compare the models against each other using the same likelihood framework.  
-
-As discussed in the text, many systems may not correspond well to any of the simple dynamics upon which the detection of early warning signals is based~\citep{Hastings2010}.  Such dynamics can be particularly misleading for current methods based on summary statistics.  The Monte Carlo bootstrapping of the likelihood approach can be applied as a test of model adequacy, as illustrated in \citet{Goldman1993} and discussed in \citet{Sullivan2005b} in a phylogenetics context. If the observed likelihood ratio falls far from the distributions estimated under either model, the model is likely an inadequate description and subsequent inference may be misleading.  
 
 
 \section{R package tutorial}\label{R}

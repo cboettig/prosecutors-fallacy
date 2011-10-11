@@ -202,13 +202,13 @@ There is an obvious trade-off between the frequency with which a given approach 
 with which it will fail to provide any advanced warning. 
 Choosing the appropriate trade off requires knowledge of the likelihood of both kinds of error.
 In this paper, we
-(1) present the first measurements of reliability and sensitivity for early-warning indicators, 
-(2) we use this method to estimate the amount of data required to achieve a given level of confidence,  
-(3) we show where existing methods have performed little better than chance due to a lack of sufficient data or the use of an insensitive method 
-(4) we introduce a new indicator based on likelihood which substantially out-performs the existing methods.     
+(a) present the first measurements of reliability and sensitivity for early-warning indicators, 
+(b) we use this method to estimate the amount of data required to achieve a given level of confidence,  
+(c) we show where existing methods have performed little better than chance due to a lack of sufficient data or the use of an insensitive method 
+(d) we introduce a new indicator based on likelihood which substantially out-performs the existing methods.     
 
 We illustrate the trade-off between false alarms and failed detection using receiver-operating characteristic (ROC) curves first developed in signal-processing literature~\cite{Green1989, Keller2009}⁠. 
-The curves represent the corresponding false alarm rate at any detection sensitivity,  Fig. 1.
+The curves represent the corresponding false alarm rate at any detection sensitivity, Fig 1.
 The closer these distributions are to one-another, the more severe the trade-off.  
 If the distributions overlap exactly, the ROC curve has a constant slope of unity.  
 The ROC curve demonstrates this trade-off between accuracy and sensitivity.  
@@ -226,9 +226,23 @@ we must quantify the increase and generate the expected distributions of the foc
 While the existing literature frequently presents only a 
 visual increase in early-warning indicators~\cite{Scheffer2009, Drake2010, Carpenter2011, Carpenter2006}, 
 we rely on the few examples that quantify an increasing trend using Kendall's tau correlation statistic~\cite{Dakos2008, Dakos2011, Dakos2009}.
-Values of tau near unity indicate a strongly increasing trend in the warning indicator – suggestive of an approaching transition, while values near zero suggest a lack of a trend – characteristic of stable systems.  In principle, other quantifications of increasing variance, autocorrelation, etc, may perform better than tau and could be analyzed just as well in this framework.  While we use this established metric of increase, we also introduce a novel warning indicator that is not based on the gradual increase of a summary statistic but on likelihood comparisons.  
+Values of tau near unity indicate a strongly increasing trend in the warning indicator --
+suggestive of an approaching transition, while values near zero suggest a lack of a trend -- characteristic of stable systems.
+In principle, other quantifications of increasing variance, autocorrelation, etc,
+may perform better than tau and could be analyzed just as well in this framework. 
+While we use this established metric of increase, we also introduce a novel warning indicator
+that is not based on the gradual increase of a summary statistic but on likelihood comparisons.  
 
-Having identified an indicator statistic, we must be able to generate its distribution under both the scenario of a stable system and one approaching a transition before we can compute the ROC curve.  We fit general stochastic models representing common bifurcations (e.g. saddle-node~\cite{Scheffer2009, Guttal2008a, VanNes2007, Biggs2009} and transcritical bifurcations~\cite{Drake2010} ) for both scenarios to the data by maximum likelihood, and then simulate 500 replicate data sets under each\footnote[1]{See methods.}⁠.  By estimating the statistic (e.g. tau) on each replicate we generate distributions such as depicted in Fig. 1 and compute ROC curves\footnote[1]{See methods.}⁠.  Our approach provides a novel method for comparing alternatives by their likelihood ratio statistic~\cite{Cox1961}⁠ instead of tau, which provides a more direct and more powerful test than detecting an increase in summary statistics.  As these methods are computationally demanding, we provide a multi-processor enabled R package to assist with the analysis. 
+Having identified an indicator statistic,
+we must be able to generate its distribution under both the scenario of a stable system and 
+one approaching a transition before we can compute the ROC curve.
+We fit general stochastic models representing common bifurcations
+(e.g. saddle-node~\cite{Scheffer2009, Guttal2008a, VanNes2007, Biggs2009} and transcritical bifurcations~\cite{Drake2010} )
+for both scenarios to the data by maximum likelihood, and then simulate 500 replicate data sets under each\footnote[1]{See methods.}⁠. 
+By estimating the statistic (e.g. tau) on each replicate we generate distributions such as depicted in Fig. 1 and compute ROC curves\footnote[1]{See methods.}⁠.
+Our approach provides a novel method for comparing alternatives by their likelihood ratio statistic~\cite{Cox1961}⁠ instead of tau,
+which provides a more direct and more powerful test than detecting an increase in summary statistics.
+As these methods are computationally demanding, we provide a multi-processor enabled R package to assist with the analysis. 
 
 \section{Examples}
 
@@ -351,6 +365,44 @@ Data and code available at: https://github.com/cboettig/warningsignals/archives/
                            %% \begin{figure}
                            %% \caption{Almost Sharp Front}\label{afoto}
                            %% \end{figure}
+ \begin{figure*}
+   \begin{center}
+     \includegraphics[width=\linewidth]{Fig1}
+     \label{fig1}
+     \caption{Top row: The distributions of a hypothetical warning indicator are shown under the case of a stable system (blue) and a system approaching a critical transition (red).  Bottom row: Points along the ROC curve are calculated for each possible threshold indicated in the top row.  The false positive rate is the integral of the distribution of the test statistic under the stable system right of the threshold (blue shaded area, corresponding to blue vertical line).  The true positive rate is the integral of the system approaching a transition left of the threshold (red shaded area, corresponds to the red line).  Successive columns show the threshold increasing, tracing out the ROC curve (successively gray lines show the threshold used for the matching gray point added to the ROC curve).}
+  \end{center}
+ \end{figure*}
+
+
+
+ \begin{figure*}
+   \begin{center}
+     \includegraphics[width=\linewidth]{Fig2}
+     \label{fig2}
+     \caption{Early warning signals in simulated and empirical data sets.  The first two columns are simulated data from (a) a stable system (Stable), and (b) the same system approaching a saddle-node bifurcation due to a gradually deteriorating environment (Deteriorating).  Empirical examples are from (c) \emph{Daphnia magna} concentrations manipulated in a chemostat towards a critical transition (Daphnia), and (d) deuterium concentrations previously cited as an early warning signal of a critical transition in glaciation (Glaciation). Increases in summary statistics such as variance, autocorrelation, or skew, computed over a moving window, are used to indicate if a system is moving towards a critical transition (see supplementary online text).  The increase is measured by the correlation coefficient $\tau$.  Note that positive correlation does not guarantee the system is moving towards a transition, as seen in the stable system, first column.}
+  \end{center}
+ \end{figure*}
+
+
+
+ \begin{figure*}
+   \begin{center}
+     \includegraphics[width=\linewidth]{Fig3}
+     \label{fig3}
+     \caption{ROC curves for different early warning indicators on simulated and empirical data.  The area under the curve, inset, indicates how the method compares to a random guess (0.5).  The likelihood method performs substantially better than other metrics, particularly on the weaker trends seen in the empirical data. The simulated dataset has 40 points, ``Daphnia'' has 16, the ``Glaciation'' has 121. See corresponding distributions, Fig. S1, and additional examples, Fig. S2.}
+  \end{center}
+ \end{figure*}
+
+
+ \begin{figure*}
+   \begin{center}
+     \includegraphics[width=\linewidth]{Fig4}
+     \label{fig4}
+     \caption{ROC curves (from Fig. 3) are recalculated under different sampling frequencies in the simulation step (see supplementary online text), using a total of 25, 50, or 200 points.  Increasing the sampling improves the trade-off between sensitivity and reliability for all indicators, though the likelihood approach is most effective.} 
+  \end{center}
+ \end{figure*}
+
+
 
                            %% For Tables, put caption above table
                            %%

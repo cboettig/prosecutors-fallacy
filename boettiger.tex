@@ -75,6 +75,7 @@
                          %\newcommand{\mfrac}[2]{\frac{\displaystyle #1}{\displaystyle #2}}
                          %\def\s{\sigma}
 
+                         \newcommand{\ud}{\mathrm{d}}
 
                          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                          %% Don't type in anything in the following section:
@@ -180,7 +181,8 @@ and the idea that management responses would be needed either to avoid an undesi
 it is important to develop the ability to predict impending regime shifts based on early warning signs. 
 With a good model of the system, system-specific approaches could be useful~\cite{Lenton2009}.
 but in cases where good models are not available general approaches are needed~\cite{Scheffer2009}⁠.
-We focus on the common scenario of gradual change yielding a sudden shift or bifurcation~\cite{Scheffer2001, Scheffer2009}⁠
+We focus on the common scenario of a gradual environmental change yielding a sudden shift or bifurcation in a system~\cite{Scheffer2001, Scheffer2009}.
+% hmm, not environmental examples\dots ⁠
 We describe a novel statistical approach that is appropriate for the goal of informing management.  
 
 Though previous research has identified patterns such as increasing variance or autocorrelation in time-series approaching a critical transition,
@@ -208,7 +210,7 @@ In this paper, we
 (d) we introduce a new indicator based on likelihood which substantially out-performs the existing methods.     
 
 We illustrate the trade-off between false alarms and failed detection using receiver-operating characteristic (ROC) curves first developed in signal-processing literature~\cite{Green1989, Keller2009}⁠. 
-The curves represent the corresponding false alarm rate at any detection sensitivity, Fig 1.
+The curves represent the corresponding false alarm rate at any detection sensitivity (true positive rate), Fig 1.
 The closer these distributions are to one-another, the more severe the trade-off.  
 If the distributions overlap exactly, the ROC curve has a constant slope of unity.  
 The ROC curve demonstrates this trade-off between accuracy and sensitivity.  
@@ -218,18 +220,18 @@ we can use these curves to illustrate by how much a given increase in sampling e
 The area under the ROC curve provides a summary of how well the method compares to a random guess --
 an area of 0.5 corresponding to perfectly overlapping distributions is performing no better than chance, while a statistic with area of unity always distinguishes correctly between stable systems and those approaching a transition. 
 
-
-
 To generate ROC curves for common early warning indicators such as 
 increases in autocorrelation, variance, and skew, 
 we must quantify the increase and generate the expected distributions of the focal statistic.  
 While the existing literature frequently presents only a 
-visual increase in early-warning indicators~\cite{Scheffer2009, Drake2010, Carpenter2011, Carpenter2006}, 
-we rely on the few examples that quantify an increasing trend using Kendall's tau correlation statistic~\cite{Dakos2008, Dakos2011, Dakos2009}.
-Values of tau near unity indicate a strongly increasing trend in the warning indicator --
+% e.g. Drake \& Griffen use any two-sigma deviation as indicative, yet any sufficiently sampled null process will produce a positive warning,  
+% so this is not a reasonable statistical characterization
+visual or heuristic measure of increase\footnote{That is, do not provide $p$-values or a statistic for which they could be generated.} in early-warning indicators~\cite{Scheffer2009, Drake2010, Carpenter2011, Carpenter2006}, 
+we rely on the few examples that quantify an increasing trend using Kendall's $\tau$ correlation statistic~\cite{Dakos2008, Dakos2011, Dakos2009}.
+Values of $\tau$ near unity indicate a strongly increasing trend in the warning indicator --
 suggestive of an approaching transition, while values near zero suggest a lack of a trend -- characteristic of stable systems.
 In principle, other quantifications of increasing variance, autocorrelation, etc,
-may perform better than tau and could be analyzed just as well in this framework. 
+may perform better than $\tau$ and could be analyzed just as well in this framework. 
 While we use this established metric of increase, we also introduce a novel warning indicator
 that is not based on the gradual increase of a summary statistic but on likelihood comparisons.  
 
@@ -238,9 +240,9 @@ we must be able to generate its distribution under both the scenario of a stable
 one approaching a transition before we can compute the ROC curve.
 We fit general stochastic models representing common bifurcations
 (e.g. saddle-node~\cite{Scheffer2009, Guttal2008a, VanNes2007, Biggs2009} and transcritical bifurcations~\cite{Drake2010} )
-for both scenarios to the data by maximum likelihood, and then simulate 500 replicate data sets under each\footnote[1]{See methods.}⁠. 
-By estimating the statistic (e.g. tau) on each replicate we generate distributions such as depicted in Fig. 1 and compute ROC curves\footnote[1]{See methods.}⁠.
-Our approach provides a novel method for comparing alternatives by their likelihood ratio statistic~\cite{Cox1961}⁠ instead of tau,
+for both scenarios to the data by maximum likelihood, and then simulate 500 replicate data sets under each⁠. 
+By estimating the statistic (e.g. $\tau$) on each replicate we generate distributions such as depicted in Fig. 1 and compute ROC curves (see Methods).
+Our approach provides a novel method for comparing alternatives by their likelihood ratio statistic~\cite{Cox1961}⁠ instead of $\tau$,
 which provides a more direct and more powerful test than detecting an increase in summary statistics.
 As these methods are computationally demanding, we provide a multi-processor enabled R package to assist with the analysis. 
 
@@ -269,6 +271,8 @@ but can accept more false-positives to avoid missing as many impending catastrop
 This is particularly valuable in the context of critical transitions, 
 where data are often limited and the consequences of missed detection can be far more severe than false alarms.  
 
+%%%%%%% Converting from power to detection %%%%%%%%%%%%
+
 \section{Discussion}
 A pressing question in the application of early warning signals is quantifying when the data are sufficient for detection to be reliable~\cite{Scheffer2009, Scheffer2010, Inman2011}. 
 Our approach provides a natural way to address this challenge by estimating the ROC curve under differing data sampling efforts
@@ -282,17 +286,62 @@ the coefficient of variation and the variance show more substantial improvement 
 as expected~\cite{Carpenter2011};⁠
 skew performs little better than chance, and likelihood is consistently the most reliable and sensitive (Fig. 4). 
 
-``A best-case scenario.''
-Although not all sudden collapses correspond to our model assumptions~\cite{Hastings2010}⁠,
-including dynamical systems where the variance actually decreases as a sudden shift approaches \cite{Schreiber2003, Schreiber2008},⁠
+%% Threshold
+%% Imagine a missed detection of no more than 10% is acceptable.  
+
+
+Moreover, this illustrates that the summary statistics are very unreliable indicators. 
+A low false alarm rate is only achieved by poor sensitivity; 
+or conversely sensitivity it only achieved with a high rate of false alarms.  
+This is under assumptions that are highly favorable to these statistics, corresponding directly to the process assumptions.  
+The reason for this comes largely from the difficulty in quantifying an increase without a baseline -- 
+the distribution of tau under the null model covers almost the entire range.  %Ref FIGURE
+
+
+Our approach of estimating uncertainty and using the likelihood indicator is neither more nor less general than the other indicators we discuss.  
+All rely on the assumption of an underlying bifurcation driven by the principle eigenvalue passing through zero.\footnote{
+Skew, a higher order term, has additional assumption about the asymmetry,
+and is thus generically less powerful than signals on the lower order moments.} 
+These methods are robust to the assumptions of Gaussian noise and linearity of the model,
+as illustrated by the fit to the simulated data, 
+which instead comes from a nonlinear, discrete-state Markov process (see Appendix).  
+The likelihood approach still performs the best on this data, hence it is not less general.  
+
+When the underlying bifurcation model does not apply, neither summary statistics nor our model-based description will be useful.  
+
+We stress that all of the early warning signals approaches must only be applied when the underlying assumptions can be justified.  
+The summary statistics such as variance or autocorrelation are no more general than our explicit models, % wow
+and systems that do not correspond to these bifurcations can exhibit sudden transitions without any warning~\cite{Hastings2010}.
+For instance, bifurcations resulting in sudden transitions have been observed in ecological models in which 
+the variance actually deceases as a sudden shift approaches~\cite{Schreiber2003, Schreiber2008}.  
+
+Meanwhile, if our knowledge of the system gives reason to be concerned that it may experience a saddle-node or transcritical bifurcation,
+
+If we can use increasing variance as an indicator, than we can use the approach described here to quantify uncertainty.  
+
+Although not all sudden collapses correspond to our model assumptions,
+including dynamical systems where the variance actually decreases as a sudden shift approaches,⁠
 using our model-driven approach may make it easier to identify dynamics that do not correspond with the underlying assumptions.  
 Including measurement error and focusing on such different classes of dynamics are other complications we do not address at this time, 
 but would be amenable to the approach used here. 
 
+The approach presented here offer a best-case scenario for these warning signals,
+illustrating that substantial uncertainty can remain despite the appearance of a positive increase.
+Our results highlight the need to quantify uncertainty in the application of early warning signals,
+and suggest that a hypothesis testing approach may be too restrictive a framework for that purpose.
+Using the ROC curve, we obtain a more general picture of the trade-off between false alarms and failed detections
+than can be provided by a significance test at a fixed false-alarm rate.  
+The curve can guide the choice of threshold used to indicate a warning signal on a case-by-case basis.  
+
+
 The conclusion is not simply that likelihood approaches are more reliable, 
-but rather more broadly that warning signals should consider the inherent trade-off between sensitivity and accuracy, and must quantify how this trade-off depends on both the indicators used and the data available.  
-Using the methods we have outlined when designing early warning strategies for natural systems can ensure that data collection has adequate power to offer a reasonable chance of detection. 
-The approach developed here estimates the risk of both missed events and false alarms; concepts which are critical to prediction-based management.  
+but rather more broadly that warning signals should consider
+the inherent trade-off between sensitivity and accuracy,
+and must quantify how this trade-off depends on both the indicators used and the data available.  
+The approach developed here estimates the risk of both failed detection and false alarms;
+concepts which are critical to prediction-based management.  
+Using the methods we have outlined when designing early warning strategies for natural systems
+can ensure that data collection has adequate power to offer a reasonable chance of detection. 
 
 
                              %% == end of paper:
@@ -302,14 +351,186 @@ The approach developed here estimates the risk of both missed events and false a
 
                              %% Enter any subheads and the Materials and Methods text below.
                              \begin{materials}
-                               \subsection{Models}
-                               \subsection{Data sets}
-                             \end{materials}
+                               \subsection{Methods}\label{methods}
+For each dataset, parameters are estimated by maximum likelihood for a stable model
+and a model of a system approaching a critical transition (Appendix).
+The models are stochastic differential equations (SDEs)
+that can be used to simulate data under the same sampling regime as the original data, 
+or at any specified set of time points.
+Distributions are determined by a parametric bootstrap:
+500 replicate datasets are simulated under both stable and deteriorating stability model (for each dataset).
+For each replicate, the summary statistics (variance, autocorrelation, skew, and coefficient of variation)
+were computed over a sliding window equal to half the observed time (other window sizes had worse performance, see R package), 
+and a Kendall's correlation test applied to estimate correlation coefficient $\tau$.
+The estimates of $\tau$ under the replicate simulations from the stable system
+and the estimates under the deteriorating stability system
+make up the two distributions which are integrated at a sliding threshold to create the ROC curves, as illustrated in Fig 1. 
 
+The likelihood test is performed as in the parametric bootstrap; 
+but each simulated replicate is refit to both stable and deteriorating models to generate a difference in likelihood scores~\cite{Cox1961}.
+Refitting the models on each replicate, 
+rather merely computing the likelihood under the original estimates,
+makes this much more computationally intensive than the summary statistic calculation but is essential to the power of this approach~\cite{Huelsenbeck1996}.
+
+When replicates are created by simulation under the estimated models,
+we record data at the same time intervals observed in the original data (as in Fig. 3, main text). 
+It is straight forward to allow this interval to be different,
+representing the effect of increased or decreased sampling effort on the reliability-sensitivity trade-off in the ROC curve, Fig 4.
+
+The source code for implementing each of the analyses and generating the plots presented is provided as an R package, \verb|warningsignals|. 
+
+
+                               \subsection{Data sets}
+The simulated data sets are produced with 40 data points
+sampled evenly sampled over a time interval (0,100) using an individual-based model of a system containing a saddle-node bifurcation, Eq~\eqref{master}.
+The data was then fit to the LSN model, Eq~\eqref{LSN}, to compute the ROC curves. 
+
+The Glaciation data is accessible from NOAA~\cite{Petit1999}.
+The data is preprocessed by linear interpolation and de-trending by Gaussian kernel smoothing 
+to be as consistent as possible with the original analysis from Dakos \emph{et al.}~\cite{Dakos2008},
+analyzing the third glaciation event, consisting of 121 sample points. 
+The match is not exact since estimates the de-trending window size manually,
+but the estimated correlations in the first-order auto-regression coefficients are in close agreement with that analysis. 
+De-trending is intended to make the data consistent with the assumptions of the warning signal detection~\cite{Dakos2008}, 
+which did not apply to the other data sets~\cite{Drake2010}.  
+
+The \emph{Daphnia} example comes from the chemostat ``H6'' in the experiments of Drake \& Griffen~\cite{Drake2010}. 
+This individual replicates was chosen as an example of a single replicate 
+that showed a statistically significant correlation in variance over window of time where critical slowing down was expected. 
+Further empirical examples that have been previously investigated for early warning signs are also analyzed under our approach in SI Text.  
+
+All data and code for simulations and data processing are found in the R package.  
+
+                             \end{materials}
 
                              %% Optional Appendix or Appendices
                              \appendix 
-                             
+                             \subsection{Models}
+The detection of early warning is based on a \emph{local} theory,
+predicting changes in the dynamics near the current attractor.
+Consequently, it is as unnecessary as it is impossible to estimate a fully nonlinear model,
+but only the linearized model near the bifurcation.
+
+\subsubsection{Saddle-node bifurcation}
+Many models with alternative stable states considered in ecological systems can exhibit this kind of bifurcation.
+The individual-based simulation follows the master equation  
+\begin{align}
+  P(n,t) &= b_{n-1} p_{n-1} + d_{n+1}p_{n+1} - (b_n+d_n)p_n  \label{master} \\ 
+  b_n &= \frac{e K x^2}{X^2 + h_t^2} \nonumber \\ 
+  d_n &= e X_t - a_t   \nonumber
+\end{align}
+This model can experience a saddle-node bifurcation through increased mortality by increasing either $e$ or $a$. 
+The SDE approximation holds for reasonable population sizes:
+\begin{equation}
+dX_t = \left( \frac{e K x^2}{X^2 + h_t^2} - e X_t - a_t\right) dt + \sigma \sqrt{ \frac{e K x^2}{X^2 + h_t^2} + e X_t + a_t} dB_t \label{ass}
+\end{equation}
+This parameterization is only an example, of course many others are possible~\cite{Scheffer2009, Scheffer2001, Strogatz2001a, Guckenheimer1983}. 
+Under appropriate transformation, all can be written in the same normal form for he saddle-node bifurcation,
+\begin{equation}
+\frac{\ud x}{\ud t} = r_t- x^2.
+\label{saddle-node}
+\end{equation}
+While in principle this model could be estimated directly from the data,
+if all observations have been prior to the crash (\emph{i.e.} near the desirable equilibrium)
+we have no data which is informative about the nonlinearity and such estimates will be unreliable.  
+Fortunately the theory of early warning signals is a \emph{local} one, 
+and we can linearize around the equilibrium to obtain a model we can estimate both more easily and more accurately.  
+
+Transforming the canonical form to allow for an arbitrary mean $\theta$,
+the bifurcation looks like $ dx/dt = r_t- (\theta-x)^2 $, with fixed point $\hat x = \sqrt{r_t} +\theta =: \phi$,
+which gives the model we refer to as the Linearized Saddle Node, LSN: 
+\begin{equation}
+\ud X = 2\sqrt{ r_t } (\phi - X_t)\ud t + \sigma\sqrt{\phi } \ud B_t. \label{LSN}
+\end{equation}
+
+\subsubsection{Transcritical Bifurcation}
+Drake \& Griffen induce a transcritical bifurcation in laboratory populations of \emph{Daphnia magna} to test early warning signals~\cite{Drake2010}.  
+This bifurcation also arises in many common models.  For example, the stochastic Levin's model~\cite{Levins1969} (a logistic model),
+\begin{equation}
+\ud X_t = \left( c_t X_t (1-X_t/K) - e_t X_t \right) \ud t + \sigma \sqrt{\frac{e_t}{c_t}} \ud B_t \label{levins},
+\end{equation}
+where $X_t$ is the number of occupied patches of some total number $K$, $c_t$ is a (time-dependent)
+colonization rate and $e_t$ an extinction rate (both scaled by the number of patches $K$).  
+The model contains a transcritical bifurcation when $c_t < e_t$.  The normal form of the bifurcation is
+\begin{equation}
+\frac{\ud x}{\ud t} = r_t x - x^2 
+\label{transcritical}
+\end{equation}
+%We can rewrite the deterministic part of the Levins model, Eq~\eqref{levins} in normal form without loss of generality by taking $r_t = 1 - e_t/c_t$.  
+%We can linearize around the stable equilibrium value $\hat x(t) = 1 - e_t/c_t = r_t$, 
+%\begin{align}
+%\dot x &=  f(x) \approx f'(x)|_{\hat x} (x - \hat x) + \ldots, \nonumber \\
+% &= (r_t - 2 x_t|_{x=\hat x}) (x - \hat x), \nonumber\\
+% &= r_t(r_t - x). \nonumber
+%\end{align}
+%Note the equilibrium time dependence arises not from the internal dynamics but from the changing parameter values.
+We can express the linearized stochastic dynamics then by the time dependent mean-reverting process. 
+We refer to this model as the linearized transcritical bifurcation, LTC.  
+\begin{equation}
+\ud X_t = r_t (r_t - X_t/K) \ud t + \sigma \sqrt{1+r_t} \ud B_t \label{LTC}
+\end{equation}
+
+%The pattern of the saddle-node differs from that of the transcritical in the square-root dependence on the bifurcation parameter.
+Note that the transcritical bifurcation involves a gradual decline towards zero,
+whereas the saddle-node bifurcation involves a sudden transition from a non-trivial equilibrium point.
+Thus saddle-node bifurcations are the more typical focus of early warning efforts, even though both exhibit the phenomenon of critical slowing down.
+%We include this example for the \emph{Daphnia} data~\cite{Drake2010}, showing how our approach could be applied in that scenario.  
+
+%Many models may differ substantially from~\eqref{ass} and~\eqref{levins} and yet correspond to the linearizations illustrated here.  
+%The linearizations have thus been constructed with enough free parameters to capture the gross features of the system,
+%(scaling the equilibrium position, variance, and timescale) while corresponding to the approximations of normal forms of the bifurcations.  
+%Despite this, there are severe limitations in formulating even a linear approximation without ample knowledge of the system. 
+Likelihood calculations also require specifying the rate of change of $r_t$, 
+which we take to first order as
+\begin{equation}
+r_t = r_0 - m t.
+\label{R_t}
+\end{equation}
+Detecting accelerating or otherwise nonlinear approaches to the bifurcation will generally require more power. 
+%\subsubsection{Stable Model}
+When the system is stable, $r_t$ is constant and both models~\eqref{LSN} and~\eqref{LTC} reduce to a simple Ornstein-Uhlenbeck process, 
+\begin{equation}
+\ud X_t = r (\theta - X_t) \ud t + \sigma \ud B_t \label{OU}
+\end{equation}
+This is the continuous time analog of the first-order autoregressive model considered as a null model elsewhere (\emph{e.g.} \cite{Dakos2008, Guttal2008a}). 
+
+\subsection{Likelihood calculations}\label{likelihood}
+The probability $P(X|M)$ of the data $X$ given the model $M$ is the product of the probability of observing each point in the time series given the previous point and the length of the interval,  
+\begin{equation}
+\log P(X | M)=  \sum_i \log P(x_i | x_{i-1}, t_i)
+\end{equation}
+For~\eqref{LSN},~\eqref{LTC} or~\eqref{OU} it is sufficient~\cite{Gardiner2009} to solve the moment equations for mean and variance respectively:
+\begin{align}
+ \frac{\ud }{\ud t} E(x| M)&=  f(x) \\
+\frac{\ud}{\ud t} V(x| M) &=  -\partial_x f(x) V(x|M) + g(x)^2 
+  \label{general_moments}
+\end{align}
+
+For the OU process, we can solve this in closed form, 
+\begin{align}
+  E(x_i| M = \text{OU}) &= X_{i-1} e^{-r t_i} \theta \left(1 - e^{-rt_i} \right) \\
+V(x_i| M = \text{OU}) &= \frac{\sigma^2}{2 r} \left(1 - e^{-2 r t_i} \right)
+\label{OUsoln}
+\end{align}
+
+For the time dependent models, we have analytic forms only for the dynamical equations of these moments from equation~\eqref{general_moments}, which we must integrate numerically over each time interval. For the linearized transcritical:
+
+\begin{align}
+\frac{\ud }{\ud t} E(x_i| M = \text{LTC})&=  r(t)(r(t) - x_i) \\
+\frac{\ud}{\ud t} V(x_i| M = \text{LTC}) &=  -2 r(t) V(x_i|M) + (1+r(t))\sigma^2 
+\label{LTCsoln}
+\end{align}
+
+For the linearized saddle-node bifurcation:
+\begin{align}
+\frac{\ud }{\ud t} E(x_i| M = \text{LSN})&=  2\sqrt{r(t)}(\sqrt{r(t)}+\theta - x_i) \\
+\frac{\ud}{\ud t} V(x_i| M = \text{LSN}) &=  -2 \sqrt{r(t)} V(x_i) + \sigma^2 ( \sqrt{r(t)}+\theta )
+\label{LSNsoln}
+\end{align}
+
+These are numerically integrated using \texttt{lsoda} routine available in \texttt{R} for the likelihood calculation.  
+
+                           
                              %Appendix text...
                              %% or, for appendix with title, use square brackets:
                              %% \appendix[Appendix Title]

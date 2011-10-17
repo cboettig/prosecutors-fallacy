@@ -263,12 +263,20 @@ The ROC curves for these data (Fig. 3) show that the summary-statistic based ind
 frequently lack the sensitivity to distinguish reliably between observed patterns from a stable or unstable system. 
 The large correlations observed in the empirical examples (Fig. 2) are not uncommon in stable systems. 
 For instance, we can read from the curve what fraction of true positives would be detected by a variance-based indicator
-set to a 5\% false positive rate: 25\% in the simulated set, 5.0\% in the \emph{Daphnia} set, and 5.4\% in the Glaciation data set.
-Compare this to likelihood: 61\%, 34\%, and 100\% of the replicate true positives would be correctly identified from the respective systems.
-The value of the ROC curve is that we need not restrict the analysis to a pre-specified error such as 5\%, as we would in classical hypothesis testing.  
-We could instead decide that we wanted no to catch no less than 90\% of the true-positives, and read off the corresponding false positives.  
-For variance this corresponds respectively to a 49\%, 81\%, and 93\% false positive rate, while for likelihood a 55\%, 35\%, 0\% false positive.\footnote{
-Each false-positive, true-positive coordinate on the ROC curve corresponds to a threshold of the indicator statistic, as illustrated in Fig. 1.  
+set to a 5\% false positive rate:
+25\% in the simulated set,
+5.0\% in the \emph{Daphnia} set,
+and 5.4\% in the Glaciation data set.
+Compare this to likelihood: 61\%, 34\%, and 100\% of the replicate true positives
+would be correctly identified from the respective systems.
+The value of the ROC curve is that we need not restrict the analysis to a pre-specified error such as 5\%,
+as we would in classical hypothesis testing.  
+We could instead decide that we wanted no to catch no less than 90\% of the true-positives,
+and read off the corresponding false positives.  
+For variance this corresponds respectively to a 49\%, 81\%, and 93\% false positive rate,
+while for likelihood a 55\%, 35\%, 0\% false positive.\footnote{
+Each false-positive, true-positive coordinate on the ROC curve corresponds to a threshold of the indicator statistic,
+as illustrated in Fig. 1.  
 Comparing this threshold with the observed value classifies the signal as detected or undetected.  See SI text.}
 This flexibility is particularly valuable in the context of critical transitions, 
 where data are often limited and the consequences of missed detection can be far more severe than false alarms.  
@@ -293,54 +301,40 @@ skew performs little better than chance, and likelihood is consistently the most
 %% Threshold
 %% Imagine a missed detection of no more than 10% is acceptable.  
 
+By assuming the underlying model corresponds to a saddle-node or transcritical bifurcation,
+our analysis presents a ``best-case scenario'' for both the summary statistics and the likelihood-based approach. 
+Other literature has already begun to address the additional challenges posed when the underlying 
+dynamics do not correspond to these models~\cite{Hastings2010}.
+Our results illustrate that even in this best-case scenario, 
+reliable identification of warning signals from summary statistics can be difficult.  
+The extent of this difficulty is not fully apparent from the warning statistic itself, Fig 2,
+or even the distribution of that statstic under the null model of a stable system, 
+but becomes clear from the ROC curve, where a 5\% false positive rate often corresponds to only a 5\% true positive rate as well.  
+By estimating the ROC curve for a given set of data, 
+we can better avoid applying warning signals in cases of inadequate power.
+By taking advantage of the assumptions being made to write down a specific likelihood function,
+We can develop indicators that get the most from this data.  
+
+
 %%% Model adequacy
 In any application of early warning signals, it is essential to address the question of model-adequacy.  
 This is every bit as important for the summary-statistic based indicators such as variance and autocorrelation
-as it is for the approach taken here: it has been shown that these statistics correspond to particular assumptions about 
-an underlying process, and systems that violate these assumptions exhibit sudden transitions without any warning~\cite{Hastings2010}.
-Elsewhere sudden transitions have been shown in ecological models where the variance deceases rather then increases as the system nears a bifurcation point~\cite{Schreiber2003, Schreiber2008}.  
+as it is for the approach taken here; these statistics correspond to particular assumptions about the underlying process,
+and systems that violate these assumptions can exhibit sudden transitions without any warning,
+such as chaotic systems or those with non-smooth potential functions~\cite{Hastings2010}.
+Sudden transitions have also been observed in ecological models in which 
+the variance deceases rather then increases as the system nears a bifurcation point~\cite{Schreiber2003, Schreiber2008}.  
 Our approach formalizes the assumptions about the underlying process to match the assumptions of the other warning signals.  
-All are based around a bifurcation process in which the principle eigenvalue passes through zero. 
+As the bifurcation results from the principle eigenvalue passing through zero, 
+the warning signal is expected in linear-order dynamics;
+estimation of the nonlinear model is less powerful and less accurate.  
+The preformance of this approach in the simulated data, which is nonlinear with non-Gaussian noise 
+(introduced by the Poisson proccess demographic events), 
+demonstrates the accuracy under violation of these assumptions.  
 
-% remove skew, CV
-
-It may appear that our approach is more limited as the models are explcitly linear with Gaussian noise processes.
-This is consistent
-
-While 
-
-
-
-Moreover, this illustrates that the summary statistics are very unreliable indicators. 
-A low false alarm rate is only achieved by poor sensitivity; 
-or conversely sensitivity it only achieved with a high rate of false alarms.  
-This is under assumptions that are highly favorable to these statistics, corresponding directly to the process assumptions.  
-The reason for this comes largely from the difficulty in quantifying an increase without a baseline -- 
-the distribution of tau under the null model covers almost the entire range.  %Ref FIGURE
-
-Our approach of estimating uncertainty and using the likelihood indicator is neither more nor less general than the other indicators we discuss.  
-All rely on the assumption of an underlying bifurcation driven by the principle eigenvalue passing through zero.\footnote{
-Skew, a higher order term, has additional assumption about the asymmetry,
-and is thus generically less powerful than signals on the lower order moments.} 
-These methods are robust to the assumptions of Gaussian noise and linearity of the model,
-as illustrated by the fit to the simulated data, 
-which instead comes from a nonlinear, discrete-state Markov process (see Appendix).  
-The likelihood approach still performs the best on this data, hence it is not less general.  
-
-When the underlying bifurcation model does not apply, neither summary statistics nor our model-based description will be useful.  
-
-We stress that all of the early warning signals approaches must only be applied when the underlying assumptions can be justified.  
-The summary statistics such as variance or autocorrelation are no more general than our explicit models, % wow
-and 
-Meanwhile, if our knowledge of the system gives reason to be concerned that it may experience a saddle-node or transcritical bifurcation,
-
-If we can use increasing variance as an indicator, than we can use the approach described here to quantify uncertainty.  
-
-Although not all sudden collapses correspond to our model assumptions,
-including dynamical systems where the variance actually decreases as a sudden shift approaches,⁠
-using our model-driven approach may make it easier to identify dynamics that do not correspond with the underlying assumptions.  
-Including measurement error and focusing on such different classes of dynamics are other complications we do not address at this time, 
-but would be amenable to the approach used here. 
+%Using our model-driven approach may make it easier to identify dynamics that do not correspond with the underlying assumptions.  
+%Including measurement error and focusing on such different classes of dynamics are other complications we do not address at this time, 
+%but would be amenable to the approach used here. 
 
 The approach presented here offer a best-case scenario for these warning signals,
 illustrating that substantial uncertainty can remain despite the appearance of a positive increase.
@@ -359,7 +353,6 @@ The approach developed here estimates the risk of both failed detection and fals
 concepts which are critical to prediction-based management.  
 Using the methods we have outlined when designing early warning strategies for natural systems
 can ensure that data collection has adequate power to offer a reasonable chance of detection. 
-
 
                              %% == end of paper:
 
@@ -625,7 +618,7 @@ Data and code available at: https://github.com/cboettig/warningsignals/archives/
 
  \begin{figure*}
    \begin{center}
-     \includegraphics[width=\linewidth]{Fig3}
+     \includegraphics[width=\linewidth]{Fig3.pdf}
      \label{fig3}
      \caption{ROC curves for different early warning indicators on simulated and empirical data.  The area under the curve, inset, indicates how the method compares to a random guess (0.5).  The likelihood method performs substantially better than other metrics, particularly on the weaker trends seen in the empirical data. The simulated dataset has 40 points, ``Daphnia'' has 16, the ``Glaciation'' has 121. See corresponding distributions, Fig. S1, and additional examples, Fig. S2.}
   \end{center}
@@ -634,7 +627,7 @@ Data and code available at: https://github.com/cboettig/warningsignals/archives/
 
  \begin{figure*}
    \begin{center}
-     \includegraphics[width=\linewidth]{Fig4}
+     \includegraphics[width=\linewidth]{Fig4.pdf}
      \label{fig4}
      \caption{ROC curves (from Fig. 3) are recalculated under different sampling frequencies in the simulation step (see supplementary online text), using a total of 25, 50, or 200 points.  Increasing the sampling improves the trade-off between sensitivity and reliability for all indicators, though the likelihood approach is most effective.} 
   \end{center}

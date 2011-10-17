@@ -179,11 +179,12 @@ Many important ecosystems may currently be threatened with collapse, including c
 Given the potential impact of  these shifts on the sustainable delivery of ecosystem services
 and the idea that management responses would be needed either to avoid an undesirable shift or else to adapt to novel conditions,
 it is important to develop the ability to predict impending regime shifts based on early warning signs. 
-With a good model of the system, system-specific approaches could be useful~\cite{Lenton2009}.
+With a good model of the system, detail-oriented approaches could be useful~\cite{Lenton2009}.
 but in cases where good models are not available general approaches are needed~\cite{Scheffer2009}⁠.
-We focus on the common scenario of a gradual environmental change yielding a sudden shift or bifurcation in a system~\cite{Scheffer2001, Scheffer2009}.
-% hmm, not environmental examples\dots ⁠
-We describe a novel statistical approach that is appropriate for the goal of informing management.  
+We focus on the common scenario of a gradual environmental change yielding a sudden shift or bifurcation in a system~\footnote{A system involving a local bifurcation where the eigenvalue approaches zero \cite{Scheffer2001, Scheffer2009}}.  
+This meets the assumptions and thus provides a ``best-case'' test of detection approaches,
+yet we will demonstrate the resulting uncertainty can remain very high.
+We describe a novel statistical approach for handling this uncertainty that is appropriate for the goal of informing management.  
 
 Though previous research has identified patterns such as increasing variance or autocorrelation in time-series approaching a critical transition,
 there has been no method for forecasting the probability of a collapse from a natural system.
@@ -230,7 +231,7 @@ visual or heuristic measure of increase\footnote{That is, do not provide $p$-val
 we rely on the few examples that quantify an increasing trend using Kendall's $\tau$ correlation statistic~\cite{Dakos2008, Dakos2011, Dakos2009}.
 Values of $\tau$ near unity indicate a strongly increasing trend in the warning indicator --
 suggestive of an approaching transition, while values near zero suggest a lack of a trend -- characteristic of stable systems.
-In principle, other quantifications of increasing variance, autocorrelation, etc,
+In principle, other quantifications of increasing variance, autocorrelation, etc.,
 may perform better than $\tau$ and could be analyzed just as well in this framework. 
 While we use this established metric of increase, we also introduce a novel warning indicator
 that is not based on the gradual increase of a summary statistic but on likelihood comparisons.  
@@ -308,7 +309,7 @@ dynamics do not correspond to these models~\cite{Hastings2010}.
 Our results illustrate that even in this best-case scenario, 
 reliable identification of warning signals from summary statistics can be difficult.  
 The extent of this difficulty is not fully apparent from the warning statistic itself, Fig 2,
-or even the distribution of that statstic under the null model of a stable system, 
+or even the distribution of that statistic under the null model of a stable system, 
 but becomes clear from the ROC curve, where a 5\% false positive rate often corresponds to only a 5\% true positive rate as well.  
 By estimating the ROC curve for a given set of data, 
 we can better avoid applying warning signals in cases of inadequate power.
@@ -328,8 +329,8 @@ Our approach formalizes the assumptions about the underlying process to match th
 As the bifurcation results from the principle eigenvalue passing through zero, 
 the warning signal is expected in linear-order dynamics;
 estimation of the nonlinear model is less powerful and less accurate.  
-The preformance of this approach in the simulated data, which is nonlinear with non-Gaussian noise 
-(introduced by the Poisson proccess demographic events), 
+The performance of this approach in the simulated data, which is nonlinear with non-Gaussian noise 
+(introduced by the Poisson process demographic events), 
 demonstrates the accuracy under violation of these assumptions.  
 
 %Using our model-driven approach may make it easier to identify dynamics that do not correspond with the underlying assumptions.  
@@ -553,7 +554,7 @@ C.B. wrote the software and performed the analysis with advice from A.H.  C.B. a
 Acknowledgements
 S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins provided comments on the manuscript.  This research was supported by funding from NSF Grant EF 0742674 and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308.
 
-Data and code available at: https://github.com/cboettig/warningsignals/archives/master. 
+Data and code available at: https://github.com/cboettig/warningsignals. 
                              \end{acknowledgments}
 
                              %% PNAS does not support submission of supporting .tex files such as BibTeX.

@@ -43,57 +43,9 @@
 %  \address[esp]{Department of Environmental Science and Policy, University of California, Davis, United States}
 %\end{frontmatter}
 %
-
-\section{Distributions of the indicator statistic}
-The ROC curves are generated from distributions of the measure of increase, $\tau$, in a warning statistic (variance, autocorrelation, etc.) or the likelihood ratio $\delta$ from the likelihood approach.  The value of the statistic observed in the original data is indicated by a black triangle. Deciding whether or not this observed value indicates an early warning or not depends on the location of the threshold.  Thresholds involving larger values of $\tau$ or $\delta$ will generally involve fewer false alarms, but also catch fewer of the true positives.  The nature of this trade-off is illustrated by the ROC curve, which can therefore be helpful in selecting the threshold for a particular statistic.  
-
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics{FigS1.pdf}
-  \end{center}
-  \caption{Distribution of the indicator statistic}
-  \label{fig:S1}
-\end{figure}
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics{FigS2.pdf}
-  \end{center}
-  \caption{Distributions of the indicator statistic as the sampling effort increases in the simulated data of a stable system.}
-  \label{fig:S2}
-\end{figure}
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics{FigS3.pdf}
-  \end{center}
-  \caption{Distributions of the indicator statistic as the sampling effort increases in the simulated data of a system under deteriorating stability.}
-  \label{fig:S3}
-\end{figure}
-
-
-
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics{FigS4.pdf}
-  \end{center}
-  \caption{Distributions of the indicator statistic as the sampling effort increases in the \emph{Daphnia} data.}
-  \label{fig:S4}
-\end{figure}
-
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics{FigS5.pdf}
-  \end{center}
-  \caption{Distributions of the indicator statistic as the sampling effort increases in the Glaciation data.}
-  \label{fig:S5}
-\end{figure}
-
-
-
+\appendix
+\renewcommand*\thefigure{S\arabic{figure}}
+\renewcommand*\theequation{S\arabic{equation}}
 \section{Comparing Models}\label{Cox}
 Likelihood methods form the basis of much of modern statistics, in both Frequentist and Bayesian paradigms.  
 The ability evaluate likelihoods directly by computation has made it possible to treat cases that do not conform to traditional assumptions more directly.
@@ -152,7 +104,57 @@ We provide an R package with simple implementation of the methods described here
 
 The package also performs the computationally faster but less powerful summary-statistic tests, computes the resulting distributions under the different hypotheses and the corresponding ROC curves.  The package allows a variety of correlation tests (Pearson's, Kendall's, Spearman's) as the measure of increase, and a variety of summary statistics (variance, autocorrelation, skew, coefficient of variation).  Copies of data used in the paper are provided as examples.  The Monte Carlo methods can take advantage of multiple core processors or clusters by specifying the number of CPUs in the function argument.   Full documentation of functions and data are provided in the package, as well as example scripts which replicate the analyses presented in the paper.   
 
- \section*{ }%bibliography
+ \section{Distributions of the indicator statistic}
+The ROC curves are generated from distributions of the measure of increase, $\tau$, in a warning statistic (variance, autocorrelation, etc.) or the likelihood ratio $\delta$ from the likelihood approach.  The value of the statistic observed in the original data is indicated by a black triangle. Deciding whether or not this observed value indicates an early warning or not depends on the location of the threshold.  Thresholds involving larger values of $\tau$ or $\delta$ will generally involve fewer false alarms, but also catch fewer of the true positives.  The large overlap between the distribution under the stable model (blue) and the deteriorating stability system (red) indicates how difficult it can be for such statistics to descriminate between these alternatives.  The nature of this trade-off is illustrated by the ROC curve, which can therefore be helpful in selecting the threshold for a particular statistic.  
+
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics{FigS1.pdf}
+  \end{center}
+  \caption{Distribution of the indicator statistics corresponding to the ROC curves in Fig. 3, main text. As in Fig. 1, the expected distribution of the statistic under the null hypothesis of a stable system is shown in blue, while the distribution under the estimated deteriorating stability system is shown in red.  The value of the test statistic ($\delta$ in Likelihood, top row, otherwise $\tau$), observed in the original timeseries is indicated by the black triangle. Distributions are produced from a Gaussian kernel density estimate from 500 replicates, as described in Methods.}
+  \label{fig:S1}
+\end{figure}
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics{FigS2.pdf}
+  \end{center}
+  \caption{Distributions of the indicator statistic as the sampling effort increases in the simulated data of a stable system, corresponding to the first column of Fig. 4, main text.  Distributions as described in caption of Fig~\ref{fig:S1}.}
+  \label{fig:S2}
+\end{figure}
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics{FigS3.pdf}
+  \end{center}
+  \caption{Distributions of the indicator statistic as the sampling effort increases in the simulated data of a system under deteriorating stability, corresponding to the second column of Fig. 4, main text.  Distributions as described in caption of Fig~\ref{fig:S2}.}
+  \label{fig:S3}
+\end{figure}
+
+
+
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics{FigS4.pdf}
+  \end{center}
+  \caption{Distributions of the indicator statistic as the sampling effort increases in the \emph{Daphnia} data, corresponding to the third column of Fig. 4, main text.  Distributions as described in caption of Fig~\ref{fig:S1}.}
+  \label{fig:S4}
+\end{figure}
+
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics{FigS5.pdf}
+  \end{center}
+  \caption{Distributions of the indicator statistic as the sampling effort increases in the Glaciation data, corresponding to the fourth column of Fig. 4, main text.  Distributions as described in caption of Fig~\ref{fig:S1}.}
+  \label{fig:S5}
+\end{figure}
+
+\pagebreak
+
+\section*{ }%bibliography
  \bibliography{/home/cboettig/Documents/bibliographies/library.bib}
 
  \end{document}

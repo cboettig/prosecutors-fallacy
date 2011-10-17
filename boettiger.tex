@@ -76,7 +76,7 @@
                          %\def\s{\sigma}
 
                          \newcommand{\ud}{\mathrm{d}}
-
+                         \renewcommand{\thefootnote}{\fnsymbol{footnote}}
                          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                          %% Don't type in anything in the following section:
                          %%%%%%%%%%%%
@@ -140,15 +140,16 @@
                            \begin{abstract} 
 
 Catastrophic regime shifts in complex natural systems may be averted through advanced detection. 
-Recent work has provided a proof-of-principle that many systems approaching a catastrophic transition look different 
+Recent work has provided a proof-of-principle that many systems approaching a catastrophic transition may be identified 
 through the lens of early warning indicators such as rising variance or increased return times.  
 Without the benefit of hindsight of a collapse, 
 applications of these approaches must quantify how reliable different indicators are in avoiding false alarms, 
 and how sensitive they are to missing subtle warning signs.  
 We propose an approach which quantifies this trade-off between reliability and sensitivity, 
 allows comparisons between different indicators, 
-and estimates what data are necessary to achieve a desired error rate.  
-We also introduce a likelihood-based indicator that is more sensitive than previously proposed summary statistics.
+and estimates what data are necessary to achieve a desired error rate. 
+We show these error rates can be quite severe for common indicators even under favorable assumptions, 
+and illustrate how a likelihood-based indicator can improve this performance.  
 
                            \end{abstract}
 
@@ -175,42 +176,43 @@ We also introduce a likelihood-based indicator that is more sensitive than previ
                              %% \subsubsection{}
 
 \dropcap{T}here is an increasing recognition of the importance of regime shifts or critical transitions at a variety of scales in ecological systems~\cite{Holling1973, Wissel1984, Scheffer2001, Scheffer2009, Drake2010, Carpenter2011}⁠. 
-Many important ecosystems may currently be threatened with collapse, including corals~\cite{Bellwood2004}, fisheries~\cite{Berkes2006}⁠, lakes~\cite{Carpenter2011} , and semi-arid ecosystems~\cite{Kefi2007}⁠. 
+Many important ecosystems may currently be threatened with collapse, including corals~\cite{Bellwood2004}, fisheries~\cite{Berkes2006}⁠, lakes~\cite{Carpenter2011}, and semi-arid ecosystems~\cite{Kefi2007}⁠. 
 Given the potential impact of  these shifts on the sustainable delivery of ecosystem services
 and the idea that management responses would be needed either to avoid an undesirable shift or else to adapt to novel conditions,
 it is important to develop the ability to predict impending regime shifts based on early warning signs. 
-With a good model of the system, detail-oriented approaches could be useful~\cite{Lenton2009}.
-but in cases where good models are not available general approaches are needed~\cite{Scheffer2009}⁠.
-We focus on the common scenario of a gradual environmental change yielding a sudden shift or bifurcation in a system~\footnote{A system involving a local bifurcation where the eigenvalue approaches zero \cite{Scheffer2001, Scheffer2009}}.  
-This meets the assumptions and thus provides a ``best-case'' test of detection approaches,
-yet we will demonstrate the resulting uncertainty can remain very high.
-We describe a novel statistical approach for handling this uncertainty that is appropriate for the goal of informing management.  
+With a good model of the system, detail-oriented approaches could be useful~\cite{Lenton2009},
+but in cases where specific models are not available general approaches are needed~\cite{Scheffer2009}⁠.
+We focus on the common scenario of a gradual environmental change yielding a sudden shift or bifurcation in a system.\footnote{A system involving a local bifurcation where the eigenvalue approaches zero \cite{Scheffer2001, Scheffer2009}.}  
+Making this assumption provides a ``best-case'' test of detection approaches;
+we will demonstrate the resulting uncertainty can be very high.
+We describe a novel statistical approach for handling uncertainty that is appropriate for the goal of informing management.  
 
-Though previous research has identified patterns such as increasing variance or autocorrelation in time-series approaching a critical transition,
-there has been no method for forecasting the probability of a collapse from a natural system.
-As real-world applications of early warning signals will not be able to point to the same differences between controlled and
-manipulated systems that have been demonstrated in experimental studies of early warning~\cite{Drake2010, Carpenter2011}⁠.
+Though previous research has identified patterns such as increasing variance or autocorrelation
+in time-series approaching a critical transition,
+there has been no method for forecasting the \emph{probability} of a collapse from a natural system.
+Real-world applications of early warning signals will not be able to point to such differences between controlled and
+manipulated systems that have been utilized in experimental studies of early warning~\cite{Drake2010, Carpenter2011}⁠.
 While the number of potential patterns grows steadily~\cite{Carpenter2006, Dakos2008, Guttal2008, Guttal2008a, Dakos2011}, % add spectral methods
 there are few examples that statistically quantify the patterns~\cite{Dakos2008, Dakos2011},⁠
-and fewer still that determine the distribution of that quantity in the event that the system is not approaching a transition --
-the reliability or false alarm rate~\cite{Dakos2008}⁠. 
-None have considered the distribution of such a statistic in the event that a system is approaching a transition -- 
-the sensitivity to avoid missed detection.  
-We need to quantify such uncertainty/error rates to compare between possible methods~\cite{Contamin2009}
+and fewer still that statistically estimate the false alarm rate~\cite{Dakos2008} or 
+the probability of missed detection⁠. 
+We need to quantify such uncertainty and error rates to compare between possible methods~\cite{Contamin2009}
 and address the continual concern about how much data is necessary⁠ for robust detection~\cite{Scheffer2001, Dakos2008, Carpenter2011, Scheffer2010, Inman2011}.  
 
-Detection of impending transitions is not just a scientific question and the goal should not solely be to detect with a 5\% chance of a false positive,
-and a higher false alarm rate may well be  worth a smaller chance of  missing a catastrophic shift. 
+Detection of impending transitions is not just a scientific question 
+and the goal should not solely be to detect with a 5\% chance of a false positive:
+a higher false alarm rate may well be  worth a smaller chance of  missing a catastrophic shift. 
 There is an obvious trade-off between the frequency with which a given approach will experience a false alarm and
 with which it will fail to provide any advanced warning. 
 Choosing the appropriate trade off requires knowledge of the likelihood of both kinds of error.
 In this paper, we
 (a) present the first measurements of reliability and sensitivity for early-warning indicators, 
 (b) we use this method to estimate the amount of data required to achieve a given level of confidence,  
-(c) we show where existing methods have performed little better than chance due to a lack of sufficient data or the use of an insensitive method 
+(c) we show where existing methods have performed little better than chance due to a lack of sufficient data or the use of insensitive indicators 
 (d) we introduce a new indicator based on likelihood which substantially out-performs the existing methods.     
 
-We illustrate the trade-off between false alarms and failed detection using receiver-operating characteristic (ROC) curves first developed in signal-processing literature~\cite{Green1989, Keller2009}⁠. 
+We illustrate the trade-off between false alarms and failed detection using 
+receiver-operating characteristic (ROC) curves first developed in signal-processing literature~\cite{Green1989, Keller2009}⁠. 
 The curves represent the corresponding false alarm rate at any detection sensitivity (true positive rate), Fig 1.
 The closer these distributions are to one-another, the more severe the trade-off.  
 If the distributions overlap exactly, the ROC curve has a constant slope of unity.  
@@ -234,13 +236,13 @@ suggestive of an approaching transition, while values near zero suggest a lack o
 In principle, other quantifications of increasing variance, autocorrelation, etc.,
 may perform better than $\tau$ and could be analyzed just as well in this framework. 
 While we use this established metric of increase, we also introduce a novel warning indicator
-that is not based on the gradual increase of a summary statistic but on likelihood comparisons.  
+that is not based on the gradual increase of a summary statistic but on likelihood comparisons (see Methods).  
 
 Having identified an indicator statistic,
 we must be able to generate its distribution under both the scenario of a stable system and 
 one approaching a transition before we can compute the ROC curve.
 We fit general stochastic models representing common bifurcations
-(e.g. saddle-node~\cite{Scheffer2009, Guttal2008a, VanNes2007, Biggs2009} and transcritical bifurcations~\cite{Drake2010} )
+(e.g. saddle-node~\cite{Scheffer2009, Guttal2008a, VanNes2007, Biggs2009} and transcritical bifurcations~\cite{Drake2010})
 for both scenarios to the data by maximum likelihood, and then simulate 500 replicate data sets under each⁠. 
 By estimating the statistic (e.g. $\tau$) on each replicate we generate distributions such as depicted in Fig. 1 and compute ROC curves (see Methods).
 Our approach provides a novel method for comparing alternatives by their likelihood ratio statistic~\cite{Cox1961}⁠ instead of $\tau$,
@@ -314,11 +316,11 @@ but becomes clear from the ROC curve, where a 5\% false positive rate often corr
 By estimating the ROC curve for a given set of data, 
 we can better avoid applying warning signals in cases of inadequate power.
 By taking advantage of the assumptions being made to write down a specific likelihood function,
-We can develop indicators that get the most from this data.  
+we can develop indicators that get the most from this data.  
 
 
 %%% Model adequacy
-In any application of early warning signals, it is essential to address the question of model-adequacy.  
+In any application of early warning signals, it is essential to address the question of model adequacy.  
 This is every bit as important for the summary-statistic based indicators such as variance and autocorrelation
 as it is for the approach taken here; these statistics correspond to particular assumptions about the underlying process,
 and systems that violate these assumptions can exhibit sudden transitions without any warning,
@@ -548,11 +550,10 @@ These are numerically integrated using \texttt{lsoda} routine available in \text
 
                              \begin{acknowledgments}
 
+S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins provided comments on the manuscript.  This research was supported by funding from NSF Grant EF 0742674 and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308.
+
 Author Contributions
 C.B. wrote the software and performed the analysis with advice from A.H.  C.B. and A.H. designed the study and wrote the paper.  
-
-Acknowledgements
-S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins provided comments on the manuscript.  This research was supported by funding from NSF Grant EF 0742674 and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308.
 
 Data and code available at: https://github.com/cboettig/warningsignals. 
                              \end{acknowledgments}
@@ -621,7 +622,7 @@ Data and code available at: https://github.com/cboettig/warningsignals.
    \begin{center}
      \includegraphics[width=\linewidth]{Fig3.pdf}
      \label{fig3}
-     \caption{ROC curves for different early warning indicators on simulated and empirical data.  The area under the curve, inset, indicates how the method compares to a random guess (0.5).  The likelihood method performs substantially better than other metrics, particularly on the weaker trends seen in the empirical data. The simulated dataset has 40 points, ``Daphnia'' has 16, the ``Glaciation'' has 121. See corresponding distributions, Fig. S1, and additional examples, Fig. S2.}
+     \caption{ROC curves for different early warning indicators on simulated and empirical data.  The area under the curve, inset, indicates how the method compares to a random guess (0.5).  The likelihood method performs substantially better than other metrics, particularly on the weaker trends seen in the empirical data. The simulated data sets have 40 points, ``Daphnia'' has 16, the ``Glaciation'' has 121. See corresponding distributions, Fig. S1.}
   \end{center}
  \end{figure*}
 
@@ -630,7 +631,7 @@ Data and code available at: https://github.com/cboettig/warningsignals.
    \begin{center}
      \includegraphics[width=\linewidth]{Fig4.pdf}
      \label{fig4}
-     \caption{ROC curves (from Fig. 3) are recalculated under different sampling frequencies in the simulation step (see supplementary online text), using a total of 25, 50, or 200 points.  Increasing the sampling improves the trade-off between sensitivity and reliability for all indicators, though the likelihood approach is most effective.} 
+     \caption{ROC curves (from Fig. 3) are recalculated under different sampling frequencies in the simulation step (see supplementary online text), using a total of 25, 50, or 200 points.  Increasing the sampling improves the trade-off between sensitivity and reliability for all indicators, though the likelihood approach is most effective. A warning sighal is not detected in stable sytem simulation. Corresponding distributions shown in Fig S2-5.} 
   \end{center}
  \end{figure*}
 

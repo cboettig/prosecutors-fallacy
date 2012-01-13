@@ -99,10 +99,79 @@ We describe a novel statistical approach for handling uncertainty that is approp
 
 
 \subsection{The implicit model}
-Foundational work on early warning signals has operated under the often-implicit assumption that the system dynamics contain a saddle-node bifurcation and looks for patterns that would be associated with approaching this bifurcation point.  Such methods  
+Foundational work on early warning signals has operated under the often-implicit assumption that the system dynamics contain a saddle-node bifurcation and looks for patterns that would be associated with approaching this bifurcation point.  The typical pattern has been a trend in a summary statistic such as variance, autocorrelation, skew, spectral ratio~\citep{Biggs2009}.  While attractive for their simplicity, such approaches are subject to numerous challenges.
 
-\subsection{Explicit use of the model}
-Detection of warning signals as model choice (``non-parametric'' Carpenter \& Brock, unpublished Dakos, Kuehn arxiv, Dakos 2011?, Gross 2011)
+1) While superficially simple, 
+calculation of these statistics is subject to 
+several somewhat arbitrary decisions and additional assumptions,
+such as the choice of window size over which the statistic is computed,
+the choice of detrending,
+whether the consecutive averaging windows should overlap~\citep[\emph{e.g.}][]{Lenton2012}. % discusses these challenges, as does most of the others to lesser extent 
+% ergodic problem
+
+2) The warning signal, ``an increase in statistic $x$,'' is not quantitative,
+making it difficult to attribute statistical significance to this statement.
+While much of the literature employing these statistics simply avoids 
+any attempt to quantify the significance of the detection, 
+\citet{Dakos2008} relies on Kendall's correlation coefficient to quantify an increase,
+and then goes through some pains to consider potential null models
+that could be used to calculate statistical significance.  
+Other measures of increase, such as Pearson's, have also been proposed.  
+
+3) Specifying an apprpriate null model for such a calculation is difficult.  
+A supposed strength of the summary statistic approach 
+the non-parametric significance test for Kendalls' tau tests against the null model that the sequence is independent,
+something that is clearly violated when the statistic is computed in a sliding window.
+Not surprisingly, \citet{Dakos2008} find this method overestimates the number of significant events relative to other nulls.  
+Other non-parametric methods are tempting, 
+such as shuffling the order of the data-points in the time-series,
+but this breaks even the natural autocorrelation expected in a stable system that is not approaching any transition,
+and thus should not be considered for a null.  
+Relying on a more explicit but flexible model %or class of models
+such as autogregressive processes is more consistent.  
+% Does this go here?
+We will see that such generic model-based approaches are becoming more common, 
+and argue how they can be used to maximum advantage
+% by simulation, likelihood fitting, and ROC curves.  
+
+% See Seekell et al for a summary stat with a good null
+
+
+4) The underlying assumption that the system contains a saddle-node bifurcation
+can be easilyoverlooked in summary-statistic based approach.  
+For instance, variance may increase for a wide variety of reasons that 
+do not signal an approaching transition~\citep{Schreiber2003, Schreiber2008} 
+or may not increase as a bifurcation is approached~\citep{Livnia2012, Dakos2011a}.
+
+
+% Does this section go here?
+A system may experience a critical transition due to a rare fluctuation,
+or a perturbation to the system state, %(Does this need a figure)?
+rather than a bifurcation~\citep{Scheffer2001, Scheffer2009}.  
+When applying detection approaches to data that have already experienced a critical transition,
+we must condition on the 
+and attempting to ascertain the cause of the transition
+These are alternative null hypotheses 
+ %(Dakos 2008, Lenton,  see Lenton 2009 transition, see 
+\citep{Ditlevsen2010} % telling these two cases apart
+\citep{Livina2011} noise induced transitions cannot be forecast.  
+
+
+5) Summary-statistic approaches inherently lack power. 
+Methods for the detection of early warning signals are continually challenged by 
+inadequate data  %\cite\cite\cite %often worse than we think -- as we will illustrate
+After all, the challenge of extrapolating into the future across a dramatic shift is immense,
+there is essentially no historical president for successfully \& reliably predicting regime shifts. % \cite Tetlock?
+The signals one attempts to detect with these approaches are extremely weak.
+Worse still, beyond this intuitive notion, there is little quantification of just how powerful our methods are,
+even in artificial scenarios where uncertainy conforms to our parametric assumptions.  
+% Seekell Am Nat, Contamin Eco Apps
+We characterize the power
+
+
+
+\subsection{Explicit use of the models}
+Detection of warning signals as model choice (``non-parametric'' \citet{Carpenter2011e},  unpublished Dakos, Kuehn arxiv, Dakos 2011?, Gross 2011)
 
 
 \subsection{Why information criteria will not serve.}

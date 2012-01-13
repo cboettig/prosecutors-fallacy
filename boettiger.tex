@@ -81,7 +81,7 @@ early warning signals \sep tipping point \sep alternative stable states \sep lik
   \textbf{Author Contributions}: C.B. wrote the software and performed the analysis with advice from A.H.  C.B. and A.H. designed the study and wrote the paper. 
 }
 
- \section{Introduction}
+\section{Introduction}
 There is an increasing recognition of the importance of regime shifts or critical transitions at a variety of scales in ecological systems~\citep{Holling1973, Wissel1984, Scheffer2001, Scheffer2009, Drake2010, Carpenter2011}⁠. 
 Many important ecosystems may currently be threatened with collapse, including corals~\citep{Bellwood2004}, fisheries~\citep{Berkes2006}⁠, lakes~\citep{Carpenter2011}, and semi-arid ecosystems~\citep{Kefi2007}⁠. 
 Given the potential impact of  these shifts on the sustainable delivery of ecosystem services
@@ -89,6 +89,7 @@ and the idea that management responses would be needed either to avoid an undesi
 it is important to develop the ability to predict impending regime shifts based on early warning signs. 
 With a good model of the system, detail-oriented approaches could be useful~\citep{Lenton2009},
 but in cases where specific models are not available general approaches are needed~\citep{Scheffer2009}⁠.
+
 We focus on the common scenario of a gradual environmental change yielding a sudden shift or bifurcation in a system 
 (\emph{i.e.} where the dominant eigenvalue passes through zero,
 as discussed in~\citet{Scheffer2001, Scheffer2009}). 
@@ -96,6 +97,26 @@ Making this assumption provides a ``best-case'' test of detection approaches;
 we will demonstrate the resulting uncertainty can be very high.
 We describe a novel statistical approach for handling uncertainty that is appropriate for the goal of informing management.  
 
+
+\subsection{The implicit model}
+Foundational work on early warning signals has operated under the often-implicit assumption that the system dynamics contain a saddle-node bifurcation and looks for patterns that would be associated with approaching this bifurcation point.  Such methods  
+
+\subsection{Explicit use of the model}
+Detection of warning signals as model choice (``non-parametric'' Carpenter \& Brock, unpublished Dakos, Kuehn arxiv, Dakos 2011?, Gross 2011)
+
+
+\subsection{Why information criteria will not serve.}
+
+
+\subsection{Beyond hypothesis testing}
+Hypothesis testing is built upon the objective of 
+
+\citet{Seekell2011}
+
+\subsection{Visualizing the informativeness through ROC curves}
+
+
+%% EDIT -- 
 Though previous research has identified patterns such as increasing variance or autocorrelation
 in time-series approaching a critical transition,
 there has been no method for forecasting the \emph{probability} of a collapse from a natural system.
@@ -108,6 +129,7 @@ the probability of missed detection⁠.
 We need to quantify such uncertainty and error rates to compare between possible methods~\citep{Contamin2009}
 and address the continual concern about how much data is necessary⁠ for robust detection~\citep{Scheffer2001, Dakos2008, Carpenter2011, Scheffer2010, Inman2011}.  
 
+%% EDIT
 Detection of impending transitions is not just a scientific question 
 and the goal should not solely be to detect with a 5\% chance of a false positive:
 a higher false alarm rate may well be  worth a smaller chance of  missing a catastrophic shift. 
@@ -439,7 +461,7 @@ S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins provided comments on the ma
 
  % Computational Sciences Graduate Fellowship from the Department of Energy under grant number DE-FG02-97ER25308. 
  \section{References}%bibliography
- \bibliography{/home/cboettig/Documents/Mendeley/bib/library.bib}
+ \bibliography{boettiger}
 
 
 

@@ -40,12 +40,12 @@
 \newcommand{\C}{\mathrm{Cov}}
 \newcommand{\V}{\mathrm{Var}}
 
-\journal{\tiny Ecology Letters} 
+\journal{\tiny Journal of the Royal Society Interface} 
 \begin{document}
 \begin{frontmatter}
   \title{Quantifying Limits to Detection of Early Warning for Critical Transitions}
   \author[cpb]{Carl Boettiger\corref{cor1}}
-  \ead{cboettig@ucdavis.edu, 610-389-6087}
+  \ead{cboettig@ucdavis.edu}
   \author[esp]{Alan Hastings}
   %\author[info]{}
   %\author[davis]{}
@@ -90,31 +90,45 @@ it is important to develop the ability to predict impending regime shifts based 
 With a good model of the system, detail-oriented approaches could be useful~\citep{Lenton2009},
 but in cases where specific models are not available general approaches are needed~\citep{Scheffer2009}⁠.
 
-We focus on the common scenario of a gradual environmental change yielding a sudden shift or bifurcation in a system 
-(\emph{i.e.} where the dominant eigenvalue passes through zero,
-as discussed in~\citet{Scheffer2001, Scheffer2009}). 
-Making this assumption provides a ``best-case'' test of detection approaches;
-we will demonstrate the resulting uncertainty can be very high.
-We describe a novel statistical approach for handling uncertainty that is appropriate for the goal of informing management.  
+%We focus on the common scenario of a gradual environmental change yielding a sudden shift or bifurcation in a system 
+%(\emph{i.e.} where the dominant eigenvalue passes through zero,
+%as discussed in~\citet{Scheffer2001, Scheffer2009}). 
+%Making this assumption provides a ``best-case'' test of detection approaches;
+%we will demonstrate the resulting uncertainty can be very high.
+%We describe a novel statistical approach for handling uncertainty that is appropriate for the goal of informing management.  
 
 
-\subsection{The implicit model}
-Foundational work on early warning signals has operated under the often-implicit assumption
+\subsection{Summary statistics and the implicit model}
+Foundational work on early warning signals has operated under the often-implicit assumption %often unstated?
 that the system dynamics contain a saddle-node bifurcation and
 looks for patterns that would be associated with approaching this bifurcation point.
 The typical pattern has been a trend in a summary statistic such as
 variance, autocorrelation, skew, spectral ratio~\citep{Biggs2009}.
 While attractive for their simplicity, such approaches are subject to numerous challenges.
+In this paper we argue for a model-based approach, 
+and describe how this can be done in a way that best addresses these difficulties.
 
-1) While superficially simple, calculation of these statistics is subject to 
+\textbf{arbitrary windows}
+While superficially simple to use, the calculation of statistics is subject to 
 several somewhat arbitrary decisions and additional assumptions,
 such as the choice of window size over which the statistic is computed,
 the choice of detrending,
-whether the consecutive averaging windows should overlap~\citep[\emph{e.g.}][]{Lenton2012}. % discusses these challenges, as does most of the others to lesser extent 
-% ergodic problem
+whether the consecutive averaging windows should overlap.  
+\citet{Lenton2012} compare the performance of different approaches to these issues,
+showing that choice of window and method used for detrending indeed influence the results,
+and each approach considered has pros and cons.  
+Without a consistent choice or a clear mechanism to determine one, % Should we say this part?
+it is difficult to evaluate and compare between such methods.  
+A model-based approach side-steps these issue entirely.  
+% discusses these challenges, as does most of the others to lesser extent 
+% Should we mention the ergodic problem here - that averaging over windows isn't averaging across time series, 
+% and that it assumes stationarity, which is precisely the thing we're looking to change?  
+% Similarly the detrending approaches can remove the signal?
+% Should we also mention that some popular approaches such as autocorrelation require evenly-spaced points, and interpolating is incorrect, introducing fictitious correlations?
 
 2) The warning signal, ``an increase in statistic $x$,'' is not quantitative,
-making it difficult to attribute statistical significance to this statement.
+making it difficult to compare between signals or to
+attribute a statistical significance to the detection.
 While much of the literature employing these statistics simply avoids 
 any attempt to quantify the significance of the detection, 
 \citet{Dakos2008} relies on Kendall's correlation coefficient to quantify an increase,
@@ -122,9 +136,10 @@ and then goes through some pains to consider potential null models
 that could be used to calculate statistical significance.  
 Other measures of increase, such as Pearson's, have also been proposed.  
 
-3) Specifying an apprpriate null model for such a calculation is difficult.  
-A supposed strength of the summary statistic approach 
-the non-parametric significance test for Kendalls' tau tests against the null model that the sequence is independent,
+3) Specifying an appropriate null model is difficult.  
+% simulation of replicates under the original model
+As the summary statistic approach 
+the non-parametric significance test for Kendall's tau tests against the null model that the sequence is independent,
 something that is clearly violated when the statistic is computed in a sliding window.
 Not surprisingly, \citet{Dakos2008} find this method overestimates the number of significant events relative to other nulls.  
 Other non-parametric methods are tempting, 
@@ -145,7 +160,7 @@ and argue how they can be used to maximum advantage
 can be easilyoverlooked in summary-statistic based approach.  
 For instance, variance may increase for a wide variety of reasons that 
 do not signal an approaching transition~\citep{Schreiber2003, Schreiber2008} 
-or may not increase as a bifurcation is approached~\citep{Livnia2012, Dakos2011a}.
+or may not increase as a bifurcation is approached~\citep{Livina2012, Dakos2011a}.
 
 
 % Does this section go here?
@@ -158,7 +173,7 @@ and attempting to ascertain the cause of the transition
 These are alternative null hypotheses 
  %(Dakos 2008, Lenton,  see Lenton 2009 transition, see 
 \citep{Ditlevsen2010} % telling these two cases apart
-\citep{Livina2011} noise induced transitions cannot be forecast.  
+\citep{Livina2012} noise induced transitions cannot be forecast.  
 
 
 5) Summary-statistic approaches inherently lack power. 

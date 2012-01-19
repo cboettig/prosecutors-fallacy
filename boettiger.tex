@@ -108,7 +108,7 @@ While attractive for their simplicity, such approaches are subject to numerous c
 In this paper we argue for a model-based approach, 
 and describe how this can be done in a way that best addresses these difficulties.
 
-\textbf{arbitrary windows}
+\textbf{arbitrary windows}\\
 While superficially simple to use, the calculation of statistics is subject to 
 several somewhat arbitrary decisions and additional assumptions,
 such as the choice of window size over which the statistic is computed,
@@ -124,9 +124,11 @@ A model-based approach side-steps these issue entirely.
 % Should we mention the ergodic problem here - that averaging over windows isn't averaging across time series, 
 % and that it assumes stationarity, which is precisely the thing we're looking to change?  
 % Similarly the detrending approaches can remove the signal?
-% Should we also mention that some popular approaches such as autocorrelation require evenly-spaced points, and interpolating is incorrect, introducing fictitious correlations?
+% Should we also mention that some popular approaches such as autocorrelation require evenly-spaced points,
+% and interpolating is incorrect, introducing fictitious correlations?
 
-2) The warning signal, ``an increase in statistic $x$,'' is not quantitative,
+\textbf{no quantitative measures}\\
+The warning signal, ``an increase in statistic $x$,'' is not quantitative,
 making it difficult to compare between signals or to
 attribute a statistical significance to the detection.
 While much of the literature employing these statistics simply avoids 
@@ -136,7 +138,8 @@ and then goes through some pains to consider potential null models
 that could be used to calculate statistical significance.  
 Other measures of increase, such as Pearson's, have also been proposed.  
 
-3) Specifying an appropriate null model is difficult.  
+\textbf{problem of null models}\\
+Specifying an appropriate null model is difficult.  
 % simulation of replicates under the original model
 As the summary statistic approach 
 the non-parametric significance test for Kendall's tau tests against the null model that the sequence is independent,
@@ -156,19 +159,27 @@ and argue how they can be used to maximum advantage
 % See Seekell et al for a summary stat with a good null
 
 
-4) The underlying assumption that the system contains a saddle-node bifurcation
-can be easilyoverlooked in summary-statistic based approach.  
-For instance, variance may increase for a wide variety of reasons that 
-do not signal an approaching transition~\citep{Schreiber2003, Schreiber2008} 
-or may not increase as a bifurcation is approached~\citep{Livina2012, Dakos2011a}.
+\textbf{hidden assumptions}\\
+The underlying assumption that the system contains a saddle-node bifurcation
+can be easily overlooked in summary-statistic based approach.  
+For instance, variance may increase for reasons that 
+do not signal an approaching transition~\citep{Schreiber2003, Schreiber2008}.
+Alternatively, variance may not increase as a bifurcation is approached~\citep{Livina2012, Dakos2011a}.
+Some classes of sudden transitions may exhibit no warning signals~\cite{Hastings2010}.   
 
+Even when the system is characterized by 
+simple alternative stable states in the saddle-node model,
+transitions between states may be due to other mechanisms than a bifurcation, such as a purely noise-induced transition,
+or a 
 
 % Does this section go here?
 A system may experience a critical transition due to a rare fluctuation,
 or a perturbation to the system state, %(Does this need a figure)?
 rather than a bifurcation~\citep{Scheffer2001, Scheffer2009}.  
+
 When applying detection approaches to data that have already experienced a critical transition,
 we must condition on the 
+
 and attempting to ascertain the cause of the transition
 These are alternative null hypotheses 
  %(Dakos 2008, Lenton,  see Lenton 2009 transition, see 

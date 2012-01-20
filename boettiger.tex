@@ -146,7 +146,7 @@ Parametric null models have been more promising, and have brought us closer to a
 For instance, autoregressive models~\citet{Dakos2008} have been proposed, which are first parameterized from the data.  
 \cb{is this next line okay to leave in?}
 Estimating the null models directly from the data using a maximum likelihood framework, will provide the most powerful basis for this test.  
-\citet{Seekell2011} proposes a conditional heterscedaticity as a summary statistic particularly because probability models for the null distribution are readily available.\cb{Though as a measure of changing variance, it suffers from the weaknesses mentioned above, but no need to mention that.} 
+\citet{Seekell2011} proposes a conditional heteroscedaticity as a summary statistic particularly because probability models for the null distribution are readily available.\cb{Though as a measure of changing variance, it suffers from the weaknesses mentioned above, but no need to mention that.} 
 
 
 \cb{This is a particular concern given the tendency for warning signals to be found only in the largest data sets, 
@@ -159,6 +159,15 @@ This likewise guarantees the false positive rate goes to unity as the number of 
 
 
 \subsubsection*{Hidden assumptions}\\
+Assumes that the system sits effectively at equilibrium around a stable state  
+and tests whether the system may be experiencing the slow change of a parameter that is weakening the stability of that state,
+moving the system towards a saddle-node bifurcation.  
+As such processes may be common in natural systems this is an important scenario to consider,
+but without the clarity of assumptions made in a modeling approach there is a risk that
+early warning signs will be used in situations where they do not apply.  
+
+
+Differing system dynamics
 The underlying assumption that the system contains a saddle-node bifurcation
 can be easily overlooked in summary-statistic based approach.  
 For instance, variance may increase for reasons that 
@@ -169,40 +178,41 @@ While no approach will be applicable to all classes of sudden transitions,
 it is certainly still useful to have an approach that detect transitions driven by 
 saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.g.}, see][]{Scheffer2001}.  
 
-% do we need the energy diagram figure to emphasize this is our assumption?
+% this will be made precise later
+
+\cb{ do we need the energy diagram figure to emphasize this is our assumption?}
 Even restricting ourselves to this classic alternate stable state model,
 we must still consider at least three possible scenarios that could explain a sudden transition.  
-The first is a large perturbation of the system state, moving the system into the alternative basin of attraction~\citep{Scheffer2001, Scheffer2001}.  
-This is an exogenous forcing that does not arise from the system dynamics, so it is not the kind of event we can expect to forecast.  (An example might be a sudden dramatic increase in fishing effort that pushes the population past a threshold.)
+
+%Differing causes of the transition.
+Even when we can exclude or ignore such dynamics and 
+restrict ourselves to systems that can support a saddle-node bifurcation,
+any early warning signals approach must further assume that a changing parameter 
+has brought the system closer to the bifurcation.  This excludes at least three alternative
+explanations for the transition.  
+The first is that a large perturbation of the system state 
+has moved the system into the alternative basin of attraction~\citep{Scheffer2001, Scheffer2001}.  
+This is an exogenous forcing that does not arise from the system dynamics, so it is not the kind of event we can expect to forecast. 
+(An example might be a sudden dramatic increase in fishing effort that pushes the population past a threshold.)
 The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary.  
-The third scenario is that a slowly varying parameter of the system leads to a bifurcation in which the current stable state is destroyed and the system drifts to the alternative stable state~\citep{Scheffer2009}.  So while it is not the only explanation for a sudden transition between alternative stable states, it would still be valuable to know
+As discussed in \citet{Livina2012}, such noise induced transitions cannot be predicted through early warning signals.  
+The third scenario is that the system does pass through a saddle-node bifurcation, 
+but rather than gradually and monotonically approaching the critical point, the 
+bifurcation parameter moves in a rapid or highly non-linear way, making the detection of any gradual trend impossible.  
 
-this ``blue sky catastrophe'' or saddle node bifurcation is the focus of 
+% Of course the literature has always stuck carefully to these assumptions, but there has sometimes been the suggestion that the summary statistics themselves were somehow more general than this, and that framing these assumptions in explicit and precise formulae, in models, would be misleading.  
 
-System specific knowledge 
-Any theory of early warning signals must restrict itself to the subset of transitions that exhibit warning signals
-% a warning signal general enough to catch 
+%%%% TOPIC FOR ANOTHER NOTE: Early warning signals and the Prosecutor's Fallacy %%%%%%%
+%When applying detection approaches to data that have already experienced a critical transition,
+%we have conditioned on the fact the transition has occurred.  This is a very different problem than 
+%forecasting the probabilities of systems that have not collapsed!  
 
-Even when the system is characterized by 
-simple alternative stable states in the saddle-node model,
-transitions between states may be due to other mechanisms than a bifurcation, such as a purely noise-induced transition,
-or a 
 
-% Does this section go here?
-A system may experience a critical transition due to a rare fluctuation,
-or a perturbation to the system state, %(Does this need a figure)?
-rather than a bifurcation~\citep{Scheffer2001, Scheffer2009}.  
-
-%% TOPIC FOR ANOTHER NOTE
-When applying detection approaches to data that have already experienced a critical transition,
-we have conditioned on the fact the transition has occurred.  This is a very different problem than 
-forecasting the probabilities of systems that have not collapsed!  Prosecutor's fallacy!
 
 and attempting to ascertain the cause of the transition
 These are alternative null hypotheses 
  %(Dakos 2008, Lenton,  see Lenton 2009 transition, see 
 \citep{Ditlevsen2010} % telling these two cases apart
-\citep{Livina2012} noise induced transitions cannot be forecast.  
 
 
 5) Summary-statistic approaches inherently lack power. 

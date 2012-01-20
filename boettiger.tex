@@ -1,22 +1,3 @@
-%        File: ecologyletters.tex
-%     Created: Sat Oct 29 02:00 PM 2011 P
-% Last Change: Sat Oct 29 02:00 PM 2011 P
-%
-
-% Title page
-% - author contributions
-%- the article title
-%- the full name(s) of all author(s), affiliation(s), e-mail address(es) of all author(s)
-%- a short running title (abbreviated form of title) of less than 45 characters including spaces
-%- up to 10 keywords for indexing purposes. It is very important that the keywords be chosen carefully.
-%- the type of article (Ideas and Perspectives, Letter, or Reviews and Syntheses)
-%- the number of words in the abstract, in the manuscript as a whole, and in the main text (excluding abstract, acknowledgements, references, table and figure legends)
-%- the number of references (or for papers with extensive meta-analyses, the number of data-source references AND the number of general references)
-%- the number of figures and tables
-%- the name and complete mailing address (including telephone and fax numbers and e-mail address) of the person to whom correspondence should be sent.
-%
-
-
 %\documentclass[authoryear,5p]{elsarticle}
 \documentclass[authoryear,preprint,11pt]{elsarticle}
 \bibliographystyle{elsarticle-harv}
@@ -39,6 +20,10 @@
 \newcommand{\E}{\mathrm{E}}
 \newcommand{\C}{\mathrm{Cov}}
 \newcommand{\V}{\mathrm{Var}}
+
+\newcommand{\cb}[1]{{\it \color{darkgreen} (#1)}}
+
+
 
 \journal{\tiny Journal of the Royal Society Interface} 
 \begin{document}
@@ -103,69 +88,100 @@ Foundational work on early warning signals has operated under the often-implicit
 that the system dynamics contain a saddle-node bifurcation and
 looks for patterns that would be associated with approaching this bifurcation point.
 The typical pattern has been a trend in a summary statistic such as
-variance, autocorrelation, skew, spectral ratio~\citep{Biggs2009}.
+variance~\citep{Carpenter2006}, autocorrelation~\citep{Held2004, Dakos2008},
+skew~\citep{Guttal2008}, spectral ratio~\citep{Biggs2009}.
+% consider additional citations
 While attractive for their simplicity, such approaches are subject to numerous challenges.
 In this paper we argue for a model-based approach, 
 and describe how this can be done in a way that best addresses these difficulties.
 
-\textbf{arbitrary windows}\\
-While superficially simple to use, the calculation of statistics is subject to 
-several somewhat arbitrary decisions and additional assumptions,
+\subsubsection*{Arbitrary windows}\\
+While superficially simple to use, the calculation of these statistics is subject to 
+several arbitrary decisions and additional assumptions,
 such as the choice of window size over which the statistic is computed,
 the choice of detrending,
-whether the consecutive averaging windows should overlap.  
+and whether and by how much the consecutive time-windows used in the calculation should overlap.  
 \citet{Lenton2012} compare the performance of different approaches to these issues,
 showing that choice of window and method used for detrending indeed influence the results,
 and each approach considered has pros and cons.  
 Without a consistent choice or a clear mechanism to determine one, % Should we say this part?
 it is difficult to evaluate and compare between such methods.  
 A model-based approach side-steps these issue entirely.  
-% discusses these challenges, as does most of the others to lesser extent 
-% Should we mention the ergodic problem here - that averaging over windows isn't averaging across time series, 
-% and that it assumes stationarity, which is precisely the thing we're looking to change?  
-% Similarly the detrending approaches can remove the signal?
-% Should we also mention that some popular approaches such as autocorrelation require evenly-spaced points,
-% and interpolating is incorrect, introducing fictitious correlations?
+\cb{
+ Should we mention the ergodic problem here - that averaging over windows isn't averaging across time series, 
+ and that it assumes stationarity, which is precisely the thing we're looking to change?  
+ Similarly could mention that the detrending approaches can remove the signal?
+ We could also mention that some popular approaches such as autocorrelation require evenly-spaced points,
+ and interpolating is incorrect, introducing fictitious correlations?
+}
 
-\textbf{no quantitative measures}\\
+
+\subsubsection*{No quantitative measures}\\
 The warning signal, ``an increase in statistic $x$,'' is not quantitative,
 making it difficult to compare between signals or to
 attribute a statistical significance to the detection.
-While much of the literature employing these statistics simply avoids 
-any attempt to quantify the significance of the detection, 
-\citet{Dakos2008} relies on Kendall's correlation coefficient to quantify an increase,
-and then goes through some pains to consider potential null models
-that could be used to calculate statistical significance.  
-Other measures of increase, such as Pearson's, have also been proposed.  
-
-\textbf{problem of null models}\\
-Specifying an appropriate null model is difficult.  
-% simulation of replicates under the original model
-As the summary statistic approach 
-the non-parametric significance test for Kendall's tau tests against the null model that the sequence is independent,
-something that is clearly violated when the statistic is computed in a sliding window.
-Not surprisingly, \citet{Dakos2008} find this method overestimates the number of significant events relative to other nulls.  
-Other non-parametric methods are tempting, 
-such as shuffling the order of the data-points in the time-series,
-but this breaks even the natural autocorrelation expected in a stable system that is not approaching any transition,
-and thus should not be considered for a null.  
-Relying on a more explicit but flexible model %or class of models
-such as autogregressive processes is more consistent.  
-% Does this go here?
-We will see that such generic model-based approaches are becoming more common, 
-and argue how they can be used to maximum advantage
-% by simulation, likelihood fitting, and ROC curves.  
-
-% See Seekell et al for a summary stat with a good null
+Some authors have suggested Kendall's correlation coefficient to quantify an increase~\citep{Dakos2008, Dakos20011} 
+in autocorrelation or variance.  
+Other measures of increase, such as Pearson's, have also been proposed~\citep{Drake2010}.  
+Much of the literature using summary statistics simply forgoes quantifying
+the increase or estimating significance.  
+While this may be satisfactory in experimental systems with controls and replicates to compare to,~\citep[\emph{e.g.}][]{Drake2010, Carpenter2011}
+any real-world application of early warning methods will not have the luxury of controls and replicates.
+In such cases a quantitative definition of detection is essential.  
+\cb{ We will see that correlation tests in summary statistics are an ineffective way to do this.  }
 
 
-\textbf{hidden assumptions}\\
+\subsubsection*{Problematic null models}\\
+Specifying an appropriate null model is also difficult.  
+Non-parametric null hypotheses seem to require the fewest assumptions but in fact can be the most problematic.  
+For instance, the standard non-parametric hypothesis test with Kendall's tau rank correlation coefficient
+assumes only that the two variables are independent, but this is
+an assumption that is violated by the very experimental design:
+since one variable is time and the other a moving time-averaged window.  
+Under such a test any adequately large data set will find a significant result, regardless of whether a warning signal exists.
+A similar problem arises when the points in the time series are reordered to create a null hypothesis -- 
+this destroys the natural autocorrelation in the time series.  
+\cb{I feel citing \citet{Dakos2011} and \citet{Dakos2008} for these two examples would be impolite\dots} 
+Parametric null models have been more promising, and have brought us closer to a model-based approach where assumptions are explicit.  
+For instance, autoregressive models~\citet{Dakos2008} have been proposed, which are first parameterized from the data.  
+\cb{is this next line okay to leave in?}
+Estimating the null models directly from the data using a maximum likelihood framework, will provide the most powerful basis for this test.  
+\citet{Seekell2011} proposes a conditional heterscedaticity as a summary statistic particularly because probability models for the null distribution are readily available.\cb{Though as a measure of changing variance, it suffers from the weaknesses mentioned above, but no need to mention that.} 
+
+
+\cb{This is a particular concern given the tendency for warning signals to be found only in the largest data sets, 
+which has been taken as evidence that large data sets are required for successful detection,
+not that large data sets have higher false-positive rates under certain metrics.}
+\cb{A similar problem exists with the proposal that large deviations from the running variance,
+i.e. in excess of 2 standard deviations, be taken as evidence of an increase.
+This likewise guarantees the false positive rate goes to unity as the number of observations increases.}
+
+
+
+\subsubsection*{Hidden assumptions}\\
 The underlying assumption that the system contains a saddle-node bifurcation
 can be easily overlooked in summary-statistic based approach.  
 For instance, variance may increase for reasons that 
 do not signal an approaching transition~\citep{Schreiber2003, Schreiber2008}.
 Alternatively, variance may not increase as a bifurcation is approached~\citep{Livina2012, Dakos2011a}.
 Some classes of sudden transitions may exhibit no warning signals~\cite{Hastings2010}.   
+While no approach will be applicable to all classes of sudden transitions,
+it is certainly still useful to have an approach that detect transitions driven by 
+saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.g.}, see][]{Scheffer2001}.  
+
+% do we need the energy diagram figure to emphasize this is our assumption?
+Even restricting ourselves to this classic alternate stable state model,
+we must still consider at least three possible scenarios that could explain a sudden transition.  
+The first is a large perturbation of the system state, moving the system into the alternative basin of attraction~\citep{Scheffer2001, Scheffer2001}.  
+This is an exogenous forcing that does not arise from the system dynamics, so it is not the kind of event we can expect to forecast.  (An example might be a sudden dramatic increase in fishing effort that pushes the population past a threshold.)
+The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary.  
+The third scenario is that a slowly varying parameter of the system leads to a bifurcation in which the current stable state is destroyed and the system drifts to the alternative stable state~\citep{Scheffer2009}.  So while it is not the only explanation for a sudden transition between alternative stable states, it would still be valuable to know
+
+this ``blue sky catastrophe'' or saddle node bifurcation is the focus of 
+
+System specific knowledge 
+Any theory of early warning signals must restrict itself to the subset of transitions that exhibit warning signals
+% a warning signal general enough to catch 
 
 Even when the system is characterized by 
 simple alternative stable states in the saddle-node model,
@@ -177,8 +193,10 @@ A system may experience a critical transition due to a rare fluctuation,
 or a perturbation to the system state, %(Does this need a figure)?
 rather than a bifurcation~\citep{Scheffer2001, Scheffer2009}.  
 
+%% TOPIC FOR ANOTHER NOTE
 When applying detection approaches to data that have already experienced a critical transition,
-we must condition on the 
+we have conditioned on the fact the transition has occurred.  This is a very different problem than 
+forecasting the probabilities of systems that have not collapsed!  Prosecutor's fallacy!
 
 and attempting to ascertain the cause of the transition
 These are alternative null hypotheses 
@@ -221,7 +239,7 @@ Though previous research has identified patterns such as increasing variance or 
 in time-series approaching a critical transition,
 there has been no method for forecasting the \emph{probability} of a collapse from a natural system.
 Real-world applications of early warning signals will not be able to point to such differences between controlled and
-manipulated systems that have been utilized in experimental studies of early warning~\citep{Drake2010, Carpenter2011}⁠.
+manipulated systems that have been utilized in experimental studies of early warning~\citep{Drake2010, Carpenter2011}⁠
 While the number of potential patterns grows steadily~\citep{Carpenter2006, Dakos2008, Guttal2008, Guttal2008a, Dakos2011}, % add spectral methods
 there are few examples that statistically quantify the patterns~\citep{Dakos2008, Dakos2011},⁠
 and fewer still that statistically estimate the false alarm rate~\citep{Dakos2008} or 

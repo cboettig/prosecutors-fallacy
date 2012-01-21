@@ -95,7 +95,7 @@ While attractive for their simplicity, such approaches are subject to numerous c
 In this paper we argue for a model-based approach, 
 and describe how this can be done in a way that best addresses these difficulties.
 
-\subsubsection*{Arbitrary windows}\\
+\subsubsection*{Arbitrary windows}
 While superficially simple to use, the calculation of these statistics is subject to 
 several arbitrary decisions and additional assumptions,
 such as the choice of window size over which the statistic is computed,
@@ -116,7 +116,7 @@ A model-based approach side-steps these issue entirely.
 }
 
 
-\subsubsection*{No quantitative measures}\\
+\subsubsection*{No quantitative measures}
 The warning signal, ``an increase in statistic $x$,'' is not quantitative,
 making it difficult to compare between signals or to
 attribute a statistical significance to the detection.
@@ -131,7 +131,7 @@ In such cases a quantitative definition of detection is essential.
 \cb{ We will see that correlation tests in summary statistics are an ineffective way to do this.  }
 
 
-\subsubsection*{Problematic null models}\\
+\subsubsection*{Problematic null models}
 Specifying an appropriate null model is also difficult.  
 Non-parametric null hypotheses seem to require the fewest assumptions but in fact can be the most problematic.  
 For instance, the standard non-parametric hypothesis test with Kendall's tau rank correlation coefficient
@@ -158,7 +158,7 @@ This likewise guarantees the false positive rate goes to unity as the number of 
 
 
 
-\subsubsection*{Hidden assumptions}\\
+\subsubsection*{Hidden assumptions}
 Assumes that the system sits effectively at equilibrium around a stable state  
 and tests whether the system may be experiencing the slow change of a parameter that is weakening the stability of that state,
 moving the system towards a saddle-node bifurcation.  
@@ -167,7 +167,7 @@ but without the clarity of assumptions made in a modeling approach there is a ri
 early warning signs will be used in situations where they do not apply.  
 
 
-Differing system dynamics
+%Differing system dynamics
 The underlying assumption that the system contains a saddle-node bifurcation
 can be easily overlooked in summary-statistic based approach.  
 For instance, variance may increase for reasons that 
@@ -181,9 +181,6 @@ saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.
 % this will be made precise later
 
 \cb{ do we need the energy diagram figure to emphasize this is our assumption?}
-Even restricting ourselves to this classic alternate stable state model,
-we must still consider at least three possible scenarios that could explain a sudden transition.  
-
 %Differing causes of the transition.
 Even when we can exclude or ignore such dynamics and 
 restrict ourselves to systems that can support a saddle-node bifurcation,
@@ -194,7 +191,7 @@ The first is that a large perturbation of the system state
 has moved the system into the alternative basin of attraction~\citep{Scheffer2001, Scheffer2001}.  
 This is an exogenous forcing that does not arise from the system dynamics, so it is not the kind of event we can expect to forecast. 
 (An example might be a sudden dramatic increase in fishing effort that pushes the population past a threshold.)
-The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary.  
+The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary.~\citep{Ditlevsen2010}  
 As discussed in \citet{Livina2012}, such noise induced transitions cannot be predicted through early warning signals.  
 The third scenario is that the system does pass through a saddle-node bifurcation, 
 but rather than gradually and monotonically approaching the critical point, the 
@@ -202,35 +199,106 @@ bifurcation parameter moves in a rapid or highly non-linear way, making the dete
 
 % Of course the literature has always stuck carefully to these assumptions, but there has sometimes been the suggestion that the summary statistics themselves were somehow more general than this, and that framing these assumptions in explicit and precise formulae, in models, would be misleading.  
 
-%%%% TOPIC FOR ANOTHER NOTE: Early warning signals and the Prosecutor's Fallacy %%%%%%%
-%When applying detection approaches to data that have already experienced a critical transition,
-%we have conditioned on the fact the transition has occurred.  This is a very different problem than 
-%forecasting the probabilities of systems that have not collapsed!  
 
 
-
-and attempting to ascertain the cause of the transition
-These are alternative null hypotheses 
- %(Dakos 2008, Lenton,  see Lenton 2009 transition, see 
-\citep{Ditlevsen2010} % telling these two cases apart
-
-
-5) Summary-statistic approaches inherently lack power. 
+\subsubsection{Summary-statistic approaches have less statistical power.}
 Methods for the detection of early warning signals are continually challenged by 
 inadequate data  %\cite\cite\cite %often worse than we think -- as we will illustrate
-After all, the challenge of extrapolating into the future across a dramatic shift is immense,
-there is essentially no historical president for successfully \& reliably predicting regime shifts. % \cite Tetlock?
+The challenge of extrapolating into the future across a dramatic shift is immense;
+there is essentially no historical president for successfully \& reliably predicting regime shifts
+outside of controlled settings. % \cite Tetlock?
 The signals one attempts to detect with these approaches are extremely weak.
-Worse still, beyond this intuitive notion, there is little quantification of just how powerful our methods are,
-even in artificial scenarios where uncertainy conforms to our parametric assumptions.  
-% Seekell Am Nat, Contamin Eco Apps
-We characterize the power
-
+Despite the widespread recognition of the this need for large data sets, 
+there has been very few studies quantitative studies of power looking at how much data is actually required~\citep{Contamin2009}.
+\cb{this is the only example that claims to measure statistical power.  I find it incredible that Ellison, contrary to his own ecological statistics textbook, decides to just invent an arbitrary statistic (log ratio of the maximum value in the statistic seen before and after onset of the perturbation) and call this a measure of ``statistical power.''}
+The Neyman-Pearson Lemma guarantees us that the most powerful test between hypotheses compares the 
+likelihood that the data was produced under each. This requires a model-based approach, which,
+as we will see, can have substantially more power to detect early warning signals than summary-statistic based approaches.  
 
 
 \subsection{Explicit use of the models}
-Several recent approaches to early warning signals have considered fitting models, though have not considered the model-choice problem.  
-Detection of warning signals as model choice (``non-parametric'' \citet{Carpenter2011e},  unpublished Dakos, Kuehn arxiv, Dakos 2011?, Gross 2011)
+Model-based approaches are beginning to play a larger role in early warning signals, 
+though we have not as yet seen the direct fitting and simulation of models to compare hypotheses.  
+While choosing appropriate models without system-specific knowledge is challenging, 
+much can be accomplished by framing the implicit assumptions above into more precise equations.
+\citet{Lade2011} introduces the idea of generalized models for early warning signals, and 
+\citet{Kuehn2011} presents normal forms for bifurcation processes that can give rise to critical transitions.  
+While presented as a ``non-parametric'' approach,~\citet{Carpenter2011e} is essentially similar, where the dynamics are approximated 
+by an explicit stochastic differential equation (SDE) whose coefficients are estimated from statistical moments of the data. 
+
+
+\subsection{Model Choice}
+Representing 
+
+
+
+We introduce a similar set of SDE models to these, 
+\cb{should this next part come later?}
+and go on to illustrate how these models can be fit to data by maximum likelihood and compared 
+by a simulation or bootstrapping approach rooted in~\citet{Cox1961} and~\citet{McLachlan1987} that
+characterizes the rate of missed detections and false alarms expected in the estimate 
+(or equivalently, estimates both the power and statistical significance of the test).  
+
+\subsection{Models}
+The normal form for the saddle-node bifurcation is
+\begin{equation}
+\frac{\ud x}{\ud t} = r_t- x^2.
+\label{saddle-node}
+\end{equation}
+where $x$ is the state variable and $r_t$ our bifurcation parameter, which may be slowly varying in time.  
+Transforming this canonical form to allow for an arbitrary mean $\theta$,
+the bifurcation looks like $ dx/dt = r_t- (\theta-x)^2 $, with fixed point $\hat x = \sqrt{r_t} +\theta =: \phi(r_t)$.
+We expand around the fixed point and express in terms of the stochastic dynamics: 
+
+\begin{equation}
+\ud X = \sqrt{ r_t } (\phi(r_t) - X_t)\ud t + \sigma\sqrt{\phi(r_t) } \ud B_t. \label{LSN}
+\end{equation}
+
+It is also possible to derive this same expression from the master equation of various stochastic birth/death (or gains \& losses) models,
+that contain saddle-node bifurcations, as we show in the appendix.  
+Alternate dynamical forms are possible but will not differ substantially.  
+
+As we discuss above, the early warning signal paradigm must also include some assumptions on how the bifurcation parameter, $r_t$, is changing. We assume a gradual, monotonic change which we approximate to first order: 
+\begin{equation}
+r_t = r_0 - m t.
+\label{R_t}
+\end{equation}
+Detecting accelerating or otherwise nonlinear approaches to the bifurcation will generally require more power. When the system is stable, $r_t$ is constant and the linearized saddle-node model~\eqref{LSN} will reduce to a simple Ornstein-Uhlenbeck process, 
+\begin{equation}
+\ud X_t = r (\theta - X_t) \ud t + \sigma \ud B_t \label{OU}
+\end{equation}
+This is the continuous time analog of the first-order autoregressive model considered as a null model elsewhere~\citep[\emph{e.g.}][]{Dakos2008, Guttal2008a}. 
+
+
+
+
+\subsection{Likelihood calculations}\label{likelihood}
+The probability $P(X|M)$ of the data $X$ given the model $M$ is the product of the probability of observing each point in the time series given the previous point and the length of the interval,  
+\begin{equation}
+\log P(X | M)=  \sum_i \log P(x_i | x_{i-1}, t_i)
+\end{equation}
+For~\eqref{LSN},~\eqref{LTC} or~\eqref{OU} it is sufficient~\citep{Gardiner2009} to solve the moment equations for mean and variance respectively:
+\begin{align}
+ \frac{\ud }{\ud t} E(x| M)&=  f(x) \\
+\frac{\ud}{\ud t} V(x| M) &=  -\partial_x f(x) V(x|M) + g(x)^2 
+  \label{general_moments}
+\end{align}
+
+For the OU process, we can solve this in closed form, 
+\begin{align}
+  E(x_i| M = \text{OU}) &= X_{i-1} e^{-r t_i} \theta \left(1 - e^{-rt_i} \right) \\
+V(x_i| M = \text{OU}) &= \frac{\sigma^2}{2 r} \left(1 - e^{-2 r t_i} \right)
+\label{OUsoln}
+\end{align}
+
+For the time dependent models, we have analytic forms only for the dynamical equations of these moments from equation~\eqref{general_moments}, which we must integrate numerically over each time interval. For the linearized saddle-node bifurcation:
+\begin{align}
+\frac{\ud }{\ud t} E(x_i| M = \text{LSN})&=  2\sqrt{r(t)}(\sqrt{r(t)}+\theta - x_i) \\
+\frac{\ud}{\ud t} V(x_i| M = \text{LSN}) &=  -2 \sqrt{r(t)} V(x_i) + \sigma^2 ( \sqrt{r(t)}+\theta )
+\label{LSNsoln}
+\end{align}
+
+These are numerically integrated using \texttt{lsoda} routine available in \texttt{R} for the likelihood calculation.  
 
 
 \subsection{Why information criteria will not serve.}
@@ -286,8 +354,6 @@ To generate ROC curves for common early warning indicators such as
 increases in autocorrelation, variance, and skew, 
 we must quantify the increase and generate the expected distributions of the focal statistic.  
 While the existing literature frequently presents only a 
-% e.g. Drake \& Griffen use any two-sigma deviation as indicative, yet any sufficiently sampled null process will produce a positive warning,  
-% so this is not a reasonable statistical characterization
 visual or heuristic measure of increase (\emph{i.e.}, do not provide $p$-values or a statistic for which they could be generated) in early-warning indicators~\citep{Scheffer2009, Drake2010, Carpenter2011, Carpenter2006}, 
 we rely on the few examples that quantify an increasing trend using Kendall's $\tau$ correlation statistic~\citep{Dakos2008, Dakos2011, Dakos2009}.
 Values of $\tau$ near unity indicate a strongly increasing trend in the warning indicator --
@@ -353,123 +419,6 @@ which did not apply to the other data sets~\citep{Drake2010}.
 The \emph{Daphnia} example comes from the chemostat ``H6'' in the experiments of Drake \& Griffen~\citep{Drake2010}. 
 This individual replicates was chosen as an example of a single replicate 
 that showed a statistically significant correlation in variance over window of time where critical slowing down was expected.  All data and code for simulations and data processing are found in the R package.  
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Supp. materials or main text?  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Models}
-The detection of early warning is based on a \emph{local} theory,
-predicting changes in the dynamics near the current attractor.
-Consequently, it is as unnecessary as it is impossible to estimate a fully nonlinear model,
-but we can approximate the model near the bifurcation.  
-Many possible complex models will correspond to this approximation.
-
-%\textbf{Saddle-node bifurcation.}
-One of the most common critical transitions modeled in ecological systems with alternative stable states is a saddle-node bifurcation~\citep[\{emph{e.g.}[]{Scheffer2001, Scheffer2009, Guttal2008a, VanNes2007, Biggs2009}.
-The individual-based simulation follows the master equation, 
-\begin{align}
-  P(n,t) &= b_{n-1} p_{n-1} + d_{n+1}p_{n+1} - (b_n+d_n)p_n  \label{master} \\ 
-  b_n &= \frac{e K x^2}{X^2 + h_t^2} \\ 
-  d_n &= e X_t - a_t   
-\end{align}
-This model can experience a saddle-node bifurcation through increased mortality by increasing either $e$ or $a$. 
-The SDE approximation holds for reasonable population sizes:
-\begin{equation}
-dX_t = \left( \frac{e K x^2}{X^2 + h_t^2} - e X_t - a_t\right) dt + \sigma \sqrt{ \frac{e K x^2}{X^2 + h_t^2} + e X_t + a_t} dB_t \label{ass}
-\end{equation}
-This parameterization is only an example, of course many others are possible~\citep{Scheffer2009, Scheffer2001, Strogatz2001a, Guckenheimer1983}. 
-Under appropriate transformation, all can be written in the same normal form for he saddle-node bifurcation,
-\begin{equation}
-\frac{\ud x}{\ud t} = r_t- x^2.
-\label{saddle-node}
-\end{equation}
-While in principle this model could be estimated directly from the data,
-if all observations have been prior to the crash (\emph{i.e.} near the desirable equilibrium)
-we have no data which is informative about the nonlinearity and such estimates will be unreliable.  
-Fortunately the theory of early warning signals is a \emph{local} one, 
-and we can linearize around the equilibrium to obtain a model we can estimate both more easily and more accurately.  
-
-Transforming the canonical form to allow for an arbitrary mean $\theta$,
-the bifurcation looks like $ dx/dt = r_t- (\theta-x)^2 $, with fixed point $\hat x = \sqrt{r_t} +\theta =: \phi$,
-which gives the model we refer to as the Linearized Saddle Node, LSN: 
-\begin{equation}
-\ud X = 2\sqrt{ r_t } (\phi - X_t)\ud t + \sigma\sqrt{\phi } \ud B_t. \label{LSN}
-\end{equation}
-
-\citet{Drake2010} induce a transcritical bifurcation in laboratory populations of \emph{Daphnia magna} to test early warning signals.  
-This bifurcation also arises in many common models.  For example, the stochastic version of~\citet{Levins1969}'s model (a logistic model),
-\begin{equation}
-\ud X_t = \left( c_t X_t (1-X_t/K) - e_t X_t \right) \ud t + \sigma \sqrt{\frac{e_t}{c_t}} \ud B_t \label{levins},
-\end{equation}
-where $X_t$ is the number of occupied patches of some total number $K$, $c_t$ is a (time-dependent)
-colonization rate and $e_t$ an extinction rate (both scaled by the number of patches $K$).  
-The model contains a transcritical bifurcation when $c_t < e_t$.  The normal form of the bifurcation is
-\begin{equation}
-\frac{\ud x}{\ud t} = r_t x - x^2 
-\label{transcritical}
-\end{equation}
-We can express the linearized stochastic dynamics then by the time dependent mean-reverting process. 
-We refer to this model as the linearized transcritical bifurcation, LTC.  
-\begin{equation}
-\ud X_t = r_t (r_t - X_t/K) \ud t + \sigma \sqrt{1+r_t} \ud B_t \label{LTC}
-\end{equation}
-
-%The pattern of the saddle-node differs from that of the transcritical in the square-root dependence on the bifurcation parameter.
-Note that the transcritical bifurcation involves a gradual decline towards zero,
-whereas the saddle-node bifurcation involves a sudden transition from a non-trivial equilibrium point.
-Thus saddle-node bifurcations are the more typical focus of early warning efforts, even though both exhibit the phenomenon of critical slowing down.
-
-Likelihood calculations also require specifying the rate of change of $r_t$, 
-which we take to first order as
-\begin{equation}
-r_t = r_0 - m t.
-\label{R_t}
-\end{equation}
-Detecting accelerating or otherwise nonlinear approaches to the bifurcation will generally require more power. When the system is stable, $r_t$ is constant and both models~\eqref{LSN} and~\eqref{LTC} reduce to a simple Ornstein-Uhlenbeck process, 
-\begin{equation}
-\ud X_t = r (\theta - X_t) \ud t + \sigma \ud B_t \label{OU}
-\end{equation}
-This is the continuous time analog of the first-order autoregressive model considered as a null model elsewhere~\citep[\emph{e.g.}][]{Dakos2008, Guttal2008a}. 
-
-\subsection{Likelihood calculations}\label{likelihood}
-The probability $P(X|M)$ of the data $X$ given the model $M$ is the product of the probability of observing each point in the time series given the previous point and the length of the interval,  
-\begin{equation}
-\log P(X | M)=  \sum_i \log P(x_i | x_{i-1}, t_i)
-\end{equation}
-For~\eqref{LSN},~\eqref{LTC} or~\eqref{OU} it is sufficient~\citep{Gardiner2009} to solve the moment equations for mean and variance respectively:
-\begin{align}
- \frac{\ud }{\ud t} E(x| M)&=  f(x) \\
-\frac{\ud}{\ud t} V(x| M) &=  -\partial_x f(x) V(x|M) + g(x)^2 
-  \label{general_moments}
-\end{align}
-
-For the OU process, we can solve this in closed form, 
-\begin{align}
-  E(x_i| M = \text{OU}) &= X_{i-1} e^{-r t_i} \theta \left(1 - e^{-rt_i} \right) \\
-V(x_i| M = \text{OU}) &= \frac{\sigma^2}{2 r} \left(1 - e^{-2 r t_i} \right)
-\label{OUsoln}
-\end{align}
-
-For the time dependent models, we have analytic forms only for the dynamical equations of these moments from equation~\eqref{general_moments}, which we must integrate numerically over each time interval. For the linearized transcritical:
-
-\begin{align}
-\frac{\ud }{\ud t} E(x_i| M = \text{LTC})&=  r(t)(r(t) - x_i) \\
-\frac{\ud}{\ud t} V(x_i| M = \text{LTC}) &=  -2 r(t) V(x_i|M) + (1+r(t))\sigma^2 
-\label{LTCsoln}
-\end{align}
-
-For the linearized saddle-node bifurcation:
-\begin{align}
-\frac{\ud }{\ud t} E(x_i| M = \text{LSN})&=  2\sqrt{r(t)}(\sqrt{r(t)}+\theta - x_i) \\
-\frac{\ud}{\ud t} V(x_i| M = \text{LSN}) &=  -2 \sqrt{r(t)} V(x_i) + \sigma^2 ( \sqrt{r(t)}+\theta )
-\label{LSNsoln}
-\end{align}
-
-These are numerically integrated using \texttt{lsoda} routine available in \texttt{R} for the likelihood calculation.  
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Supp. materials or main text?  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{Results}

@@ -377,7 +377,7 @@ should be at least as important as the chance of a false alarm.
 \subsection{ROC Curves}
 We illustrate the trade-off between false alarms and failed detection using 
 receiver-operating characteristic (ROC) curves first developed in signal-processing literature~\citep{Green1989, Keller2009}⁠. 
-The curves represent the corresponding false alarm rate at any detection sensitivity (true positive rate), Fig~\ref{fig:fig1}.
+The curves represent the corresponding false alarm rate at any detection sensitivity (true positive rate), Fig~\ref{fig:roc_intro}.
 The closer these distributions are to one-another, the more severe the trade-off.  
 If the distributions overlap exactly, the ROC curve has a constant slope of unity.  
 The ROC curve demonstrates this trade-off between accuracy and sensitivity.  
@@ -393,22 +393,42 @@ while a statistic with area of unity always distinguishes correctly between stab
 
 
 \section{Examples}
+We illustrate this approach on simulated data as well as several natural time-series that have been previously analyzed for early warning signals.  
 
 \subsection*{Data}
-The simulated data sets are produced with 40 data points
-sampled evenly sampled over a time interval (0,100) using an individual-based model of a system containing a saddle-node bifurcation. 
-The data was then fit to the LSN model, Eq~\eqref{LSN}, to compute the ROC curves. 
+The simulation implements an individual, continuous-time stochastic birth-death process with rates given by the master equation,
 
-The Glaciation data is accessible from NOAA~\citep{Petit1999}.
+\begin{align}
+    P(n,t) &= b_{n-1} p_{n-1} + d_{n+1}p_{n+1} - (b_n+d_n)p_n  \label{master} \\ 
+    b_n &= \frac{e K x^2}{X^2 + h_t^2} \\ 
+    d_n &= e X_t + a_t   
+\end{align}
+
+This corresponds to the well-studied ecosystem model of over-exploitation~\citep{Noy-Meir1975, May1977}, 
+with stochasticity introduced from directly through the demographic process.   
+This model is forced through a bifurcation by gradually increasing the $a$ parameter,
+which increases can be thought of as an increasing toxicity of the environmnent
+(from $a_0 = 100$ increasing at constant rate of 0.09 units/unit time).  
+Other parameters are: $Xo = 730$, $e = 0.5$, $K = 1000$, $h = 200$.  
+We run this model over a time interval from 0 to 500.  
+and sample at 40 evenly spaced time points, which were used for subsequent analysis.
+We refer to this as the simulation under a degrading environment.
+We repeat this simulation with constant value of $a$, and which we refer to as the simulation in a stable environment.  
+For the convenience of the inquisitive reader, we have also provided a simple function in the 
+associated R package where the user can vary the sampling scheme and parameter values and rerun this analysis.  
+
+Our first empirical data set comes from the glaciation record seen in deuterium levels in Antartic ice cores~\citep{Petit1999}, 
+as analyzed by~\citet{Dakos2008}.
 The data is preprocessed by linear interpolation and de-trending by Gaussian kernel smoothing 
-to be as consistent as possible with the original analysis from Dakos \emph{et al.}~\citep{Dakos2008},
-analyzing the third glaciation event, consisting of 121 sample points. 
+to be as consistent as possible with the original analysis.
+We focus on the third glaciation event, consisting of 121 sample points. 
 The match is not exact since estimates the de-trending window size manually,
 but the estimated correlations in the first-order auto-regression coefficients are in close agreement with that analysis. 
 De-trending is intended to make the data consistent with the assumptions of the warning signal detection~\citep{Dakos2008}, 
 which did not apply to the other data sets~\citep{Drake2010}.  
 
-The \emph{Daphnia} example comes from the chemostat ``H6'' in the experiments of Drake \& Griffen~\citep{Drake2010}. 
+The second empirical data set comes from the population dynamics of 
+\emph{Daphnia} living in the chemostat ``H6'' in the experiments of Drake \& Griffen~\citep{Drake2010}. 
 This individual replicate was chosen as an example that showed 
 a pattern of increasing variance over the 16 data points where the system was being manipulated towards a crash.
 All data and code for simulations and analysis are found in the accompanying R package, \verb|warningsignals|.  
@@ -540,11 +560,38 @@ S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins provided comments on the ma
  \bibliography{boettiger}
 
 
+ \begin{figure}
+   \begin{center}
+     \includegraphics[width=\linewidth]{figures/Simulation_warningsignal.pdf}
+     \label{fig:simulation}
+     \caption{A model-based calculation of warning signals for the simulated data example.}
+  \end{center}
+ \end{figure}
+
+ \begin{figure}
+   \begin{center}
+     \includegraphics[width=\linewidth]{figures/GlaciationIII_warningsignal.pdf}
+     \label{fig:glaciation}
+     \caption{A model-based calculation of warning signals for the Glaciation data analyzed in ~\citet{Dakos2008} (Glaciation III).}
+  \end{center}
+ \end{figure}
+
+
+ \begin{figure}
+   \begin{center}
+     \includegraphics{figures/Chemostat_warningsignal.pdf}
+     \label{fig:chemostat}
+     \caption{A model-based calculation of warning signals for the Daphnia data analyzed in ~\citet{Drake2010} (Chemostat H6).}
+  \end{center}
+ \end{figure}
+
+
+
 
 \begin{figure}[hb]
    \begin{center}
      \includegraphics[width=\linewidth]{Fig1}
-     \label{fig:fig1}
+     \label{fig:roc_intro}
      \caption{Top row: The distributions of a hypothetical warning indicator are shown under the case of a stable system (blue) and a system approaching a critical transition (red).  Bottom row: Points along the ROC curve are calculated for each possible threshold indicated in the top row.  The false positive rate is the integral of the distribution of the test statistic under the stable system right of the threshold (blue shaded area, corresponding to blue vertical line).  The true positive rate is the integral of the system approaching a transition left of the threshold (red shaded area, corresponds to the red line).  Successive columns show the threshold increasing, tracing out the ROC curve.}
   \end{center}
  \end{figure}
@@ -554,18 +601,8 @@ S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins provided comments on the ma
  \begin{figure}[h]
    \begin{center}
      \includegraphics[width=\linewidth]{Fig2}
-     \label{fig:fig2}
+     \label{fig:summary_stats}
      \caption{Early warning signals in simulated and empirical data sets.  The first two columns are simulated data from (a) a stable system (Stable), and (b) the same system approaching a saddle-node bifurcation (Deteriorating).  Empirical examples are from (c) \emph{Daphnia magna} concentrations manipulated towards a critical transition (Daphnia), and (d) deuterium concentrations previously cited as an early warning signal of a glaciation period (Glaciation). Increases in summary statistics, computed over a moving window, have often been used to indicate if a system is moving towards a critical transition.  The increase is measured by the correlation coefficient $\tau$.  Note that positive correlation does not guarantee the system is moving towards a transition, as seen in the stable system, first column.}
-  \end{center}
- \end{figure}
-
-
-
- \begin{figure}[h]
-   \begin{center}
-     \includegraphics[width=\linewidth]{Fig3.pdf}
-     \label{fig3}
-     \caption{ROC curves for different early warning indicators on simulated and empirical data.  The area under the curve, inset, indicates how the method compares to a random guess (0.5).  The likelihood method performs substantially better than other metrics, particularly on the weaker trends seen in the empirical data. The simulated data sets have 40 points, ``Daphnia'' has 16, the ``Glaciation'' has 121. See corresponding distributions, Fig. S1.}
   \end{center}
  \end{figure}
 

@@ -1,27 +1,27 @@
 %\documentclass[authoryear,5p]{elsarticle}
-\documentclass[authoryear,preprint,11pt]{elsarticle}
+%\documentclass[authoryear,preprint,11pt]{elsarticle}
+\documentclass[authoryear,review,11pt]{elsarticle}
 \bibliographystyle{elsarticle-harv}
 \usepackage{graphicx}
 \usepackage{amsmath,amsfonts}
 \usepackage{lineno}
 \linenumbers
-\usepackage{subfigure}
-\usepackage[pdftex]{color}
-\definecolor{darkblue}{rgb}{0,0,0.5}
-\definecolor{darkgreen}{rgb}{0,0.5,0}
-%\usepackage[pdftex, colorlinks, citecolor=darkblue,linkcolor=darkgreen]{hyperref}
 \usepackage[pdftex, colorlinks]{hyperref}
+\usepackage{float}
+
+
 \textwidth 6.75in
 \oddsidemargin -0.15in
 \evensidemargin -0.15in
 \textheight 9in
 \topmargin -0.5in
+
 \newcommand{\ud}{\mathrm{d}}
 \newcommand{\E}{\mathrm{E}}
 \newcommand{\C}{\mathrm{Cov}}
 \newcommand{\V}{\mathrm{Var}}
 
-\newcommand{\cb}[1]{{\it \color{darkgreen} (#1)}}
+\newcommand{\cb}[1]{{\it (#1)}}
 
 
 
@@ -32,8 +32,6 @@
   \author[cpb]{Carl Boettiger\corref{cor1}}
   \ead{cboettig@ucdavis.edu}
   \author[esp]{Alan Hastings}
-  %\author[info]{}
-  %\author[davis]{}
   \cortext[cor1]{Corresponding author.}
   \address[cpb]{Center for Population Biology, 1 Shields Avenue, University of California, Davis, CA, 95616 United States.}
   \address[esp]{Department of Environmental Science and Policy, University of California, Davis} 
@@ -53,6 +51,8 @@ and estimates what data are necessary to achieve a desired error rate.
 We show these error rates can be quite severe for common indicators even under favorable assumptions, 
 and illustrate how a likelihood-based indicator can improve this performance.  
 
+% rewrite
+
   \end{abstract}
 
   \begin{keyword}
@@ -61,7 +61,7 @@ early warning signals \sep tipping point \sep alternative stable states \sep lik
  \end{frontmatter}
 
 \section{Introduction}
-There is an increasing recognition of the importance of regime shifts or critical transitions at a variety of scales in ecological systems~\citep{Holling1973, Wissel1984, Scheffer2001, Scheffer2009, Drake2010, Carpenter2011}⁠. 
+There is an increasing recognition of the importance of regime shifts or critical transitions at a variety of scales in ecological systems~\citep{Holling1973, Wissel1984, Scheffer2001, Scheffer2009, Drake2010, Carpenter2011}⁠.
 Many important ecosystems may currently be threatened with collapse, including corals~\citep{Bellwood2004}, fisheries~\citep{Berkes2006}⁠, lakes~\citep{Carpenter2011}, and semi-arid ecosystems~\citep{Kefi2007}⁠. 
 Given the potential impact of  these shifts on the sustainable delivery of ecosystem services
 and the idea that management responses would be needed either to avoid an undesirable shift or else to adapt to novel conditions,
@@ -69,93 +69,110 @@ it is important to develop the ability to predict impending regime shifts based 
 With a good model of the system, detail-oriented approaches could be useful~\citep{Lenton2009},
 but in cases where specific models are not available general approaches are needed~\citep{Scheffer2009}⁠.
 
-\cb{Need more introduction defining critical transitions, early warning signals etc?}
+% erg, a bit mor transition needed?
+
+We discuss the limitations of current approaches that rely on summary statistics
+and introduce a model based approach to detect early warning signals.
+We illustrate how stochastic differential equation (SDE) models can be used 
+to reflect the uncertainty inherent in the detection of early warning signals.
+We caution against paradigms that are not useful for capturing this uncertainty in 
+a model-selection based approach, such as information criteria,
+and suggest reciever-operating characteristics~\citep{Green1989, Keller2009}
+as a powerful way to illustrate the sensitivity of different data sets 
+and different early warning indicators have in detecting early warning signals.  
 
 
 \section{The summary statistics approach}
-Foundational work on early warning signals has operated under the often-implicit assumption %often unstated?
-that the system dynamics contain a saddle-node bifurcation and
-looks for patterns that would be associated with approaching this bifurcation point.
-The typical pattern has been a trend in a summary statistic such as
+Foundational work on early warning signals has operated under the often-implicit assumption 
+that the system dynamics contain a saddle-node bifurcation by
+looking for patterns that are associated with kind of transition.
+Typical patterns include an increasing trend in a summary statistic such as
 variance~\citep{Carpenter2006}, autocorrelation~\citep{Held2004, Dakos2008},
 skew~\citep{Guttal2008}, spectral ratio~\citep{Biggs2009}.
-% consider additional citations
 While attractive for their simplicity, such approaches are subject to numerous challenges.
 In this paper we argue for a model-based approach, 
 and describe how this can be done in a way that best addresses these difficulties.
+We begin by enumerating several of the difficulties encountered in approaches lacking an explicit model. 
+
+%%% hmm, what about all the red-herring topics, like change point analysis?  Add a discussion such as Contamin & Ellison ~\citep{Contamin2009} have about forecasting shifts, not post-hoc identification of shifts.  
 
 \subsubsection*{Arbitrary windows}
-While superficially simple to use, the calculation of these statistics is subject to 
-several arbitrary decisions and additional assumptions,
-such as the choice of window size over which the statistic is computed,
-the choice of detrending,
-and whether and by how much the consecutive time-windows used in the calculation should overlap.  
-\citet{Lenton2012} compare the performance of different approaches to these issues,
-showing that choice of window and method used for detrending indeed influence the results,
-and each approach considered has pros and cons.  
-Without a consistent choice or a clear mechanism to determine one, % Should we say this part?
-it is difficult to evaluate and compare between such methods.  
-A model-based approach side-steps these issue entirely.  
-\cb{
- Should we mention the ergodic problem here - that averaging over windows isn't averaging across time series, 
- and that it assumes stationarity, which is precisely the thing we're looking to change?  
- Similarly could mention that the detrending approaches can remove the signal?
- We could also mention that some popular approaches such as autocorrelation require evenly-spaced points,
- and interpolating is incorrect, introducing fictitious correlations?
-}
+While superficially simple to use,
+the calculation of these statistics is subject to several arbitrary decisions and assumptions.
 
+A basic difficulty arises from the need to assume a time-series is ergodic 
+while trying to test if it is not.  
+Theoretically, the increasing trend in variance, autocorrelation, or other statistics
+is something that would be measured across an ensemble -- across replicates. %% citation? 
+As true replicates are seldom avialable in systems for which developing warning signals would be most desirable,
+these methods average across a single replicate using a moving window in time.  
+The selection of the size of this window and whether and by how much to overlap consecutive windows
+varies across the literature.  
+\citet{Lenton2012} demonstrates that these differences can influence the results, 
+and that the different choices each carry advantages and disadvantages.
+
+In addition to introducing the challenge of selecting a window size, 
+this ergodic assumption, 
+that averaging over time is equivalent to averaging over replicate realizations,  
+raises further difficulties.  
+While appropriate for a system that is stationary, 
+or changing slowly enough in the window that it may appear stationary,
+the assumption is at odds with the original hypothesis 
+that the system is approaching a saddle-node bifurcation. 
+
+Further, certain statistics such as the critical slowing down measured in autocorrelation 
+require data that is evenly sampled in time.  
+Interpolating from existing data to create evenly spaced points is particularly problematic,
+as this introduces an artificial autocorrelation into the data.  
 
 \subsubsection*{No quantitative measures}
-The warning signal, ``an increase in statistic $x$,'' is not quantitative,
-making it difficult to compare between signals or to
+Summary statistics typically invoke qualitative patterns such as an increase in statistic $x$, 
+rather than a quantitative measure of the early warning pattern.  
+This makes it difficult to compare between signals or to
 attribute a statistical significance to the detection.
-Some authors have suggested Kendall's correlation coefficient to quantify an increase~\citep{Dakos2008, Dakos20011} 
+Some authors have suggested Kendall's correlation coefficient, 
+$\tau$, could be used to quantify an increase~\citep{Dakos2008, Dakos20011} 
 in autocorrelation or variance.  
-Other measures of increase, such as Pearson's, have also been proposed~\citep{Drake2010}.  
-Much of the literature using summary statistics simply forgoes quantifying
-the increase or estimating significance.  
-While this may be satisfactory in experimental systems with controls and replicates to compare to,~\citep[\emph{e.g.}][]{Drake2010, Carpenter2011}
-any real-world application of early warning methods will not have the luxury of controls and replicates.
-In such cases a quantitative definition of detection is essential.  
-\cb{ We will see that correlation tests in summary statistics are an ineffective way to do this.  }
+Other measures of increase, such as Pearson's correlation coefficient have also been proposed~\citep{Drake2010},
+while most of the literature simply forgoes quantifying the increase or estimating significance.  
+While adequate in experimental systems that can compare patterns between controls and replicates~\citep[\emph{e.g.}][]{Drake2010, Carpenter2011}
+any real-world application of these approaches must be useful on a single time-series of observations.
+In these cases a quantitative definition of a statistically significant detection is essential. 
+Using Kendall's $\tau$ we will illustrate how such a quantitative measure 
+can be used to better capture the uncertainty in identifying the early warning pattern.  
 
 
 \subsubsection*{Problematic null models}
 Specifying an appropriate null model is also difficult.  
 Non-parametric null hypotheses seem to require the fewest assumptions but in fact can be the most problematic.  
 For instance, the standard non-parametric hypothesis test with Kendall's tau rank correlation coefficient
-assumes only that the two variables are independent, but this is
-an assumption that is violated by the very experimental design:
-since one variable is time and the other a moving time-averaged window.  
-Under such a test any adequately large data set will find a significant result, regardless of whether a warning signal exists.
+assumes only that the two variables are independent,
+but this is an assumption that is violated by the very experimental design:
+temporal correlations will exist in any finely-enough samled time series, 
+and moving windows introduce temporal correlations in the statistics.
+Under such a test any adequately large data set will find a significant result,
+regardless of whether a warning signal exists.
 A similar problem arises when the points in the time series are reordered to create a null hypothesis -- 
 this destroys the natural autocorrelation in the time series.  
-\cb{I feel citing \citet{Dakos2011} and \citet{Dakos2008} for these two examples would be impolite\dots} 
-Parametric null models have been more promising, and have brought us closer to a model-based approach where assumptions are explicit.  
-For instance, autoregressive models~\citet{Dakos2008} have been proposed, which are first parameterized from the data.  
-\cb{is this next line okay to leave in?}
-Estimating the null models directly from the data using a maximum likelihood framework, will provide the most powerful basis for this test.  
-\citet{Seekell2011} proposes a conditional heteroscedaticity as a summary statistic particularly because probability models for the null distribution are readily available.\cb{Though as a measure of changing variance, it suffers from the weaknesses mentioned above, but no need to mention that.} 
+More promising parametric null models have been proposed, 
+such as autoregressive models in~\citet{Dakos2008}, bringing us  
+closer to a model-based approach with explicit assumptions.  
+Others have looked for alternative summary statistics where 
+reasonable null models are more readily available, 
+such as~\citet{Seekell2011}'s proposal to test for conditional heteroscedaticity.
 
+%To characterize the power of an potential early warning signal we need more than the 
+%distribution of some leading indicator under the null hypothesis of a stable system.  
+%Very little work has addressed the distribution of any proposed indicator under the 
+%actual test hypothesis, that is, direclty measured statistical power. 
+%(~\citep{Contamin2009} use a measure of effect size, the log ratio of maximum value of differences between adjacent indicator values in the time-series, as a measure of power
 
-\cb{This is a particular concern given the tendency for warning signals to be found only in the largest data sets, 
-which has been taken as evidence that large data sets are required for successful detection,
-not that large data sets have higher false-positive rates under certain metrics.}
-\cb{A similar problem exists with the proposal that large deviations from the running variance,
-i.e. in excess of 2 standard deviations, be taken as evidence of an increase.
-This likewise guarantees the false positive rate goes to unity as the number of observations increases.}
-
-
-
+%This is a particular concern given the tendency for warning signals to be found more often in large data sets, 
+%which could be evidence that large data sets are required for successful detection~\citep{Inman2011, Scheffer2010,Held2004, Dakos2008, Scheffer2009, Guttal2008, Carpenter2011 Bestelmeyer2011},
+%rathern than that large data sets have higher false-positive rates under certain metrics.
+% Ellison Eco App paper -- calls it power but it is not
+%
 \subsubsection*{Hidden assumptions}
-Assumes that the system sits effectively at equilibrium around a stable state  
-and tests whether the system may be experiencing the slow change of a parameter that is weakening the stability of that state,
-moving the system towards a saddle-node bifurcation.  
-As such processes may be common in natural systems this is an important scenario to consider,
-but without the clarity of assumptions made in a modeling approach there is a risk that
-early warning signs will be used in situations where they do not apply.  
-
-
 %Differing system dynamics
 The underlying assumption that the system contains a saddle-node bifurcation
 can be easily overlooked in summary-statistic based approach.  
@@ -169,7 +186,6 @@ saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.
 
 % this will be made precise later
 
-\cb{ do we need the energy diagram figure to emphasize this is our assumption?}
 %Differing causes of the transition.
 Even when we can exclude or ignore such dynamics and 
 restrict ourselves to systems that can support a saddle-node bifurcation,
@@ -190,7 +206,7 @@ bifurcation parameter moves in a rapid or highly non-linear way, making the dete
 
 
 
-\subsubsection{Summary-statistic approaches have less statistical power.}
+\subsubsection*{Summary-statistic approaches have less statistical power.}
 Methods for the detection of early warning signals are continually challenged by 
 inadequate data  %\cite\cite\cite %often worse than we think -- as we will illustrate
 The challenge of extrapolating into the future across a dramatic shift is immense;
@@ -227,7 +243,7 @@ characterizes the rate of missed detections and false alarms expected in the est
 
 
 
-\subsection{Early warning signals as model choice}
+\subsection*{Early warning signals as model choice}
 It may be useful to think of the detection of early warning signals as a problem of model choice, rather than one of pattern recognition.  
 The model-choice based approach attempts to frame each of the possible scenarios as structurally different equations,
 making the assumptions explicit.  
@@ -251,7 +267,7 @@ though the inability of either model to match the system dynamics could be an in
 
 
 
-\subsection{Models}
+\subsection*{Models}
 The normal form~\citep{Guckenheimer1983, Kuehn2011} for the saddle-node bifurcation is
 \begin{equation}
 \frac{\ud x}{\ud t} = r_t- x^2.
@@ -284,7 +300,7 @@ This is the continuous time analog of the first-order autoregressive model consi
 
 
 
-\subsection{Likelihood calculations}\label{likelihood}
+\subsection*{Likelihood calculations}
 The probability $P(X|M)$ of the data $X$ given the model $M$ is the product of the probability of observing each point in the time series given the previous point and the length of the interval,  
 \begin{equation}
 \log P(X | M)=  \sum_i \log P(x_i | x_{i-1}, t_i)
@@ -312,7 +328,7 @@ For the time dependent models, we have analytic forms only for the dynamical equ
 
 These are numerically integrated using \texttt{lsoda} routine available in \texttt{R} for the likelihood calculation.  
 
-\subsection{Comparing Models}\label{Cox}
+\subsection*{Comparing Models}
 Likelihood methods form the basis of much of modern statistics, in both Frequentist and Bayesian paradigms.  
 The ability evaluate likelihoods directly by computation has made it possible to treat cases that do not conform to traditional assumptions more directly.
 The basis of likelihood comparisons has its roots in the Neyman-Pearson Lemma, 
@@ -333,27 +349,29 @@ be the maximum likelihood estimator for $\theta_0$ given $X$, and let $L_0 = L_0
 and define $L_1$, $\theta_1$, $L_1$ similarly for model 1. 
 The statistic we will use is $\delta$, 
 defined to be twice the difference in log likelihood of observing the data under the two MLE models,
-$\delta = -2 (\log L_0 - \log L_1 )$.  
+\begin{equation}\label{delta}
+\delta = -2 (\log L_0 - \log L_1 ).
+\end{equation}
 This approach has been applied to the problem of model adequacy~\citep{Goldman1993} and model choice~\citep{Huelsenbeck1996} in other contexts.  
 We have extended the approach by generating the test distribution as well as a null distribution of the statistic $\delta$ in order to compute ROC curves.  
 Our results have shown that $\delta$ tends to result in lower error rates than $\tau$, the measure of increase in a summary statistic.  
 
 
 
-\section{On a hypothesis-testing framework}\label{Dakos}
-\cb{Here's a longer section on hypothesis testing that was originally in the appendix.  One of the Ecology Letters reviewers seemed very upset that this information was in the appendix and not in the main text, so here it is.  This section is quite specific in references to ~\citet{Dakos2008}, and also quite long.  My alternative proposal is to omit this section, and include the section I have on ''Beyond Hypothesis testing'' that follows after this}  
-It is possible to frame the question of sensitivity, reliability, and adequate data in the language of hypothesis testing. As this introduces the unnecessary nuisance parameter, the statistical significance criterion, it is not presented in the text.  In the hypothesis testing framework, a false positive is a Type I error, which is defined relative to some arbitrary statistical significance criterion, most commonly 0.05.  By changing this criterion, one can increase or decrease the probability of the Type I error at the cost of decreasing or increasing the Type II error, also defined relative to this criterion.  
+%\section{On a hypothesis-testing framework}
+%\cb{Here's a longer section on hypothesis testing that was originally in the appendix.  One of the Ecology Letters reviewers seemed very upset that this information was in the appendix and not in the main text, so here it is.  This section is quite specific in references to ~\citet{Dakos2008}, and also quite long.  My alternative proposal is to omit this section, and include the section I have on ''Beyond Hypothesis testing'' that follows after this}  
+%It is possible to frame the question of sensitivity, reliability, and adequate data in the language of hypothesis testing. As this introduces the unnecessary nuisance parameter, the statistical significance criterion, it is not presented in the text.  In the hypothesis testing framework, a false positive is a Type I error, which is defined relative to some arbitrary statistical significance criterion, most commonly 0.05.  By changing this criterion, one can increase or decrease the probability of the Type I error at the cost of decreasing or increasing the Type II error, also defined relative to this criterion.  
+%
+%The work by~\citet{Dakos2008} is one of the few commendable examples that attempts a careful quantification of the statistical significance of the increase observed in the indicator statistic (autocorrelation in this case).  We note that the $p$-values presented in the main text of that work are based on parametric assumptions not met by the data -- the autocorrelation is computed by a sliding window, and the points are part of a time series, both conditions that do not satisfy the null hypothesis that $x$ and $y$ are independent, which is used in approximating a normal distribution of $\tau$ values.  For this reason we generate the null distribution directly from the model as outlined above.   The rather different $p$ values presented in appendix of~\citet{Dakos2008}, Table S3 are constructed with more reasonable null hypotheses (in particular, H$_0$-2 and H$_0$-3 are very similar to our stable system, though H$_0$-1 has lost the correlation structure expected in any time-series).  The plots in Fig. 3 confirm our finding that almost any value of Kendall's $\tau$ is possible under the null hypothesis, and the $p$-values in table S3 show that the detection method is not significant in any of the time series that had fewer than 400 points.  Our approach replicate these findings for the $\tau$-statistic.  We were glad to find that our likelihood-based approach does not have this difficulty, easily identifying the warning signal in these shorter time series, while also reliably avoiding false alarms.  
+%
+%The approach taken by~\citet{Dakos2008} does not present the corresponding analysis of power or Type II error.  As statistical significance could be achieved with a method that selects less than one in every twenty data sets at random, it is impossible to know whether the approach is actually detecting a signal or simply a random pattern in the noise without a test of power.  Fig. S3, highlights the importance of so doing -- the null distribution is almost uniform across all possible values of $\tau$.  The distribution of $\tau$ under the test distribution will not be able to avoid at least some overlap on this bounded domain.  The reality is worse, we find it overlaps almost completely.  We were glad to see that in estimating the distribution of $\tau$ for very large data sets, it does tighten around zero, while the distribution expected under a true positive condenses around more positive values, indicating that there is at least some discriminative ability in the test. 
+%
+%The essential features of these overlapping distributions are easily captured in the ROC curves, which provides a natural language to discuss the issues of uncertainty -- such as ``accepting a higher false-alarm rate in order to avoid a catastrophic shift'' rather than ``using a more liberal threshold for $p$-values in order to avoid costly Type II error.''  
+%
+%
+%
 
-The work by~\citet{Dakos2008} is one of the few commendable examples that attempts a careful quantification of the statistical significance of the increase observed in the indicator statistic (autocorrelation in this case).  We note that the $p$-values presented in the main text of that work are based on parametric assumptions not met by the data -- the autocorrelation is computed by a sliding window, and the points are part of a time series, both conditions that do not satisfy the null hypothesis that $x$ and $y$ are independent, which is used in approximating a normal distribution of $\tau$ values.  For this reason we generate the null distribution directly from the model as outlined above.   The rather different $p$ values presented in appendix of~\citet{Dakos2008}, Table S3 are constructed with more reasonable null hypotheses (in particular, H$_0$-2 and H$_0$-3 are very similar to our stable system, though H$_0$-1 has lost the correlation structure expected in any time-series).  The plots in Fig. 3 confirm our finding that almost any value of Kendall's $\tau$ is possible under the null hypothesis, and the $p$-values in table S3 show that the detection method is not significant in any of the time series that had fewer than 400 points.  Our approach replicate these findings for the $\tau$-statistic.  We were glad to find that our likelihood-based approach does not have this difficulty, easily identifying the warning signal in these shorter time series, while also reliably avoiding false alarms.  
-
-The approach taken by~\citet{Dakos2008} does not present the corresponding analysis of power or Type II error.  As statistical significance could be achieved with a method that selects less than one in every twenty data sets at random, it is impossible to know whether the approach is actually detecting a signal or simply a random pattern in the noise without a test of power.  Fig. S3, highlights the importance of so doing -- the null distribution is almost uniform across all possible values of $\tau$.  The distribution of $\tau$ under the test distribution will not be able to avoid at least some overlap on this bounded domain.  The reality is worse, we find it overlaps almost completely.  We were glad to see that in estimating the distribution of $\tau$ for very large data sets, it does tighten around zero, while the distribution expected under a true positive condenses around more positive values, indicating that there is at least some discriminative ability in the test. 
-
-The essential features of these overlapping distributions are easily captured in the ROC curves, which provides a natural language to discuss the issues of uncertainty -- such as ``accepting a higher false-alarm rate in order to avoid a catastrophic shift'' rather than ``using a more liberal threshold for $p$-values in order to avoid costly Type II error.''  
-
-
-
-
-\subsection{Information criteria will not serve.}
+\subsection*{Information criteria will not serve.}
 One will commonly observe models representing alternative processes being compared in this way through 
 the use of various information criteria such as the Akaike information criterion.  
 While tempting to apply in this situation, such approaches are not suited to this problem for several reasons.  
@@ -363,7 +381,7 @@ More pointedly, information criteria have no inherent notion of uncertainty.
 Information criteria tests alone will not tell us our chances of a false alarm, of missing a real signal, 
 or how much data we need to be confident in our ability to detect transitions.   
 
-\subsection{Beyond hypothesis testing}
+\subsection*{Beyond hypothesis testing}
 \cb{If we remove the ``On a hypothesis-testing framework'' narrative above, I would then insert this.  I'm not sure if the wording of this next section is too casual.}
 %Hypothesis testing only runs into trouble when we make the mistake of substituting uncertainty for certainty, that we imagine the phrase ``statistically significant'' is meaningful.  
 The language of hypothesis testing is built around a strong bias that false positives are worse than false negatives, 
@@ -374,7 +392,7 @@ while the question of when we have enough data to adequately detect an approachi
 should be at least as important as the chance of a false alarm.  
 
 
-\subsection{ROC Curves}
+\subsection*{ROC Curves}
 We illustrate the trade-off between false alarms and failed detection using 
 receiver-operating characteristic (ROC) curves first developed in signal-processing literature~\citep{Green1989, Keller2009}⁠. 
 The curves represent the corresponding false alarm rate at any detection sensitivity (true positive rate), Fig~\ref{fig:roc_intro}.
@@ -389,6 +407,17 @@ we can use these curves to illustrate by how much a given increase in sampling e
 The area under the ROC curve provides a summary of how well the method compares to a random guess --
 an area of 0.5 corresponding to perfectly overlapping distributions is performing no better than chance,
 while a statistic with area of unity always distinguishes correctly between stable systems and those approaching a transition. 
+
+
+\begin{figure}
+   \begin{center}
+     \includegraphics[width=\linewidth]{Fig1}
+     \caption{Top row: The distributions of a hypothetical warning indicator are shown under the case of a stable system (blue) and a system approaching a critical transition (red).  Bottom row: Points along the ROC curve are calculated for each possible threshold indicated in the top row.  The false positive rate is the integral of the distribution of the test statistic under the stable system right of the threshold (blue shaded area, corresponding to blue vertical line).  The true positive rate is the integral of the system approaching a transition left of the threshold (red shaded area, corresponds to the red line).  Successive columns show the threshold increasing, tracing out the ROC curve.}
+     \label{fig:roc_intro}
+  \end{center}
+ \end{figure}
+
+
 
 
 
@@ -417,7 +446,13 @@ We repeat this simulation with constant value of $a$, and which we refer to as t
 For the convenience of the inquisitive reader, we have also provided a simple function in the 
 associated R package where the user can vary the sampling scheme and parameter values and rerun this analysis.  
 
-Our first empirical data set comes from the glaciation record seen in deuterium levels in Antartic ice cores~\citep{Petit1999}, 
+The first empirical data set comes from the population dynamics of 
+\emph{Daphnia} living in the chemostat ``H6'' in the experiments of Drake \& Griffen~\citep{Drake2010}. 
+This individual replicate was chosen as an example that showed 
+a pattern of increasing variance over the 16 data points where the system was being manipulated towards a crash.
+All data and code for simulations and analysis are found in the accompanying R package, \verb|warningsignals|.  
+
+Our second empirical data set comes from the glaciation record seen in deuterium levels in Antartic ice cores~\citep{Petit1999}, 
 as analyzed by~\citet{Dakos2008}.
 The data is preprocessed by linear interpolation and de-trending by Gaussian kernel smoothing 
 to be as consistent as possible with the original analysis.
@@ -427,49 +462,145 @@ but the estimated correlations in the first-order auto-regression coefficients a
 De-trending is intended to make the data consistent with the assumptions of the warning signal detection~\citep{Dakos2008}, 
 which did not apply to the other data sets~\citep{Drake2010}.  
 
-The second empirical data set comes from the population dynamics of 
-\emph{Daphnia} living in the chemostat ``H6'' in the experiments of Drake \& Griffen~\citep{Drake2010}. 
-This individual replicate was chosen as an example that showed 
-a pattern of increasing variance over the 16 data points where the system was being manipulated towards a crash.
-All data and code for simulations and analysis are found in the accompanying R package, \verb|warningsignals|.  
+\subsection*{Analysis}
+We perform the identical analysis proceedure described above on each of these three data sets.
+First, we estimate parameters for the null and test model to each data set by maximum likelihood.
+Comparing the likelihood of these fits directly gives us only a minimal indication of which model fits better --
+the deviances $\delta$, Eqn~\eqref{delta} -- are 5.1, 6.0, 83.9 respectively for the simulation,
+the chemostat data and the glaciation data. 
+The size of these differences reflects not only the magnitude of the difference in fit
+between the models but also the arbitrary units of the raw likelihoods,
+which are smaller for larger data-sets.  
+Consequently the glaciation score reflects as much the greater length of its time series as it does anything else.  
 
+To identify if these differences are significant,
+and by what probability they could arise as a false alarm or a missed event,
+we simulate 500 replicate time series from each estimated model,
+as visualized in the middle panel of each data set,
+Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation}. 
+
+ \begin{figure}
+   \begin{center}
+     \includegraphics[width=.85\linewidth]{figures/Simulation_warningsignal.pdf}
+     \caption{A model-based calculation of warning signals for the simulated data example.}
+     \label{fig:simulation}
+  \end{center}
+ \end{figure}
+
+ \begin{figure}
+   \begin{center}
+     \includegraphics[width=.85\linewidth]{figures/Chemostat_warningsignal.pdf}
+     \caption{A model-based calculation of warning signals for the Daphnia data analyzed in ~\citet{Drake2010} (Chemostat H6).}
+     \label{fig:chemostat}
+  \end{center}
+ \end{figure}
+
+ \begin{figure}
+   \begin{center}
+     \includegraphics[width=.85\linewidth]{figures/GlaciationIII_warningsignal.pdf}
+     \caption{A model-based calculation of warning signals for the Glaciation data analyzed in ~\citet{Dakos2008} (Glaciation III).}
+     \label{fig:glaciation}
+  \end{center}
+ \end{figure}
+
+
+The model parameters of both models are re-estimated on both families of replicates 
+(the null and test, \emph{i.e.} $2 \times 2 \times 500$ fits). 
+The differences in the likelihood values between the model estimates produced from the first set of simulations 
+determines the null distribution for the deviance statistic $\delta$.  
+As the constant OU process model is nested within the time-heterogenous model, these values are always positive,
+but tend to be not as large as those produced when the models are fit to the second family of data. 
+These two distributions are shown in the lower panel of 
+Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation}, 
+along with the deviance observed in the original data (vertical line).
+
+The extent to which these distributions overlap indicates our inability to distinguish between these scenarios.  
+The tendancy of the observed deviance (vertical line) to fall more clearly in the domain of one distribution or the other 
+indicates the probability our observed data corresponds best with that model  -- 
+either approaching a critical transition or remaining stable.  
+While it trivial to assign a statistical significance to this observation based 
+on how far into the tail of the (red) null distribution it falls, 
+for the reasons we discussed we prefer the more symmetric comparison of the probability that 
+this value was observed in either distribution.  
+We visualize the trade-off between false alarms and failed detection using the ROC curves introduced above.  
+
+Because ROC curves compare areas under the probability distributions they can always be presented on a uniform 0-1 axis
+for both true positives and false positives, allowing us to overlay the curves from different data on the same plot,
+Figure~\ref{fig:rocdata}
+
+ \begin{figure}
+   \begin{center}
+     \includegraphics[width=\linewidth]{figures/rocplot.pdf}
+     \caption{ }
+     \label{fig:rocdata}
+  \end{center}
+ \end{figure}
 
 
 %%%%%%%%%%%%%% 
 \section{Comparing the performance of summary statistics and model-based approaches}  
 Due to the variety of ways in which early warning signals based on summary statistics are implemented and evaluated
 it is difficult to give a straight-forward comparison between them and the performance of this model-based approach.
-However, by adopting one of one of the quantitative measures of a warning signal pattern, such as Kendall's $\tau$~\citep{Dakos2008, Dakos2011, Dakos2009}, 
+However, by adopting one of one of the quantitative measures of a warning signal pattern,
+such as Kendall's $\tau$~\citep{Dakos2008, Dakos2011, Dakos2009}, 
 we are able to make a side-by-side comparison of the different summary statistics and the model based approach in the
 context of false alarms and failed detections shown by the ROC curve.  
 Values of $\tau$ near unity indicate a strongly increasing trend in the warning indicator, 
-which is supposed to be inidicative of an approaching transition.  
+which is supposed to be indicative of an approaching transition.  
 Values near zero suggest a lack of a trend, as expected in stable systems.
 
-Having estimated the stable and critical transition models from the data, 
-we can simulate 500 replicate data sets under each⁠. 
-We then calculated the warning signals statistic over a sliding window of size equal to one-half the length of the time series,
-and compute the correlation coefficient $\tau$ for the statistic over each replicate from both stable and impending transition models.  
+\begin{figure}
+   \begin{center}
+     \includegraphics[width=\linewidth]{figures/Fig2}
+     \caption{Early warning signals in simulated and empirical data sets.  The first two columns are simulated data from (a) a stable system (Stable), and (b) the same system approaching a saddle-node bifurcation (Deteriorating).  Empirical examples are from (c) \emph{Daphnia magna} concentrations manipulated towards a critical transition (Daphnia), and (d) deuterium concentrations previously cited as an early warning signal of a glaciation period (Glaciation). Increases in summary statistics, computed over a moving window, have often been used to indicate if a system is moving towards a critical transition.  The increase is measured by the correlation coefficient $\tau$.  Note that positive correlation does not guarantee the system is moving towards a transition, as seen in the stable system, first column.}
+     \label{fig:summary_stats}
+  \end{center}
+ \end{figure}
+
+
+Figure~\ref{fig:summary_stats} shows the time series for each data set in columns 
+and the early warning indicators  of variance and autocorrelation 
+computed over a sliding window for each.  
+Kendall's correlation coefficient $\tau$ is calculated for each warning indicator and displayed on the graphs, inset.  
+For comparison, the left-most column includes data simulated under a stable system, 
+which nevertheless shows a chance increasing autocorrelation with a $\tau=0.7$
+We can adapt the approach we have described above to determine how often such a strong increase would appear 
+by chance in a stable system as follows.  
+
+ \begin{figure}
+   \begin{center}
+     \includegraphics[width=\linewidth]{figures/summary_box.pdf}
+     \caption{}
+     \label{fig:summary_box}
+  \end{center}
+ \end{figure}
+
+
+
+By estimating the stable and critical transition models from the data,
+and simulate 500 replicate data sets under each as in the analysis above,
+we can then calculate the warning signals statistic over a sliding window 
+of size equal to one-half the length of the time series,
+and compute the correlation coefficient $\tau$ measuring the degree to which the statistic shows an increasing trend.   
 This results in a distribution of $\tau$ values coming from a model of a stable system, 
 and a corresponding distribution of $\tau$ values coming from the model with an impending transition.  
+These distributions are shown in Figure~\ref{fig:summary_box}.  
 
-\section{Results}
 
-We illustrate this analysis of uncertainty in early warning indicators in simulated and empirical data sets (Fig. 2). 
-We explore two empirical examples:
-deuterium concentrations (Fig. 2c) provide an observational dataset
-previously cited as an early warning signal of a critical transition in glaciation~\citep{Dakos2008},
-and \emph{Daphnia magna} concentrations (Fig. 2d) manipulated in a chemostat towards a critical transition~\citep{Drake2010}.  
-For comparison, we include an individual-based simulation of a system approaching a saddle-node bifurcation due to environmental deterioration,
-and the same system in a constant environment. 
-The challenge of accurate detection is clearly illustrated by comparing the patterns for a system approaching transition (b-d) 
-against the simulation of a stable system, in which chance fluctuations give the appearance of steadily rising autocorrelation. 
-While such a pattern will fade in a longer or more frequently sampled time-series of the same system, 
-we need a way to identify such cases where we lack the data to trust the pattern.  
 
-The ROC curves for these data (Fig. 3) show that the summary-statistic based indicators 
+ \begin{figure}
+   \begin{center}
+     \includegraphics[width=\linewidth]{figures/summary_roc.pdf}
+     \caption{}
+     \label{fig:summary_roc}
+  \end{center}
+ \end{figure}
+
+
+
+ The ROC curves for these data (Fig.~\ref{fig:summary_roc}) show that the summary-statistic based indicators 
 frequently lack the sensitivity to distinguish reliably between observed patterns from a stable or unstable system. 
-The large correlations observed in the empirical examples (Fig. 2) are not uncommon in stable systems. 
+The large correlations observed in the empirical examples (Fig.~\ref{fig:summary_stats}) are not uncommon in stable systems. 
 For instance, we can read from the curve what fraction of true positives would be detected by a variance-based indicator
 set to a 5\% false positive rate:
 25\% in the simulated set,
@@ -479,18 +610,12 @@ Compare this to likelihood: 61\%, 34\%, and 100\% of the replicate true positive
 would be correctly identified from the respective systems.
 The value of the ROC curve is that we need not restrict the analysis to a pre-specified error such as 5\%,
 as we would in classical hypothesis testing.  
-We could instead decide that we wanted no to catch no less than 90\% of the true-positives,
+We could instead decide that we wanted not to catch no less than 90\% of the true-positives,
 and read off the corresponding false positives.  
 For variance this corresponds respectively to a 49\%, 81\%, and 93\% false positive rate,
 while for likelihood a 55\%, 35\%, 0\% false positive.
-Each false-positive, true-positive coordinate on the ROC curve corresponds to a threshold of the indicator statistic,
-as illustrated in Fig. 1.  
-Comparing this threshold with the observed value classifies the signal as detected or undetected, (see Supporting Information).
-This flexibility is particularly valuable in the context of critical transitions, 
-where data are often limited and the consequences of missed detection can be far more severe than false alarms.  
 
 
-%%%%%%% Converting from power to detection %%%%%%%%%%%%
 
 \section{Discussion}
 A pressing question in the application of early warning signals is quantifying
@@ -556,64 +681,8 @@ S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins provided comments on the ma
 
 
  % Computational Sciences Graduate Fellowship from the Department of Energy under grant number DE-FG02-97ER25308. 
- \section{References}%bibliography
- \bibliography{boettiger}
-
-
- \begin{figure}
-   \begin{center}
-     \includegraphics[width=\linewidth]{figures/Simulation_warningsignal.pdf}
-     \label{fig:simulation}
-     \caption{A model-based calculation of warning signals for the simulated data example.}
-  \end{center}
- \end{figure}
-
- \begin{figure}
-   \begin{center}
-     \includegraphics[width=\linewidth]{figures/GlaciationIII_warningsignal.pdf}
-     \label{fig:glaciation}
-     \caption{A model-based calculation of warning signals for the Glaciation data analyzed in ~\citet{Dakos2008} (Glaciation III).}
-  \end{center}
- \end{figure}
-
-
- \begin{figure}
-   \begin{center}
-     \includegraphics{figures/Chemostat_warningsignal.pdf}
-     \label{fig:chemostat}
-     \caption{A model-based calculation of warning signals for the Daphnia data analyzed in ~\citet{Drake2010} (Chemostat H6).}
-  \end{center}
- \end{figure}
-
-
-
-
-\begin{figure}[hb]
-   \begin{center}
-     \includegraphics[width=\linewidth]{Fig1}
-     \label{fig:roc_intro}
-     \caption{Top row: The distributions of a hypothetical warning indicator are shown under the case of a stable system (blue) and a system approaching a critical transition (red).  Bottom row: Points along the ROC curve are calculated for each possible threshold indicated in the top row.  The false positive rate is the integral of the distribution of the test statistic under the stable system right of the threshold (blue shaded area, corresponding to blue vertical line).  The true positive rate is the integral of the system approaching a transition left of the threshold (red shaded area, corresponds to the red line).  Successive columns show the threshold increasing, tracing out the ROC curve.}
-  \end{center}
- \end{figure}
-
-
-
- \begin{figure}[h]
-   \begin{center}
-     \includegraphics[width=\linewidth]{Fig2}
-     \label{fig:summary_stats}
-     \caption{Early warning signals in simulated and empirical data sets.  The first two columns are simulated data from (a) a stable system (Stable), and (b) the same system approaching a saddle-node bifurcation (Deteriorating).  Empirical examples are from (c) \emph{Daphnia magna} concentrations manipulated towards a critical transition (Daphnia), and (d) deuterium concentrations previously cited as an early warning signal of a glaciation period (Glaciation). Increases in summary statistics, computed over a moving window, have often been used to indicate if a system is moving towards a critical transition.  The increase is measured by the correlation coefficient $\tau$.  Note that positive correlation does not guarantee the system is moving towards a transition, as seen in the stable system, first column.}
-  \end{center}
- \end{figure}
-
-
- \begin{figure}[h!]
-   \begin{center}
-     \includegraphics[width=\linewidth]{Fig4.pdf}
-     \label{fig4}
-     \caption{ROC curves (from Fig. 3) are recalculated under different sampling frequencies in the simulation step (see supplementary online text), using a total of 25, 50, or 200 points.  Increasing the sampling improves the trade-off between sensitivity and reliability for all indicators, though the likelihood approach is most effective. A warning signal is not detected in stable system simulation. Corresponding distributions shown in Fig S2-5.} 
-  \end{center}
- \end{figure}
+\section{References}%bibliography
+\bibliography{boettiger}
 
  \end{document}
 

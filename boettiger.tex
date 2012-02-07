@@ -69,7 +69,6 @@ it is important to develop the ability to predict impending regime shifts based 
 With a good model of the system, detail-oriented approaches could be useful~\citep{Lenton2009},
 but in cases where specific models are not available general approaches are needed~\citep{Scheffer2009}⁠.
 
-% erg, a bit mor transition needed?
 
 We discuss the limitations of current approaches that rely on summary statistics
 and introduce a model based approach to detect early warning signals.
@@ -77,7 +76,7 @@ We illustrate how stochastic differential equation (SDE) models can be used
 to reflect the uncertainty inherent in the detection of early warning signals.
 We caution against paradigms that are not useful for capturing this uncertainty in 
 a model-selection based approach, such as information criteria,
-and suggest reciever-operating characteristics~\citep{Green1989, Keller2009}
+and suggest receiver-operating characteristics~\citep{Green1989, Keller2009}
 as a powerful way to illustrate the sensitivity of different data sets 
 and different early warning indicators have in detecting early warning signals.  
 
@@ -104,7 +103,7 @@ A basic difficulty arises from the need to assume a time-series is ergodic
 while trying to test if it is not.  
 Theoretically, the increasing trend in variance, autocorrelation, or other statistics
 is something that would be measured across an ensemble -- across replicates. %% citation? 
-As true replicates are seldom avialable in systems for which developing warning signals would be most desirable,
+As true replicates are seldom available in systems for which developing warning signals would be most desirable,
 these methods average across a single replicate using a moving window in time.  
 The selection of the size of this window and whether and by how much to overlap consecutive windows
 varies across the literature.  
@@ -148,7 +147,7 @@ Non-parametric null hypotheses seem to require the fewest assumptions but in fac
 For instance, the standard non-parametric hypothesis test with Kendall's tau rank correlation coefficient
 assumes only that the two variables are independent,
 but this is an assumption that is violated by the very experimental design:
-temporal correlations will exist in any finely-enough samled time series, 
+temporal correlations will exist in any finely-enough sampled time series, 
 and moving windows introduce temporal correlations in the statistics.
 Under such a test any adequately large data set will find a significant result,
 regardless of whether a warning signal exists.
@@ -220,8 +219,8 @@ In this section we outline how the detection of early warning signals may be tho
 as a problem of model choice.
 We next show generic models can be constructed under the assumptions discussed above
 and estimated from the data in a maximum likelihood framework.
-We highlight the disadvantages of comparing these estimates by information criterea, 
-and insead introduce a simulation or bootstrapping approach rooted in~\citet{Cox1961} and~\citet{McLachlan1987} that
+We highlight the disadvantages of comparing these estimates by information criteria, 
+and instead introduce a simulation or bootstrapping approach rooted in~\citet{Cox1961} and~\citet{McLachlan1987} that
 characterizes the rate of missed detections and false alarms expected in the estimate. 
 
 
@@ -231,7 +230,7 @@ as a problem of model choice rather than one of pattern recognition.
 The model choice approach attempts to frame each of the possible scenarios as structurally different equations,
 each with unknown parameters that must be estimated from the data.
 In any model choice problem, it is important to identify the goal of the exercise --
-such as the ability to generalize, to immitate reality, or to predict~\citep{Levins1966}.  
+such as the ability to generalize, to imitate reality, or to predict~\citep{Levins1966}.  
 In this case generality is more important than realism or predictive capability: 
 we will write down a general model that is capable of approximating
 a wide class of models in which regime shifts are characterized by a saddle node bifurcation,
@@ -240,7 +239,7 @@ when they are not approaching a bifurcation.
 These may be thought of as the hypothesis and null hypothesis,
 though they are in fact compound hypotheses,
 as we must first estimate the model parameters from the data.  
-In this approach it is not assumed that ``reality'' is included in the models being tested per se, 
+In this approach it is not assumed that ``reality'' is included in the models being tested, 
 but that one of the models is a better approximation of the true dynamics than the other.  
 System whose dynamics violate the assumptions common to both models, 
 such as in the examples of ~\citet{Hastings2010} where systems exhibit sudden transitions without warning, 
@@ -258,7 +257,7 @@ where $x$ is the state variable and $r_t$ our bifurcation parameter,
 which may be slowly varying in time and 
 consequently moving the system closer to a critical transition or regime shift~\citep{Scheffer2009}.  
 Transforming this canonical form to allow for an arbitrary mean $\theta$,
-the bifurcation looks like $ dx/dt = r_t- (\theta-x)^2 $, with fixed point $\hat x = \sqrt{r_t} +\theta =: \phi(r_t)$.
+the bifurcation looks like \( dx/dt = r_t- (\theta-x)^2 \), with fixed point \(\hat x = \sqrt{r_t} +\theta =: \phi(r_t)\).
 We expand around the fixed point and express in terms of the stochastic dynamics: 
 
 \begin{equation}
@@ -271,7 +270,7 @@ We expand around the fixed point and express in terms of the stochastic dynamics
 %that contain saddle-node bifurcations, as we show in the appendix.  
 %Alternate dynamical forms are possible but will not differ substantially.  
 
-As we discuss above, in this paradigme we must include an assumption on how the bifurcation parameter, $r_t$, is changing.
+As we discuss above, in this paradigm we must include an assumption on how the bifurcation parameter, $r_t$, is changing.
 We assume a gradual, monotonic change which we approximate to first order: 
 \begin{equation}
 r_t = r_0 - m t.
@@ -288,11 +287,13 @@ This is the continuous time analog of the first-order autoregressive model consi
 
 
 \subsection*{Likelihood calculations}
-The probability $P(X|M)$ of the data $X$ given the model $M$ is the product of the probability of observing each point in the time series given the previous point and the length of the interval,  
+The probability \(P(X|M) \) of the data \(X\) given the model \(M\) is the product of the probability of observing each point in the time series given the previous point and the length of the interval,  
 \begin{equation}
 \log P(X | M)=  \sum_i \log P(x_i | x_{i-1}, t_i)
 \end{equation}
+
 For~\eqref{LSN} or~\eqref{OU} it is sufficient~\citep{Gardiner2009} to solve the moment equations for mean and variance respectively:
+
 \begin{align}
  \frac{\ud }{\ud t} E(x| M)&=  f(x) \\
 \frac{\ud}{\ud t} V(x| M) &=  -\partial_x f(x) V(x|M) + g(x)^2 
@@ -300,6 +301,7 @@ For~\eqref{LSN} or~\eqref{OU} it is sufficient~\citep{Gardiner2009} to solve the
 \end{align}
 
 For the OU process, we can solve this in closed form over an interval of time $t_i$ between subsequent observations: 
+
 \begin{align}
   E(x_i| M = \text{OU}) &= X_{i-1} e^{-r t_i} + \theta \left(1 - e^{-rt_i} \right) \\
 V(x_i| M = \text{OU}) &= \frac{\sigma^2}{2 r} \left(1 - e^{-2 r t_i} \right)
@@ -308,6 +310,7 @@ V(x_i| M = \text{OU}) &= \frac{\sigma^2}{2 r} \left(1 - e^{-2 r t_i} \right)
 
 For the time dependent model, we have analytic forms only for the dynamical equations of these moments from equation~\eqref{general_moments}, which we must integrate numerically over each time interval.
 The moments of Equation~\eqref{LSN} are given by
+
 \begin{align}
 \frac{\ud }{\ud t} E(x_i| M = \text{LSN})&=  2\sqrt{r(t)}(\sqrt{r(t)}+\theta - x_i) \\
 \frac{\ud}{\ud t} V(x_i| M = \text{LSN}) &=  -2 \sqrt{r(t)} V(x_i) + \sigma^2 ( \sqrt{r(t)}+\theta )
@@ -359,30 +362,30 @@ One will commonly observe models representing alternative processes being compar
 the use of various information criteria such as the Akaike information criterion.  
 While tempting to apply in this situation, such approaches are not suited to this problem for several reasons.  
 The first is that information criteria are not concerned with the model choice objective we have in mind,
-as they are typically applied to find an adequate model description without too many parameters that the system may be overfit.  
+as they are typically applied to find an adequate model description without too many parameters that the system may be over-fit.  
 More pointedly, information criteria have no inherent notion of uncertainty.
 Information criteria tests alone will not tell us our chances of a false alarm, of missing a real signal, 
 or how much data we need to be confident in our ability to detect transitions.   
 
 \subsection*{Beyond hypothesis testing}
 It is possible to frame the question of sensitivity, reliability, and adequate data in the language of hypothesis testing. 
-This introduces the a nuisance parameter, known as the statistical significance criterion.  
+This introduces a nuisance parameter known as the statistical significance criterion.  
 In the hypothesis testing framework, a false positive is a Type I error, 
 which is defined relative to this arbitrary statistical significance criterion, most commonly 0.05.  
 By changing the criterion, one can increase or decrease the probability of the Type I error 
 at the cost of decreasing or increasing false negative or Type II error, which must also be defined relative to this criterion.  
 
 The language of hypothesis testing is built around a bias that false positives are worse than false negatives, 
-and consequently an a emphasis on $p$-values rather than power.  
+and consequently an emphasis on $p$-values rather than power.  
 In the context of early warning signals this is perilous -- 
 it suggests that we would rather fail to predict a catastrophe than to sound a false alarm.
 
 To avoid this linguistic bias and the introduction of an nuisance parameter on which to define statistical significance, 
-we propose the use of Reciever Operating characteristic (ROC) curves.
+we propose the use of receiver operating characteristic (ROC) curves.
 
 \subsection*{ROC Curves}
 We illustrate the trade-off between false alarms and failed detection using 
-receiver-operating characteristic (ROC) curves first developed in signal-processing literature~\citep{Green1989, Keller2009}⁠. 
+receiver-operating characteristic curves first developed in signal-processing literature~\citep{Green1989, Keller2009}⁠. 
 The curves represent the corresponding false alarm rate at any detection sensitivity (true positive rate), Fig~\ref{fig:roc_intro}.
 The closer these distributions are to one-another, the more severe the trade-off.  
 If the distributions overlap exactly, the ROC curve has a constant slope of unity.  
@@ -424,7 +427,7 @@ The simulation implements an individual, continuous-time stochastic birth-death 
 This corresponds to the well-studied ecosystem model of over-exploitation~\citep{Noy-Meir1975, May1977}, 
 with stochasticity introduced from directly through the demographic process.   
 This model is forced through a bifurcation by gradually increasing the $a$ parameter,
-which increases can be thought of as an increasing toxicity of the environmnent
+which increases can be thought of as an increasing toxicity of the environment
 (from $a_0 = 100$ increasing at constant rate of 0.09 units/unit time).  
 Other parameters are: $Xo = 730$, $e = 0.5$, $K = 1000$, $h = 200$.  
 We run this model over a time interval from 0 to 500.  
@@ -440,7 +443,7 @@ This individual replicate was chosen as an example that showed
 a pattern of increasing variance over the 16 data points where the system was being manipulated towards a crash.
 All data and code for simulations and analysis are found in the accompanying R package, \verb|warningsignals|.  
 
-Our second empirical data set comes from the glaciation record seen in deuterium levels in Antartic ice cores~\citep{Petit1999}, 
+Our second empirical data set comes from the glaciation record seen in deuterium levels in Antarctic ice cores~\citep{Petit1999}, 
 as analyzed by~\citet{Dakos2008}.
 The data is preprocessed by linear interpolation and de-trending by Gaussian kernel smoothing 
 to be as consistent as possible with the original analysis.
@@ -451,7 +454,7 @@ De-trending is intended to make the data consistent with the assumptions of the 
 which did not apply to the other data sets~\citep{Drake2010}.  
 
 \subsection*{Analysis}
-We perform the identical analysis proceedure described above on each of these three data sets.
+We perform the identical analysis procedure described above on each of these three data sets.
 First, we estimate parameters for the null and test model to each data set by maximum likelihood.
 Comparing the likelihood of these fits directly gives us only a minimal indication of which model fits better --
 the deviances $\delta$, Eqn~\eqref{delta} -- are 5.1, 6.0, 83.9 respectively for the simulation,
@@ -496,14 +499,14 @@ The model parameters of both models are re-estimated on both families of replica
 (the null and test, \emph{i.e.} $2 \times 2 \times 500$ fits). 
 The differences in the likelihood values between the model estimates produced from the first set of simulations 
 determines the null distribution for the deviance statistic $\delta$.  
-As the constant OU process model is nested within the time-heterogenous model, these values are always positive,
+As the constant OU process model is nested within the time-heterogeneous model, these values are always positive,
 but tend to be not as large as those produced when the models are fit to the second family of data. 
 These two distributions are shown in the lower panel of 
 Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation}, 
 along with the deviance observed in the original data (vertical line).
 
 The extent to which these distributions overlap indicates our inability to distinguish between these scenarios.  
-The tendancy of the observed deviance (vertical line) to fall more clearly in the domain of one distribution or the other 
+The tendency of the observed deviance (vertical line) to fall more clearly in the domain of one distribution or the other 
 indicates the probability our observed data corresponds best with that model  -- 
 either approaching a critical transition or remaining stable.  
 While it trivial to assign a statistical significance to this observation based 

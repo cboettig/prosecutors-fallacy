@@ -25,7 +25,7 @@
 
 
 
-\journal{\tiny Journal of the Royal Society Interface} 
+\journal{\tiny Journal of the Royal Society Interface}
 \begin{document}
 \begin{frontmatter}
   \title{Quantifying Limits to Detection of Early Warning for Critical Transitions}
@@ -34,217 +34,220 @@
   \author[esp]{Alan Hastings}
   \cortext[cor1]{Corresponding author.}
   \address[cpb]{Center for Population Biology, 1 Shields Avenue, University of California, Davis, CA, 95616 United States.}
-  \address[esp]{Department of Environmental Science and Policy, University of California, Davis} 
+  \address[esp]{Department of Environmental Science and Policy, University of California, Davis}
 
 
   \begin{abstract}
 
-Catastrophic regime shifts in complex natural systems may be averted through advanced detection. 
-Recent work has provided a proof-of-principle that many systems approaching a catastrophic transition may be identified 
-through the lens of early warning indicators such as rising variance or increased return times.  
-Without the benefit of hindsight of a collapse, 
-applications of these approaches must quantify how reliable different indicators are in avoiding false alarms, 
-and how sensitive they are to missing subtle warning signs.  
-We propose an approach which quantifies this trade-off between reliability and sensitivity, 
-allows comparisons between different indicators, 
-and estimates what data are necessary to achieve a desired error rate. 
-We show these error rates can be quite severe for common indicators even under favorable assumptions, 
-and illustrate how a likelihood-based indicator can improve this performance.  
+Catastrophic regime shifts in complex natural systems may be averted through advanced detection.
+Recent work has provided a proof-of-principle that many systems approaching a catastrophic transition may be identified
+through the lens of early warning indicators such as rising variance or increased return times.
+Without the benefit of hindsight of a collapse,
+applications of these approaches must quantify how reliable different indicators are in avoiding false alarms,
+and how sensitive they are to missing subtle warning signs.
+We propose an approach which quantifies this trade-off between reliability and sensitivity,
+allows comparisons between different indicators,
+and estimates what data are necessary to achieve a desired error rate.
+We show these error rates can be quite severe for common indicators even under favorable assumptions,
+and illustrate how a likelihood-based indicator can improve this performance.
 
 % rewrite
 
   \end{abstract}
 
   \begin{keyword}
-early warning signals \sep tipping point \sep alternative stable states \sep likelihood methods 
+early warning signals \sep tipping point \sep alternative stable states \sep likelihood methods
    \end{keyword}
  \end{frontmatter}
 
 \section{Introduction}
 There is an increasing recognition of the importance of regime shifts or critical transitions at a variety of scales in ecological systems~\citep{Holling1973, Wissel1984, Scheffer2001, Scheffer2009, Drake2010, Carpenter2011}⁠.
-Many important ecosystems may currently be threatened with collapse, including corals~\citep{Bellwood2004}, fisheries~\citep{Berkes2006}⁠, lakes~\citep{Carpenter2011}, and semi-arid ecosystems~\citep{Kefi2007}⁠. 
+Many important ecosystems may currently be threatened with collapse, including corals~\citep{Bellwood2004}, fisheries~\citep{Berkes2006}⁠, lakes~\citep{Carpenter2011}, and semi-arid ecosystems~\citep{Kefi2007}⁠.
 Given the potential impact of  these shifts on the sustainable delivery of ecosystem services
 and the idea that management responses would be needed either to avoid an undesirable shift or else to adapt to novel conditions,
-it is important to develop the ability to predict impending regime shifts based on early warning signs. 
-With a good model of the system, detail-oriented approaches could be useful~\citep{Lenton2009},
-but in cases where specific models are not available general approaches are needed~\citep{Scheffer2009}⁠.
+it is important to develop the ability to predict impending regime shifts based on early warning signs.
 
 
-We discuss the limitations of current approaches that rely on summary statistics
-and introduce a model based approach to detect early warning signals.
-We illustrate how stochastic differential equation (SDE) models can be used 
+
+A number of particular systems have demonstrated the kinds of relationships that would produce regime shifts, including dynamics of coral reefs (MUMBY ET AL, NATURE), and simple models of metapopulations with differing local population sizes (HASTINGS Hastings, A. (1991). Structured models of metapopulation dynamics. Biological Journal of the Linnean Society, 42, 57-71.).  In cases like these one sensible approach to understanding whether a regime shift would be likely would be to fit the model using either a time series or else independent estimates of spratters. More generally, with a good model of the system, detail-oriented approaches could be useful~\citep{Lenton2009}. 
+
+However, for many ecological systems specific models are not available and general approaches are needed~\citep{Scheffer2009} that do not depend on estimating the parameters of a known model of a specific system. This has lead to a variety of approaches based on summary statistics (REFS -- ) that look for generic signs of impending regime shifts.  Our goal here is to extend earlier work by providing much more precise estimates of the ability of different statistics to signal impending regime shifts and to develop new approaches that both are more efficient and also lay bare some of the important assumptions underlying attempts to find general warning signs of regime shifts.  We caution against paradigms that are not useful for capturing  uncertainty in
+a model-selection based approach, such as information criteria.
+
+
+We begin our approach by first discussing the limitations of current approaches that rely on summary statistics
+and provide a clear description of assumptions through the introduction of a model based approach to detect early warning signals.
+We then illustrate how stochastic differential equation (SDE) models can be used
 to reflect the uncertainty inherent in the detection of early warning signals.
-We caution against paradigms that are not useful for capturing this uncertainty in 
-a model-selection based approach, such as information criteria,
-and suggest receiver-operating characteristics~\citep{Green1989, Keller2009}
-as a powerful way to illustrate the sensitivity of different data sets 
-and different early warning indicators have in detecting early warning signals.  
+Finally we suggest receiver-operating characteristics~\citep{Green1989, Keller2009}
+as a powerful way to illustrate the sensitivity of different data sets
+and different early warning indicators have in detecting early warning signals and use this to explore a number of examples.
 
 
 \section{The summary statistics approach}
-Foundational work on early warning signals has operated under the often-implicit assumption 
+Foundational work on early warning signals has operated under the often-implicit assumption
 that the system dynamics contain a saddle-node bifurcation by
 looking for patterns that are associated with kind of transition.
 Typical patterns include an increasing trend in a summary statistic such as
 variance~\citep{Carpenter2006}, autocorrelation~\citep{Held2004, Dakos2008},
 skew~\citep{Guttal2008}, spectral ratio~\citep{Biggs2009}.
 While attractive for their simplicity, such approaches are subject to numerous challenges.
-In this paper we argue for a model-based approach, 
+In this paper we argue for a model-based approach,
 and describe how this can be done in a way that best addresses these difficulties.
-We begin by enumerating several of the difficulties encountered in approaches lacking an explicit model. 
+We begin by enumerating several of the difficulties encountered in approaches lacking an explicit model.
 
-%%% hmm, what about all the red-herring topics, like change point analysis?  Add a discussion such as Contamin & Ellison ~\citep{Contamin2009} have about forecasting shifts, not post-hoc identification of shifts.  
+%%% hmm, what about all the red-herring topics, like change point analysis?  Add a discussion such as Contamin & Ellison ~\citep{Contamin2009} have about forecasting shifts, not post-hoc identification of shifts.
 
 \subsubsection*{Arbitrary windows}
 While superficially simple to use,
 the calculation of these statistics is subject to several arbitrary decisions and assumptions.
 
-A basic difficulty arises from the need to assume a time-series is ergodic 
-while trying to test if it is not.  
+A basic difficulty arises from the need to assume a time-series is ergodic
+while trying to test if it is not.
 Theoretically, the increasing trend in variance, autocorrelation, or other statistics
-is something that would be measured across an ensemble -- across replicates. %% citation? 
+is something that would be measured across an ensemble -- across replicates. %% citation?
 As true replicates are seldom available in systems for which developing warning signals would be most desirable,
-these methods average across a single replicate using a moving window in time.  
+these methods average across a single replicate using a moving window in time.
 The selection of the size of this window and whether and by how much to overlap consecutive windows
-varies across the literature.  
-\citet{Lenton2012} demonstrates that these differences can influence the results, 
+varies across the literature.
+\citet{Lenton2012} demonstrates that these differences can influence the results,
 and that the different choices each carry advantages and disadvantages.
 
-In addition to introducing the challenge of selecting a window size, 
-this ergodic assumption, 
-that averaging over time is equivalent to averaging over replicate realizations,  
-raises further difficulties.  
-While appropriate for a system that is stationary, 
+In addition to introducing the challenge of selecting a window size,
+this ergodic assumption,
+that averaging over time is equivalent to averaging over replicate realizations,
+raises further difficulties.
+While appropriate for a system that is stationary,
 or changing slowly enough in the window that it may appear stationary,
-the assumption is at odds with the original hypothesis 
-that the system is approaching a saddle-node bifurcation. 
+the assumption is at odds with the original hypothesis
+that the system is approaching a saddle-node bifurcation.
 
-Further, certain statistics such as the critical slowing down measured in autocorrelation 
-require data that is evenly sampled in time.  
+Further, certain statistics such as the critical slowing down measured in autocorrelation
+require data that is evenly sampled in time.
 Interpolating from existing data to create evenly spaced points is particularly problematic,
-as this introduces an artificial autocorrelation into the data.  
+as this introduces an artificial autocorrelation into the data.
 
 \subsubsection*{No quantitative measures}
-Summary statistics typically invoke qualitative patterns such as an increase in statistic $x$, 
-rather than a quantitative measure of the early warning pattern.  
+Summary statistics typically invoke qualitative patterns such as an increase in statistic $x$,
+rather than a quantitative measure of the early warning pattern.
 This makes it difficult to compare between signals or to
 attribute a statistical significance to the detection.
-Some authors have suggested Kendall's correlation coefficient, 
-$\tau$, could be used to quantify an increase~\citep{Dakos2008, Dakos2011} 
-in autocorrelation or variance.  
+Some authors have suggested Kendall's correlation coefficient,
+$\tau$, could be used to quantify an increase~\citep{Dakos2008, Dakos2011}
+in autocorrelation or variance.
 Other measures of increase, such as Pearson's correlation coefficient have also been proposed~\citep{Drake2010},
-while most of the literature simply forgoes quantifying the increase or estimating significance.  
+while most of the literature simply forgoes quantifying the increase or estimating significance.
 While adequate in experimental systems that can compare patterns between controls and replicates~\citep[\emph{e.g.}][]{Drake2010, Carpenter2011}
 any real-world application of these approaches must be useful on a single time-series of observations.
-In these cases a quantitative definition of a statistically significant detection is essential. 
-Using Kendall's $\tau$ we will illustrate how such a quantitative measure 
-can be used to better capture the uncertainty in identifying the early warning pattern.  
+In these cases a quantitative definition of a statistically significant detection is essential.
+Using Kendall's $\tau$ we will illustrate how such a quantitative measure
+can be used to better capture the uncertainty in identifying the early warning pattern.
 
 
 \subsubsection*{Problematic null models}
-Specifying an appropriate null model is also difficult.  
-Non-parametric null hypotheses seem to require the fewest assumptions but in fact can be the most problematic.  
+Specifying an appropriate null model is also difficult.
+Non-parametric null hypotheses seem to require the fewest assumptions but in fact can be the most problematic.
 For instance, the standard non-parametric hypothesis test with Kendall's tau rank correlation coefficient
 assumes only that the two variables are independent,
 but this is an assumption that is violated by the very experimental design:
-temporal correlations will exist in any finely-enough sampled time series, 
+temporal correlations will exist in any finely-enough sampled time series,
 and moving windows introduce temporal correlations in the statistics.
 Under such a test any adequately large data set will find a significant result,
 regardless of whether a warning signal exists.
-A similar problem arises when the points in the time series are reordered to create a null hypothesis -- 
-this destroys the natural autocorrelation in the time series.  
-More promising parametric null models have been proposed, 
-such as autoregressive models in~\citet{Dakos2008}, bringing us  
-closer to a model-based approach with explicit assumptions.  
-Others have looked for alternative summary statistics where 
-reasonable null models are more readily available, 
+A similar problem arises when the points in the time series are reordered to create a null hypothesis --
+this destroys the natural autocorrelation in the time series.
+More promising parametric null models have been proposed,
+such as autoregressive models in~\citet{Dakos2008}, bringing us
+closer to a model-based approach with explicit assumptions.
+Others have looked for alternative summary statistics where
+reasonable null models are more readily available,
 such as~\citet{Seekell2011}'s proposal to test for conditional heteroscedaticity.
 
 \subsubsection*{Hidden assumptions}
 %Differing system dynamics
 The underlying assumption that the system contains a saddle-node bifurcation
-can be easily overlooked in common summary-statistics based approaches.  
-For instance, variance may increase for reasons that 
+can be easily overlooked in common summary-statistics based approaches.
+For instance, variance may increase for reasons that
 do not signal an approaching transition~\citep{Schreiber2003, Schreiber2008}.
 Alternatively, variance may not increase as a bifurcation is approached~\citep{Livina2012, Dakos2011a}.
-Some classes of sudden transitions may exhibit no warning signals~\cite{Hastings2010}.   
+Some classes of sudden transitions may exhibit no warning signals~\cite{Hastings2010}.
 While no approach will be applicable to all classes of sudden transitions,
-it is certainly still useful to have an approach that detect transitions driven by 
-saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.g.}, see][]{Scheffer2001}.  
+it is certainly still useful to have an approach that detect transitions driven by
+saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.g.}, see][]{Scheffer2001}.
 
 %Differing causes of the transition.
-Even when we can exclude or ignore such dynamics and 
+Even when we can exclude or ignore such dynamics and
 restrict ourselves to systems that can support a saddle-node bifurcation,
-these approaches must further assume that a changing parameter 
-has brought the system closer to the bifurcation.  
-This excludes at least three alternative explanations for the transition.  
-The first is that a large perturbation of the system state 
-has moved the system into the alternative basin of attraction~\citep{Scheffer2001, Scheffer2001}.  
-This is an exogenous forcing that does not arise from the system dynamics, so it is not the kind of event we can expect to forecast. 
+these approaches must further assume that a changing parameter
+has brought the system closer to the bifurcation.
+This excludes at least three alternative explanations for the transition.
+The first is that a large perturbation of the system state
+has moved the system into the alternative basin of attraction~\citep{Scheffer2001, Scheffer2001}.
+This is an exogenous forcing that does not arise from the system dynamics, so it is not the kind of event we can expect to forecast.
 (An example might be a sudden dramatic increase in fishing effort that pushes the population past a threshold.)
-The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary.~\citep{Ditlevsen2010}  
-As discussed in \citet{Livina2012}, such noise induced transitions cannot be predicted through early warning signals.  
-The third scenario is that the system does pass through a saddle-node bifurcation, 
-but rather than gradually and monotonically approaching the critical point, the 
-bifurcation parameter moves in a rapid or highly non-linear way, making the detection of any gradual trend impossible.  
+The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary.~\citep{Ditlevsen2010}
+As discussed in \citet{Livina2012}, such noise induced transitions cannot be predicted through early warning signals.
+The third scenario is that the system does pass through a saddle-node bifurcation,
+but rather than gradually and monotonically approaching the critical point, the
+bifurcation parameter moves in a rapid or highly non-linear way, making the detection of any gradual trend impossible.
 
-%% Not sure if this paragraph above is necessary.  
+%% Not sure if this paragraph above is necessary.
 
-% Of course the literature has always stuck carefully to these assumptions, but there has sometimes been the suggestion that the summary statistics themselves were somehow more general than this, and that framing these assumptions in explicit and precise formulae, in models, would be misleading.  
+% Of course the literature has always stuck carefully to these assumptions, but there has sometimes been the suggestion that the summary statistics themselves were somehow more general than this, and that framing these assumptions in explicit and precise formulae, in models, would be misleading.
 
 
 
 \subsubsection*{Summary-statistic approaches have less statistical power.}
-Methods for the detection of early warning signals are continually challenged by inadequate data~\citep{Inman2011, Scheffer2010,Held2004, Dakos2008, Scheffer2009, Guttal2008, Carpenter2011, Bestelmeyer2011}. 
-Despite the widespread recognition of the this need for large data sets, 
+Methods for the detection of early warning signals are continually challenged by inadequate data~\citep{Inman2011, Scheffer2010,Held2004, Dakos2008, Scheffer2009, Guttal2008, Carpenter2011, Bestelmeyer2011}.
+Despite the widespread recognition of the this need for large data sets,
 there has been very few studies quantitative studies of power to determine at how much data is required~\citep{Contamin2009},
 how often a particular method would produce a false alarm or fail to detect a signal,
-and which tests will be the most powerful or sensitive.  
-The Neyman-Pearson Lemma demonstrates that the most powerful test between hypotheses 
-compares the likelihood that the data was produced under each~\citep{Neyman1933}. 
-Such likelihood calculations require a model-based approach. 
+and which tests will be the most powerful or sensitive.
+The Neyman-Pearson Lemma demonstrates that the most powerful test between hypotheses
+compares the likelihood that the data was produced under each~\citep{Neyman1933}.
+Such likelihood calculations require a model-based approach.
 
 
 \section{A model based approach}
-Model-based approaches are beginning to play a larger role in early warning signals, 
-though we have not as yet seen the direct fitting and simulation of models to compare hypotheses.  
-While choosing appropriate models without system-specific knowledge is challenging, 
+Model-based approaches are beginning to play a larger role in early warning signals,
+though we have not as yet seen the direct fitting and simulation of models to compare hypotheses.
+While choosing appropriate models without system-specific knowledge is challenging,
 much can be accomplished by framing the implicit assumptions into equations.
-\citet{Lade2011} introduces the idea of generalized models for early warning signals, and 
-\citet{Kuehn2011} presents normal forms for bifurcation processes that can give rise to critical transitions.  
+\citet{Lade2011} introduces the idea of generalized models for early warning signals, and
+\citet{Kuehn2011} presents normal forms for bifurcation processes that can give rise to critical transitions.
 \citet{Carpenter2011e} and \citet{Dakos2011a} start by assuming the dynamics obey a generic
-stochastic differential equation (SDE), but use this only to derive or define the summary statistics of interest.  
+stochastic differential equation (SDE), but use this only to derive or define the summary statistics of interest.
 
 In this section we outline how the detection of early warning signals may be thought of
 as a problem of model choice.
 We next show generic models can be constructed under the assumptions discussed above
 and estimated from the data in a maximum likelihood framework.
-We highlight the disadvantages of comparing these estimates by information criteria, 
+We highlight the disadvantages of comparing these estimates by information criteria,
 and instead introduce a simulation or bootstrapping approach rooted in~\citet{Cox1961} and~\citet{McLachlan1987} that
-characterizes the rate of missed detections and false alarms expected in the estimate. 
+characterizes the rate of missed detections and false alarms expected in the estimate.
 
 
 \subsection*{Early warning signals as model choice}
-It may be useful to think of the detection of early warning signals 
-as a problem of model choice rather than one of pattern recognition.  
+It may be useful to think of the detection of early warning signals
+as a problem of model choice rather than one of pattern recognition.
 The model choice approach attempts to frame each of the possible scenarios as structurally different equations,
 each with unknown parameters that must be estimated from the data.
 In any model choice problem, it is important to identify the goal of the exercise --
-such as the ability to generalize, to imitate reality, or to predict~\citep{Levins1966}.  
-In this case generality is more important than realism or predictive capability: 
+such as the ability to generalize, to imitate reality, or to predict~\citep{Levins1966}.
+In this case generality is more important than realism or predictive capability:
 we will write down a general model that is capable of approximating
 a wide class of models in which regime shifts are characterized by a saddle node bifurcation,
 and a second generic model that is capable of representing the behavior of such systems
-when they are not approaching a bifurcation.  
+when they are not approaching a bifurcation.
 These may be thought of as the hypothesis and null hypothesis,
 though they are in fact compound hypotheses,
-as we must first estimate the model parameters from the data.  
-In this approach it is not assumed that ``reality'' is included in the models being tested, 
-but that one of the models is a better approximation of the true dynamics than the other.  
-System whose dynamics violate the assumptions common to both models, 
-such as in the examples of ~\citet{Hastings2010} where systems exhibit sudden transitions without warning, 
-fall outside the set of cases where this approach would be valid; 
-though the inability of either model to match the system dynamics could be an indication of such a violation.  
+as we must first estimate the model parameters from the data.
+In this approach it is not assumed that ``reality'' is included in the models being tested,
+but that one of the models is a better approximation of the true dynamics than the other.
+System whose dynamics violate the assumptions common to both models,
+such as in the examples of ~\citet{Hastings2010} where systems exhibit sudden transitions without warning,
+fall outside the set of cases where this approach would be valid;
+though the inability of either model to match the system dynamics could be an indication of such a violation.
 
 
 \subsection*{Models}
@@ -253,41 +256,41 @@ The normal form~\citep{Guckenheimer1983, Kuehn2011} for the saddle-node bifurcat
 \frac{\ud x}{\ud t} = r_t- x^2.
 \label{saddle-node}
 \end{equation}
-where $x$ is the state variable and $r_t$ our bifurcation parameter, 
-which may be slowly varying in time and 
-consequently moving the system closer to a critical transition or regime shift~\citep{Scheffer2009}.  
+where $x$ is the state variable and $r_t$ our bifurcation parameter,
+which may be slowly varying in time and
+consequently moving the system closer to a critical transition or regime shift~\citep{Scheffer2009}.
 Transforming this canonical form to allow for an arbitrary mean $\theta$,
 the bifurcation looks like \( dx/dt = r_t- (\theta-x)^2 \), with fixed point \(\hat x = \sqrt{r_t} +\theta =: \phi(r_t)\).
-We expand around the fixed point and express in terms of the stochastic dynamics: 
+We expand around the fixed point and express in terms of the stochastic dynamics:
 
 \begin{equation}
 \ud X = \sqrt{ r_t } (\phi(r_t) - X_t)\ud t + \sigma\sqrt{\phi(r_t) } \ud B_t. \label{LSN}
 \end{equation}
 
 
-%It is also possible to derive this same expression from the master equation 
+%It is also possible to derive this same expression from the master equation
 %of various stochastic birth/death (or gains \& losses) models
-%that contain saddle-node bifurcations, as we show in the appendix.  
-%Alternate dynamical forms are possible but will not differ substantially.  
+%that contain saddle-node bifurcations, as we show in the appendix.
+%Alternate dynamical forms are possible but will not differ substantially.
 
 As we discuss above, in this paradigm we must include an assumption on how the bifurcation parameter, $r_t$, is changing.
-We assume a gradual, monotonic change which we approximate to first order: 
+We assume a gradual, monotonic change which we approximate to first order:
 \begin{equation}
 r_t = r_0 - m t.
 \label{R_t}
 \end{equation}
 Detecting accelerating or otherwise nonlinear approaches to the bifurcation will generally require more power.
-When the system is stable, $r_t$ is constant and Equation~\eqref{LSN} will reduce to a simple Ornstein-Uhlenbeck process, 
+When the system is stable, $r_t$ is constant and Equation~\eqref{LSN} will reduce to a simple Ornstein-Uhlenbeck process,
 \begin{equation}
 \ud X_t = r (\theta - X_t) \ud t + \sigma \ud B_t \label{OU}
 \end{equation}
-This is the continuous time analog of the first-order autoregressive model considered as a null model elsewhere~\citep[\emph{e.g.}][]{Dakos2008, Guttal2008a}. 
+This is the continuous time analog of the first-order autoregressive model considered as a null model elsewhere~\citep[\emph{e.g.}][]{Dakos2008, Guttal2008a}.
 
 
 
 
 \subsection*{Likelihood calculations}
-The probability \(P(X|M) \) of the data \(X\) given the model \(M\) is the product of the probability of observing each point in the time series given the previous point and the length of the interval,  
+The probability \(P(X|M) \) of the data \(X\) given the model \(M\) is the product of the probability of observing each point in the time series given the previous point and the length of the interval,
 \begin{equation}
 \log P(X | M)=  \sum_i \log P(x_i | x_{i-1}, t_i)
 \end{equation}
@@ -296,11 +299,11 @@ For~\eqref{LSN} or~\eqref{OU} it is sufficient~\citep{Gardiner2009} to solve the
 
 \begin{align}
  \frac{\ud }{\ud t} E(x| M)&=  f(x) \\
-\frac{\ud}{\ud t} V(x| M) &=  -\partial_x f(x) V(x|M) + g(x)^2 
+\frac{\ud}{\ud t} V(x| M) &=  -\partial_x f(x) V(x|M) + g(x)^2
   \label{general_moments}
 \end{align}
 
-For the OU process, we can solve this in closed form over an interval of time $t_i$ between subsequent observations: 
+For the OU process, we can solve this in closed form over an interval of time $t_i$ between subsequent observations:
 
 \begin{align}
   E(x_i| M = \text{OU}) &= X_{i-1} e^{-r t_i} + \theta \left(1 - e^{-rt_i} \right) \\
@@ -317,87 +320,87 @@ The moments of Equation~\eqref{LSN} are given by
 \label{LSNsoln}
 \end{align}
 
-These are numerically integrated using \texttt{lsoda} routine available in \texttt{R} for the likelihood calculation.  
+These are numerically integrated using \texttt{lsoda} routine available in \texttt{R} for the likelihood calculation.
 
 \subsection*{Comparing Models}
 Likelihood methods form the basis of much of modern statistics
-in both Frequentist and Bayesian paradigms.  
+in both Frequentist and Bayesian paradigms.
 The ability evaluate likelihoods directly by computation has made it
 possible to treat cases that do not conform to traditional assumptions more directly.
-The basis of likelihood comparisons has its roots in the Neyman-Pearson Lemma, 
+The basis of likelihood comparisons has its roots in the Neyman-Pearson Lemma,
 which essentially asserts that comparing likelihoods is the most powerful test
 of a choice between two hypotheses~\citep{Neyman1933}, and motivates
 tests from the simple likelihood ratio test up through modern model adequacy methods.
 
-The hypotheses considered here are more challenging then the original lemma provides for, 
+The hypotheses considered here are more challenging then the original lemma provides for,
 as they are composite in nature:
 they specify two model forms (stable and changing stability)
 but with model parameters that must be first estimated from the data.
 Comparing models whose parameters have been estimated by maximum likelihood is first treated by~\citet{Cox1961, Cox1962},
-and has since been developed in this simulation estimation of the null distribution~\citep{McLachlan1987}, by parametric bootstrap estimate~\citep{Efron1987}.  
-Cox's $\delta$ statistic (often called the deviance between models) 
+and has since been developed in this simulation estimation of the null distribution~\citep{McLachlan1987}, by parametric bootstrap estimate~\citep{Efron1987}.
+Cox's $\delta$ statistic (often called the deviance between models)
 is simply the difference between the log likelihoods of these maximum likelihood estimates, defined as follows.
 
-Let $L_0$ be the likelihood function for model 0, 
-let $\theta_0 = \arg \max \theta_0 \in \Omega_0$, ($L_0 (\theta_0 |X)$) 
-be the maximum likelihood estimator for $\theta_0$ given $X$, and let $L_0 = L_0 (\theta_0 |X)$; 
-and define $L_1$, $\theta_1$, $L_1$ similarly for model 1. 
-The statistic we will use is $\delta$, 
+Let $L_0$ be the likelihood function for model 0,
+let $\theta_0 = \arg \max \theta_0 \in \Omega_0$, ($L_0 (\theta_0 |X)$)
+be the maximum likelihood estimator for $\theta_0$ given $X$, and let $L_0 = L_0 (\theta_0 |X)$;
+and define $L_1$, $\theta_1$, $L_1$ similarly for model 1.
+The statistic we will use is $\delta$,
 defined to be twice the difference in log likelihood of observing the data under the two MLE models,
 \begin{equation}\label{delta}
 \delta = -2 (\log L_0 - \log L_1 ).
 \end{equation}
-This approach has been applied to the problem of model adequacy~\citep{Goldman1993} 
-and model choice~\citep{Huelsenbeck1996} in other contexts.  
-We have extended the approach by generating the test distribution 
-as well as a null distribution of the statistic $\delta$ in order to compute ROC curves.  
+This approach has been applied to the problem of model adequacy~\citep{Goldman1993}
+and model choice~\citep{Huelsenbeck1996} in other contexts.
+We have extended the approach by generating the test distribution
+as well as a null distribution of the statistic $\delta$ in order to compute ROC curves.
 %Our results show that $\delta$ tends to result in lower error rates than $\tau$,
-%a measure of increase in a summary statistic.  
+%a measure of increase in a summary statistic.
 
 
 %
 
 \subsection*{Information criteria will not serve.}
-One will commonly observe models representing alternative processes being compared through 
-the use of various information criteria such as the Akaike information criterion.  
-While tempting to apply in this situation, such approaches are not suited to this problem for several reasons.  
+One will commonly observe models representing alternative processes being compared through
+the use of various information criteria such as the Akaike information criterion.
+While tempting to apply in this situation, such approaches are not suited to this problem for several reasons.
 The first is that information criteria are not concerned with the model choice objective we have in mind,
-as they are typically applied to find an adequate model description without too many parameters that the system may be over-fit.  
+as they are typically applied to find an adequate model description without too many parameters that the system may be over-fit.
 More pointedly, information criteria have no inherent notion of uncertainty.
-Information criteria tests alone will not tell us our chances of a false alarm, of missing a real signal, 
-or how much data we need to be confident in our ability to detect transitions.   
+Information criteria tests alone will not tell us our chances of a false alarm, of missing a real signal,
+or how much data we need to be confident in our ability to detect transitions.
 
 \subsection*{Beyond hypothesis testing}
-It is possible to frame the question of sensitivity, reliability, and adequate data in the language of hypothesis testing. 
-This introduces a nuisance parameter known as the statistical significance criterion.  
-In the hypothesis testing framework, a false positive is a Type I error, 
-which is defined relative to this arbitrary statistical significance criterion, most commonly 0.05.  
-By changing the criterion, one can increase or decrease the probability of the Type I error 
-at the cost of decreasing or increasing false negative or Type II error, which must also be defined relative to this criterion.  
+It is possible to frame the question of sensitivity, reliability, and adequate data in the language of hypothesis testing.
+This introduces a nuisance parameter known as the statistical significance criterion.
+In the hypothesis testing framework, a false positive is a Type I error,
+which is defined relative to this arbitrary statistical significance criterion, most commonly 0.05.
+By changing the criterion, one can increase or decrease the probability of the Type I error
+at the cost of decreasing or increasing false negative or Type II error, which must also be defined relative to this criterion.
 
-The language of hypothesis testing is built around a bias that false positives are worse than false negatives, 
-and consequently an emphasis on $p$-values rather than power.  
-In the context of early warning signals this is perilous -- 
+The language of hypothesis testing is built around a bias that false positives are worse than false negatives,
+and consequently an emphasis on $p$-values rather than power.
+In the context of early warning signals this is perilous --
 it suggests that we would rather fail to predict a catastrophe than to sound a false alarm.
 
-To avoid this linguistic bias and the introduction of an nuisance parameter on which to define statistical significance, 
+To avoid this linguistic bias and the introduction of an nuisance parameter on which to define statistical significance,
 we propose the use of receiver operating characteristic (ROC) curves.
 
 \subsection*{ROC Curves}
-We illustrate the trade-off between false alarms and failed detection using 
-receiver-operating characteristic curves first developed in signal-processing literature~\citep{Green1989, Keller2009}⁠. 
+We illustrate the trade-off between false alarms and failed detection using
+receiver-operating characteristic curves first developed in signal-processing literature~\citep{Green1989, Keller2009}⁠.
 The curves represent the corresponding false alarm rate at any detection sensitivity (true positive rate), Fig~\ref{fig:roc_intro}.
-The closer these distributions are to one-another, the more severe the trade-off.  
-If the distributions overlap exactly, the ROC curve has a constant slope of unity.  
-The ROC curve demonstrates this trade-off between accuracy and sensitivity.  
+The closer these distributions are to one-another, the more severe the trade-off.
+If the distributions overlap exactly, the ROC curve has a constant slope of unity.
+The ROC curve demonstrates this trade-off between accuracy and sensitivity.
 Different early-warning indicators will vary in their sensitivity to detect differences
 between stable systems and those approaching a critical transition,
-making the ROC curves a natural way to compare their performance.  
+making the ROC curves a natural way to compare their performance.
 Since the shape of the curve will also depend on the duration and frequency of the time-series observations,
-we can use these curves to illustrate by how much a given increase in sampling effort can decrease the rate of false alarms or failed detections.  
+we can use these curves to illustrate by how much a given increase in sampling effort can decrease the rate of false alarms or failed detections.
 %The area under the ROC curve provides a summary of how well the method compares to a random guess --
 %an area of 0.5 corresponding to perfectly overlapping distributions is performing no better than chance,
-%while a statistic with area of unity always distinguishes correctly between stable systems and those approaching a transition. 
+%while a statistic with area of unity always distinguishes correctly between stable systems and those approaching a transition.
 
 
 \begin{figure}
@@ -413,62 +416,62 @@ we can use these curves to illustrate by how much a given increase in sampling e
 
 
 \section{Example Results}
-We illustrate this approach on simulated data as well as several natural time-series that have been previously analyzed for early warning signals.  
+We illustrate this approach on simulated data as well as several natural time-series that have been previously analyzed for early warning signals.
 
 \subsection*{Data}
 The simulation implements an individual, continuous-time stochastic birth-death process with rates given by the master equation,
 
 \begin{align}
-    P(n,t) &= b_{n-1} p_{n-1} + d_{n+1}p_{n+1} - (b_n+d_n)p_n  \label{master} \\ 
-    b_n &= \frac{e K x^2}{X^2 + h_t^2} \\ 
-    d_n &= e X_t + a_t   
+    P(n,t) &= b_{n-1} p_{n-1} + d_{n+1}p_{n+1} - (b_n+d_n)p_n  \label{master} \\
+    b_n &= \frac{e K x^2}{X^2 + h_t^2} \\
+    d_n &= e X_t + a_t
 \end{align}
 
-This corresponds to the well-studied ecosystem model of over-exploitation~\citep{Noy-Meir1975, May1977}, 
-with stochasticity introduced from directly through the demographic process.   
+This corresponds to the well-studied ecosystem model of over-exploitation~\citep{Noy-Meir1975, May1977},
+with stochasticity introduced from directly through the demographic process.
 This model is forced through a bifurcation by gradually increasing the $a$ parameter,
 which increases can be thought of as an increasing toxicity of the environment
-(from $a_0 = 100$ increasing at constant rate of 0.09 units/unit time).  
-Other parameters are: $Xo = 730$, $e = 0.5$, $K = 1000$, $h = 200$.  
-We run this model over a time interval from 0 to 500.  
+(from $a_0 = 100$ increasing at constant rate of 0.09 units/unit time).
+Other parameters are: $Xo = 730$, $e = 0.5$, $K = 1000$, $h = 200$.
+We run this model over a time interval from 0 to 500.
 and sample at 40 evenly spaced time points, which were used for subsequent analysis.
 We refer to this as the simulation under a degrading environment.
-We repeat this simulation with constant value of $a$, and which we refer to as the simulation in a stable environment.  
-For the convenience of the inquisitive reader, we have also provided a simple function in the 
-associated R package where the user can vary the sampling scheme and parameter values and rerun this analysis.  
+We repeat this simulation with constant value of $a$, and which we refer to as the simulation in a stable environment.
+For the convenience of the inquisitive reader, we have also provided a simple function in the
+associated R package where the user can vary the sampling scheme and parameter values and rerun this analysis.
 
-The first empirical data set comes from the population dynamics of 
-\emph{Daphnia} living in the chemostat ``H6'' in the experiments of Drake \& Griffen~\citep{Drake2010}. 
-This individual replicate was chosen as an example that showed 
+The first empirical data set comes from the population dynamics of
+\emph{Daphnia} living in the chemostat ``H6'' in the experiments of Drake \& Griffen~\citep{Drake2010}.
+This individual replicate was chosen as an example that showed
 a pattern of increasing variance over the 16 data points where the system was being manipulated towards a crash.
-All data and code for simulations and analysis are found in the accompanying R package, \verb|warningsignals|.  
+All data and code for simulations and analysis are found in the accompanying R package, \verb|warningsignals|.
 
-Our second empirical data set comes from the glaciation record seen in deuterium levels in Antarctic ice cores~\citep{Petit1999}, 
+Our second empirical data set comes from the glaciation record seen in deuterium levels in Antarctic ice cores~\citep{Petit1999},
 as analyzed by~\citet{Dakos2008}.
-The data is preprocessed by linear interpolation and de-trending by Gaussian kernel smoothing 
+The data is preprocessed by linear interpolation and de-trending by Gaussian kernel smoothing
 to be as consistent as possible with the original analysis.
-We focus on the third glaciation event, consisting of 121 sample points. 
+We focus on the third glaciation event, consisting of 121 sample points.
 The match is not exact since estimates the de-trending window size manually,
-but the estimated correlations in the first-order auto-regression coefficients are in close agreement with that analysis. 
-De-trending is intended to make the data consistent with the assumptions of the warning signal detection~\citep{Dakos2008}, 
-which did not apply to the other data sets~\citep{Drake2010}.  
+but the estimated correlations in the first-order auto-regression coefficients are in close agreement with that analysis.
+De-trending is intended to make the data consistent with the assumptions of the warning signal detection~\citep{Dakos2008},
+which did not apply to the other data sets~\citep{Drake2010}.
 
 \subsection*{Analysis}
 We perform the identical analysis procedure described above on each of these three data sets.
 First, we estimate parameters for the null and test model to each data set by maximum likelihood.
 Comparing the likelihood of these fits directly gives us only a minimal indication of which model fits better --
 the deviances $\delta$, Eqn~\eqref{delta} -- are 5.1, 6.0, 83.9 respectively for the simulation,
-the chemostat data and the glaciation data. 
+the chemostat data and the glaciation data.
 The size of these differences reflects not only the magnitude of the difference in fit
 between the models but also the arbitrary units of the raw likelihoods,
-which are smaller for larger data-sets.  
-Consequently the glaciation score reflects as much the greater length of its time series as it does anything else.  
+which are smaller for larger data-sets.
+Consequently the glaciation score reflects as much the greater length of its time series as it does anything else.
 
 To identify if these differences are significant,
 and by what probability they could arise as a false alarm or a missed event,
 we simulate 500 replicate time series from each estimated model,
 as visualized in the middle panel of each data set,
-Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation}. 
+Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation}.
 
  \begin{figure}
    \begin{center}
@@ -495,25 +498,25 @@ Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation}.
  \end{figure}
 
 
-The model parameters of both models are re-estimated on both families of replicates 
-(the null and test, \emph{i.e.} $2 \times 2 \times 500$ fits). 
-The differences in the likelihood values between the model estimates produced from the first set of simulations 
-determines the null distribution for the deviance statistic $\delta$.  
+The model parameters of both models are re-estimated on both families of replicates
+(the null and test, \emph{i.e.} $2 \times 2 \times 500$ fits).
+The differences in the likelihood values between the model estimates produced from the first set of simulations
+determines the null distribution for the deviance statistic $\delta$.
 As the constant OU process model is nested within the time-heterogeneous model, these values are always positive,
-but tend to be not as large as those produced when the models are fit to the second family of data. 
-These two distributions are shown in the lower panel of 
-Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation}, 
+but tend to be not as large as those produced when the models are fit to the second family of data.
+These two distributions are shown in the lower panel of
+Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation},
 along with the deviance observed in the original data (vertical line).
 
-The extent to which these distributions overlap indicates our inability to distinguish between these scenarios.  
-The tendency of the observed deviance (vertical line) to fall more clearly in the domain of one distribution or the other 
-indicates the probability our observed data corresponds best with that model  -- 
-either approaching a critical transition or remaining stable.  
-While it trivial to assign a statistical significance to this observation based 
-on how far into the tail of the (red) null distribution it falls, 
-for the reasons we discussed we prefer the more symmetric comparison of the probability that 
-this value was observed in either distribution.  
-We visualize the trade-off between false alarms and failed detection using the ROC curves introduced above.  
+The extent to which these distributions overlap indicates our inability to distinguish between these scenarios.
+The tendency of the observed deviance (vertical line) to fall more clearly in the domain of one distribution or the other
+indicates the probability our observed data corresponds best with that model  --
+either approaching a critical transition or remaining stable.
+While it trivial to assign a statistical significance to this observation based
+on how far into the tail of the (red) null distribution it falls,
+for the reasons we discussed we prefer the more symmetric comparison of the probability that
+this value was observed in either distribution.
+We visualize the trade-off between false alarms and failed detection using the ROC curves introduced above.
 
 Because ROC curves compare areas under the probability distributions they can always be presented on a uniform 0-1 axis
 for both true positives and false positives, allowing us to overlay the curves from different data on the same plot,
@@ -528,16 +531,16 @@ Figure~\ref{fig:rocdata}.
  \end{figure}
 
 
-%%%%%%%%%%%%%% 
-\section{Comparing the performance of summary statistics and model-based approaches}  
+%%%%%%%%%%%%%%
+\section{Comparing the performance of summary statistics and model-based approaches}
 Due to the variety of ways in which early warning signals based on summary statistics are implemented and evaluated
 it is difficult to give a straight-forward comparison between them and the performance of this model-based approach.
 However, by adopting one of one of the quantitative measures of a warning signal pattern,
-such as Kendall's $\tau$~\citep{Dakos2008, Dakos2011, Dakos2009}, 
+such as Kendall's $\tau$~\citep{Dakos2008, Dakos2011, Dakos2009},
 we are able to make a side-by-side comparison of the different summary statistics and the model based approach in the
-context of false alarms and failed detections shown by the ROC curve.  
-Values of $\tau$ near unity indicate a strongly increasing trend in the warning indicator, 
-which is supposed to be indicative of an approaching transition.  
+context of false alarms and failed detections shown by the ROC curve.
+Values of $\tau$ near unity indicate a strongly increasing trend in the warning indicator,
+which is supposed to be indicative of an approaching transition.
 Values near zero suggest a lack of a trend, as expected in stable systems.
 
 \begin{figure}
@@ -549,14 +552,14 @@ Values near zero suggest a lack of a trend, as expected in stable systems.
  \end{figure}
 
 
-Figure~\ref{fig:summary_stats} shows the time series for each data set in columns 
-and the early warning indicators  of variance and autocorrelation 
-computed over a sliding window for each.  
-Kendall's correlation coefficient $\tau$ is calculated for each warning indicator and displayed on the graphs, inset.  
-For comparison, the left-most column includes data simulated under a stable system, 
+Figure~\ref{fig:summary_stats} shows the time series for each data set in columns
+and the early warning indicators  of variance and autocorrelation
+computed over a sliding window for each.
+Kendall's correlation coefficient $\tau$ is calculated for each warning indicator and displayed on the graphs, inset.
+For comparison, the left-most column includes data simulated under a stable system,
 which nevertheless shows a chance increasing autocorrelation with a $\tau=0.7$
-We can adapt the approach we have described above to determine how often such a strong increase would appear 
-by chance in a stable system as follows.  
+We can adapt the approach we have described above to determine how often such a strong increase would appear
+by chance in a stable system as follows.
 
  \begin{figure}
    \begin{center}
@@ -570,12 +573,12 @@ by chance in a stable system as follows.
 
 By estimating the stable and critical transition models from the data,
 and simulate 500 replicate data sets under each as in the analysis above,
-we can then calculate the warning signals statistic over a sliding window 
+we can then calculate the warning signals statistic over a sliding window
 of size equal to one-half the length of the time series,
-and compute the correlation coefficient $\tau$ measuring the degree to which the statistic shows an increasing trend.   
-This results in a distribution of $\tau$ values coming from a model of a stable system, 
-and a corresponding distribution of $\tau$ values coming from the model with an impending transition.  
-These distributions are shown in Figure~\ref{fig:summary_box}.  
+and compute the correlation coefficient $\tau$ measuring the degree to which the statistic shows an increasing trend.
+This results in a distribution of $\tau$ values coming from a model of a stable system,
+and a corresponding distribution of $\tau$ values coming from the model with an impending transition.
+These distributions are shown in Figure~\ref{fig:summary_box}.
 
 
 
@@ -589,9 +592,9 @@ These distributions are shown in Figure~\ref{fig:summary_box}.
 
 
 
- The ROC curves for these data (Fig.~\ref{fig:summary_roc}) show that the summary-statistic based indicators 
-frequently lack the sensitivity to distinguish reliably between observed patterns from a stable or unstable system. 
-The large correlations observed in the empirical examples (Fig.~\ref{fig:summary_stats}) are not uncommon in stable systems. 
+ The ROC curves for these data (Fig.~\ref{fig:summary_roc}) show that the summary-statistic based indicators
+frequently lack the sensitivity to distinguish reliably between observed patterns from a stable or unstable system.
+The large correlations observed in the empirical examples (Fig.~\ref{fig:summary_stats}) are not uncommon in stable systems.
 For instance, we can read from the curve what fraction of true positives would be detected by a variance-based indicator
 set to a 5\% false positive rate:
 25\% in the simulated set,
@@ -600,11 +603,11 @@ and 5.4\% in the Glaciation data set.
 Compare this to likelihood: 61\%, 34\%, and 100\% of the replicate true positives
 would be correctly identified from the respective systems.
 The value of the ROC curve is that we need not restrict the analysis to a pre-specified error such as 5\%,
-as we would in classical hypothesis testing.  
-We could instead decide that we wanted no less than 90\% of the true-positives,
-and read off the corresponding false positives.  
-For variance this corresponds respectively to a 49\%, 81\%, and 93\% false positive rate, respectively,
-while for likelihood this gives us respectivel 55\%, 35\%, and 0\% false positives.
+as we would in classical hypothesis testing.
+We could instead decide that we wanted not to catch no less than 90\% of the true-positives,
+and read off the corresponding false positives.
+For variance this corresponds respectively to a 49\%, 81\%, and 93\% false positive rate,
+while for likelihood a 55\%, 35\%, 0\% false positive.
 
 
 
@@ -613,63 +616,63 @@ while for likelihood this gives us respectivel 55\%, 35\%, and 0\% false positiv
 
 % \cb{This section used to discuss the increased data sampling version, now removed}
 %A pressing question in the application of early warning signals is quantifying
-%when the data are sufficient for detection to be reliable~\citep{Scheffer2009, Scheffer2010, Inman2011}. 
+%when the data are sufficient for detection to be reliable~\citep{Scheffer2009, Scheffer2010, Inman2011}.
 %Our approach provides a natural way to address this challenge by estimating the ROC curve under differing data sampling efforts
-%for each of the indicators (Fig 4). 
-%Using our generic models estimated from the original data as in Fig. 3, 
-%we generate the corresponding distributions by simulating under the models as before, 
-%but with more or less frequent sampling to illustrate how our ability to detect an approaching transition 
-%would be hampered or improved with more or less data.  
-%While all methods improve as the number of data points increase, 
-%the coefficient of variation and the variance show more substantial improvement than autocorrelation, 
+%for each of the indicators (Fig 4).
+%Using our generic models estimated from the original data as in Fig. 3,
+%we generate the corresponding distributions by simulating under the models as before,
+%but with more or less frequent sampling to illustrate how our ability to detect an approaching transition
+%would be hampered or improved with more or less data.
+%While all methods improve as the number of data points increase,
+%the coefficient of variation and the variance show more substantial improvement than autocorrelation,
 %as expected~\citep{Carpenter2011};⁠
-%skew performs little better than chance, and likelihood is consistently the most reliable and sensitive (Fig. 4). 
+%skew performs little better than chance, and likelihood is consistently the most reliable and sensitive (Fig. 4).
 
 
 
 By assuming the underlying model corresponds to a saddle-node bifurcation,
-our analysis presents a ``best-case scenario'' for both the summary statistics and the likelihood-based approach. 
-Other literature has already begun to address the additional challenges posed when the underlying 
+our analysis presents a ``best-case scenario'' for both the summary statistics and the likelihood-based approach.
+Other literature has already begun to address the additional challenges posed when the underlying
 dynamics do not correspond to these models~\citep{Hastings2010}.
-Our results illustrate that even in this best-case scenario, 
-reliable identification of warning signals from summary statistics can be difficult.  
-The extent of this difficulty becomes clear from the ROC curves of these statistics, 
+Our results illustrate that even in this best-case scenario,
+reliable identification of warning signals from summary statistics can be difficult.
+The extent of this difficulty becomes clear from the ROC curves of these statistics,
 where a 5\% false positive rate often corresponds to only a 5\% true positive rate,
-performing no better than the flip of a coin. %%%% EEEK are you really going to say that?!?! 
-By estimating the ROC curve for a given set of data, 
+performing no better than the flip of a coin. %%%% EEEK are you really going to say that?!?!
+By estimating the ROC curve for a given set of data,
 we can better avoid applying warning signals in cases of inadequate power.
 By taking advantage of the assumptions being made to write down a specific likelihood function,
-we can develop approaches that get the most information from the data available.  
+we can develop approaches that get the most information from the data available.
 
 
 %%% Model adequacy
-In any application of early warning signals, it is essential to address the question of model adequacy.  
-Our approach formalizes the assumptions about the underlying process to match the assumptions of the other warning signals.  
-As the bifurcation results from the principle eigenvalue passing through zero, 
+In any application of early warning signals, it is essential to address the question of model adequacy.
+Our approach formalizes the assumptions about the underlying process to match the assumptions of the other warning signals.
+As the bifurcation results from the principle eigenvalue passing through zero,
 the warning signal is expected in linear-order dynamics;
-estimation of the nonlinear model is less powerful and less accurate.  
-The performance of this approach in the simulated data -- which is nonlinear in its dynamics 
-and driven with non-Gaussian noise introduced by the Poisson demographic events -- 
-demonstrates the accuracy under violation of these assumptions.  
+estimation of the nonlinear model is less powerful and less accurate.
+The performance of this approach in the simulated data -- which is nonlinear in its dynamics
+and driven with non-Gaussian noise introduced by the Poisson demographic events --
+demonstrates the accuracy under violation of these assumptions.
 
 
-The conclusion is not simply that likelihood approaches are more reliable, 
+The conclusion is not simply that likelihood approaches are more reliable,
 but rather more broadly that warning signals should consider
 the inherent trade-off between sensitivity and accuracy,
-and must quantify how this trade-off depends on both the indicators used and the data available.  
+and must quantify how this trade-off depends on both the indicators used and the data available.
 The approach developed here estimates the risk of both failed detection and false alarms;
-concepts which are critical to prediction-based management.  
+concepts which are critical to prediction-based management.
 Using the methods we have outlined when designing early warning strategies for natural systems
-can ensure that data collection has adequate power to offer a reasonable chance of detection. 
+can ensure that data collection has adequate power to offer a reasonable chance of detection.
 
 
 \section{Acknowledgments}
-We would like to thank S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins for comments on the manuscript.  This research was supported by funding from NSF Grant EF 0742674 and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308. Data and code are available at: https://github.com/cboettig/warningsignals. 
+We would like to thank S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins for comments on the manuscript.  This research was supported by funding from NSF Grant EF 0742674 and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308. Data and code are available at: https://github.com/cboettig/warningsignals.
 
 
 
 
- % Computational Sciences Graduate Fellowship from the Department of Energy under grant number DE-FG02-97ER25308. 
+ % Computational Sciences Graduate Fellowship from the Department of Energy under grant number DE-FG02-97ER25308.
 \section{References}%bibliography
 \bibliography{boettiger}
 %\bibliography{~/Documents/Mendeley/bib/library}

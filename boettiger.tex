@@ -50,7 +50,6 @@ allows comparisons between different indicators,
 and estimates what data are necessary to achieve a desired error rate.
 We show these error rates can be quite severe for common indicators even under favorable assumptions,
 and illustrate how a likelihood-based indicator can improve this performance.
-
 % rewrite
 
   \end{abstract}
@@ -62,16 +61,32 @@ early warning signals \sep tipping point \sep alternative stable states \sep lik
 
 \section{Introduction}
 There is an increasing recognition of the importance of regime shifts or critical transitions at a variety of scales in ecological systems~\citep{Holling1973, Wissel1984, Scheffer2001, Scheffer2009, Drake2010, Carpenter2011}⁠.
+% broader citations -- see how this is handled by others.  
 Many important ecosystems may currently be threatened with collapse, including corals~\citep{Bellwood2004}, fisheries~\citep{Berkes2006}⁠, lakes~\citep{Carpenter2011}, and semi-arid ecosystems~\citep{Kefi2007}⁠.
 Given the potential impact of  these shifts on the sustainable delivery of ecosystem services
-and the idea that management responses would be needed either to avoid an undesirable shift or else to adapt to novel conditions,
+and the need for management to either avoid an undesirable shift or else to adapt to novel conditions,
 it is important to develop the ability to predict impending regime shifts based on early warning signs.
 
 
+A number of particular systems have demonstrated the kinds of relationships that would produce regime shifts,
+including dynamics of coral reefs~\citep{Mumby2007},
+and simple models of metapopulations with differing local population sizes~\citep{Hastings1991a}.
+In cases like these one sensible approach to understanding 
+whether a regime shift would be likely would be 
+to fit the model using either a time series or else independent estimates of parameters. 
+More generally, with a good model of the system, detail-oriented approaches could be useful~\citep{Lenton2009}. 
 
-A number of particular systems have demonstrated the kinds of relationships that would produce regime shifts, including dynamics of coral reefs (MUMBY ET AL, NATURE), and simple models of metapopulations with differing local population sizes (HASTINGS Hastings, A. (1991). Structured models of metapopulation dynamics. Biological Journal of the Linnean Society, 42, 57-71.).  In cases like these one sensible approach to understanding whether a regime shift would be likely would be to fit the model using either a time series or else independent estimates of spratters. More generally, with a good model of the system, detail-oriented approaches could be useful~\citep{Lenton2009}. 
-
-However, for many ecological systems specific models are not available and general approaches are needed~\citep{Scheffer2009} that do not depend on estimating the parameters of a known model of a specific system. This has lead to a variety of approaches based on summary statistics (REFS -- ) that look for generic signs of impending regime shifts.  Our goal here is to extend earlier work by providing much more precise estimates of the ability of different statistics to signal impending regime shifts and to develop new approaches that both are more efficient and also lay bare some of the important assumptions underlying attempts to find general warning signs of regime shifts.  We caution against paradigms that are not useful for capturing  uncertainty in
+However, for many ecological systems specific models are not available and general approaches are needed~\citep{Scheffer2009}
+that do not depend on estimating the parameters of a known model of a specific system. 
+This has lead to a variety of approaches based on summary statistics
+~\citep[\emph{e.g.}][]{Carpenter2006, Held2004, Dakos2008, Guttal2008, Biggs2009, Carpenter2011, Seekell2011}
+that look for generic signs of impending regime shifts.  
+Our goal here is to extend earlier work by providing much more precise estimates 
+of the ability of different statistics to signal impending regime shifts 
+and to develop new approaches that both are more efficient 
+and also lay bare some of the important assumptions underlying attempts 
+to find general warning signs of regime shifts.  
+We caution against paradigms that are not useful for capturing uncertainty in
 a model-selection based approach, such as information criteria.
 
 
@@ -81,13 +96,13 @@ We then illustrate how stochastic differential equation (SDE) models can be used
 to reflect the uncertainty inherent in the detection of early warning signals.
 Finally we suggest receiver-operating characteristics~\citep{Green1989, Keller2009}
 as a powerful way to illustrate the sensitivity of different data sets
-and different early warning indicators have in detecting early warning signals and use this to explore a number of examples.
+and different indicators have in detecting early warning signals and use this to explore a number of examples.
 
 
 \section{The summary statistics approach}
 Foundational work on early warning signals has operated under the often-implicit assumption
 that the system dynamics contain a saddle-node bifurcation by
-looking for patterns that are associated with kind of transition.
+looking for patterns that are associated with this kind of transition.
 Typical patterns include an increasing trend in a summary statistic such as
 variance~\citep{Carpenter2006}, autocorrelation~\citep{Held2004, Dakos2008},
 skew~\citep{Guttal2008}, spectral ratio~\citep{Biggs2009}.
@@ -98,11 +113,57 @@ We begin by enumerating several of the difficulties encountered in approaches la
 
 %%% hmm, what about all the red-herring topics, like change point analysis?  Add a discussion such as Contamin & Ellison ~\citep{Contamin2009} have about forecasting shifts, not post-hoc identification of shifts.
 
-\subsubsection*{Arbitrary windows}
-While superficially simple to use,
-the calculation of these statistics is subject to several arbitrary decisions and assumptions.
 
-A basic difficulty arises from the need to assume a time-series is ergodic
+\subsubsection*{Hidden assumptions}
+%Differing system dynamics
+%% OKAY, so this is a bit of a stretch.  
+
+The underlying assumption that the system contains a saddle-node bifurcation,
+can be easily overlooked in common summary-statistics based approaches.
+For instance, variance may increase for reasons that
+do not signal an approaching transition~\citep{Schreiber2003, Schreiber2008}.
+Alternatively, variance may not increase as a bifurcation is approached~\citep{Livina2012, Dakos2011a}.
+Some classes of sudden transitions may exhibit no warning signals~\cite{Hastings2010}.
+Like saddle-node bifurcations, transcritical bifurcations involve an eigenvalue passing through zero,
+and exhibit the patterns of critical slowing down and increased variance~\citep{Drake2010}.  
+However, transcritical bifurcations are not ``blue-sky'' transitions that have made critical transitions so worrisome --
+they are characterized by a steady approach towards the alternative stable state, 
+such as a population size gradually approaching zero.  
+While no approach will be applicable to all classes of sudden transitions,
+it is certainly still useful to have an approach that detect transitions driven by
+saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.g.}, see][]{Scheffer2001}.
+
+
+
+%Differing causes of the transition.
+Even when we can exclude or ignore such dynamics and
+restrict ourselves to systems that can support a saddle-node bifurcation,
+these approaches must further assume that a changing parameter
+has brought the system closer to the bifurcation.
+This excludes at least three alternative explanations for the transition.
+The first is that a large perturbation of the system state
+has moved the system into the alternative basin of attraction~\citep{Scheffer2001, Scheffer2001}.
+This is an exogenous forcing that does not arise from the system dynamics, so it is not the kind of event we can expect to forecast.
+(An example might be a sudden dramatic increase in fishing effort that pushes the population past a threshold.)
+The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary.~\citep{Ditlevsen2010}
+As discussed in \citet{Livina2012}, such noise induced transitions cannot be predicted through early warning signals.
+The third scenario is that the system does pass through a saddle-node bifurcation,
+but rather than gradually and monotonically approaching the critical point, the
+bifurcation parameter moves in a rapid or highly non-linear way, making the detection of any gradual trend impossible.
+
+%% Not sure if this paragraph above is necessary.
+
+% Of course the literature has always stuck carefully to these assumptions, but there has sometimes been the suggestion that the summary statistics themselves were somehow more general than this, and that framing these assumptions in explicit and precise formulae, in models, would be misleading.
+
+
+
+
+
+\subsubsection*{Arbitrary windows}
+In addition to the assumption of a saddle node bifurcation, 
+the calculation of these statistics is subject to several additional arbitrary choices.
+A basic difficulty arises from the need to assume a time-series is ergodic: 
+that averaging over time is equivalent to averaging over replicate realizations,
 while trying to test if it is not.
 Theoretically, the increasing trend in variance, autocorrelation, or other statistics
 is something that would be measured across an ensemble -- across replicates. %% citation?
@@ -114,9 +175,7 @@ varies across the literature.
 and that the different choices each carry advantages and disadvantages.
 
 In addition to introducing the challenge of selecting a window size,
-this ergodic assumption,
-that averaging over time is equivalent to averaging over replicate realizations,
-raises further difficulties.
+this ergodic assumption raises further difficulties.
 While appropriate for a system that is stationary,
 or changing slowly enough in the window that it may appear stationary,
 the assumption is at odds with the original hypothesis
@@ -140,8 +199,6 @@ while most of the literature simply forgoes quantifying the increase or estimati
 While adequate in experimental systems that can compare patterns between controls and replicates~\citep[\emph{e.g.}][]{Drake2010, Carpenter2011}
 any real-world application of these approaches must be useful on a single time-series of observations.
 In these cases a quantitative definition of a statistically significant detection is essential.
-Using Kendall's $\tau$ we will illustrate how such a quantitative measure
-can be used to better capture the uncertainty in identifying the early warning pattern.
 
 
 \subsubsection*{Problematic null models}
@@ -162,40 +219,6 @@ closer to a model-based approach with explicit assumptions.
 Others have looked for alternative summary statistics where
 reasonable null models are more readily available,
 such as~\citet{Seekell2011}'s proposal to test for conditional heteroscedaticity.
-
-\subsubsection*{Hidden assumptions}
-%Differing system dynamics
-The underlying assumption that the system contains a saddle-node bifurcation
-can be easily overlooked in common summary-statistics based approaches.
-For instance, variance may increase for reasons that
-do not signal an approaching transition~\citep{Schreiber2003, Schreiber2008}.
-Alternatively, variance may not increase as a bifurcation is approached~\citep{Livina2012, Dakos2011a}.
-Some classes of sudden transitions may exhibit no warning signals~\cite{Hastings2010}.
-While no approach will be applicable to all classes of sudden transitions,
-it is certainly still useful to have an approach that detect transitions driven by
-saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.g.}, see][]{Scheffer2001}.
-
-%Differing causes of the transition.
-Even when we can exclude or ignore such dynamics and
-restrict ourselves to systems that can support a saddle-node bifurcation,
-these approaches must further assume that a changing parameter
-has brought the system closer to the bifurcation.
-This excludes at least three alternative explanations for the transition.
-The first is that a large perturbation of the system state
-has moved the system into the alternative basin of attraction~\citep{Scheffer2001, Scheffer2001}.
-This is an exogenous forcing that does not arise from the system dynamics, so it is not the kind of event we can expect to forecast.
-(An example might be a sudden dramatic increase in fishing effort that pushes the population past a threshold.)
-The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary.~\citep{Ditlevsen2010}
-As discussed in \citet{Livina2012}, such noise induced transitions cannot be predicted through early warning signals.
-The third scenario is that the system does pass through a saddle-node bifurcation,
-but rather than gradually and monotonically approaching the critical point, the
-bifurcation parameter moves in a rapid or highly non-linear way, making the detection of any gradual trend impossible.
-
-%% Not sure if this paragraph above is necessary.
-
-% Of course the literature has always stuck carefully to these assumptions, but there has sometimes been the suggestion that the summary statistics themselves were somehow more general than this, and that framing these assumptions in explicit and precise formulae, in models, would be misleading.
-
-
 
 \subsubsection*{Summary-statistic approaches have less statistical power.}
 Methods for the detection of early warning signals are continually challenged by inadequate data~\citep{Inman2011, Scheffer2010,Held2004, Dakos2008, Scheffer2009, Guttal2008, Carpenter2011, Bestelmeyer2011}.
@@ -261,13 +284,14 @@ which may be slowly varying in time and
 consequently moving the system closer to a critical transition or regime shift~\citep{Scheffer2009}.
 Transforming this canonical form to allow for an arbitrary mean $\theta$,
 the bifurcation looks like \( dx/dt = r_t- (\theta-x)^2 \), with fixed point \(\hat x = \sqrt{r_t} +\theta =: \phi(r_t)\).
-We expand around the fixed point and express in terms of the stochastic dynamics:
+We expand around the fixed point and express as a stochastic differential equation~\citep[\emph{e.g.}][]{Gardiner2009}:
 
 \begin{equation}
-\ud X = \sqrt{ r_t } (\phi(r_t) - X_t)\ud t + \sigma\sqrt{\phi(r_t) } \ud B_t. \label{LSN}
+\ud X = \sqrt{ r_t } (\phi(r_t) - X_t)\ud t + \sigma\sqrt{\phi(r_t) } \ud B_t \label{LSN}
 \end{equation}
 
-
+where $B_t$ is the standard Brownian motion. 
+This expression captures the behavior of the system near the stable point as it approaches 
 %It is also possible to derive this same expression from the master equation
 %of various stochastic birth/death (or gains \& losses) models
 %that contain saddle-node bifurcations, as we show in the appendix.
@@ -667,7 +691,10 @@ can ensure that data collection has adequate power to offer a reasonable chance 
 
 
 \section{Acknowledgments}
-We would like to thank S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins for comments on the manuscript.  This research was supported by funding from NSF Grant EF 0742674 and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308. Data and code are available at: https://github.com/cboettig/warningsignals.
+We would like to thank S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins for comments on the manuscript. 
+This research was supported by funding from NSF Grant EF 0742674 
+and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308. 
+Data and code are available at \href{https://github.com/cboettig/warningsignals}{ https://github.com/cboettig/warningsignals}.
 
 
 

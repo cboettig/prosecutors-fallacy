@@ -115,9 +115,6 @@ We begin by enumerating several of the difficulties encountered in approaches la
 
 
 \subsubsection*{Hidden assumptions}
-%Differing system dynamics
-%% OKAY, so this is a bit of a stretch.  
-
 The underlying assumption that the system contains a saddle-node bifurcation,
 can be easily overlooked in common summary-statistics based approaches.
 For instance, variance may increase for reasons that
@@ -132,8 +129,6 @@ such as a population size gradually approaching zero.
 While no approach will be applicable to all classes of sudden transitions,
 it is certainly still useful to have an approach that detect transitions driven by
 saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.g.}, see][]{Scheffer2001}.
-
-
 
 %Differing causes of the transition.
 Even when we can exclude or ignore such dynamics and
@@ -457,7 +452,7 @@ This model is forced through a bifurcation by gradually increasing the $a$ param
 which increases can be thought of as an increasing toxicity of the environment
 (from $a_0 = 100$ increasing at constant rate of 0.09 units/unit time).
 Other parameters are: $Xo = 730$, $e = 0.5$, $K = 1000$, $h = 200$.
-We run this model over a time interval from 0 to 500.
+We run this model over a time interval from 0 to 500
 and sample at 40 evenly spaced time points, which were used for subsequent analysis.
 We refer to this as the simulation under a degrading environment.
 We repeat this simulation with constant value of $a$, and which we refer to as the simulation in a stable environment.
@@ -542,9 +537,9 @@ for the reasons we discussed we prefer the more symmetric comparison of the prob
 this value was observed in either distribution.
 We visualize the trade-off between false alarms and failed detection using the ROC curves introduced above.
 
-Because ROC curves compare areas under the probability distributions they can always be presented on a uniform 0-1 axis
-for both true positives and false positives, allowing us to overlay the curves from different data on the same plot,
-Figure~\ref{fig:rocdata}.
+%Because ROC curves compare areas under the probability distributions they can always be presented on a uniform 0-1 axis
+%for both true positives and false positives, allowing us to overlay the curves from different data on the same plot,
+%Figure~\ref{fig:rocdata}.
 
  \begin{figure}
    \begin{center}

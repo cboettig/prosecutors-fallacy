@@ -372,9 +372,36 @@ defined to be twice the difference in log likelihood of observing the data under
 This approach has been applied to the problem of model adequacy~\citep{Goldman1993}
 and model choice~\citep{Huelsenbeck1996} in other contexts.
 We have extended the approach by generating the test distribution
-as well as a null distribution of the statistic $\delta$ in order to compute ROC curves.
-%Our results show that $\delta$ tends to result in lower error rates than $\tau$,
-%a measure of increase in a summary statistic.
+as well as a null distribution of the statistic $\delta$.
+
+
+\subsection{A simulation-based approach estimates the distributions}
+We perform the identical analysis procedure described above on each of these three data sets.
+First, we estimate parameters for the null and test model to each data set by maximum likelihood.
+Comparing the likelihood of these fits directly gives us only a minimal indication of which model fits better --
+
+To identify if these differences are significant,
+and by what probability they could arise as a false alarm or a missed event,
+we simulate 500 replicate time series from each estimated model,
+as visualized in the middle panel of each data set,
+Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation}.
+
+The model parameters of both models are re-estimated on both families of replicates
+(the null and test, \emph{i.e.} $2 \times 2 \times 500$ fits).
+The differences in the likelihood values between the model estimates produced from the first set of simulations
+determines the null distribution for the deviance statistic $\delta$.
+As the constant OU process model is nested within the time-heterogeneous model, these values are always positive,
+but tend to be not as large as those produced when the models are fit to the second family of data.
+
+The extent to which these distributions overlap indicates our inability to distinguish between these scenarios.
+The tendency of the observed deviance (vertical line) to fall more clearly in the domain of one distribution or the other
+indicates the probability our observed data corresponds best with that model  --
+either approaching a critical transition or remaining stable.
+While it trivial to assign a statistical significance to this observation based
+on how far into the tail of the (red) null distribution it falls,
+for the reasons we discussed we prefer the more symmetric comparison of the probability that
+this value was observed in either distribution.
+We visualize the trade-off between false alarms and failed detection using the ROC curves introduced above.
 
 
 %
@@ -401,7 +428,6 @@ The language of hypothesis testing is built around a bias that false positives a
 and consequently an emphasis on $p$-values rather than power.
 In the context of early warning signals this is perilous --
 it suggests that we would rather fail to predict a catastrophe than to sound a false alarm.
-
 To avoid this linguistic bias and the introduction of an nuisance parameter on which to define statistical significance,
 we propose the use of receiver operating characteristic (ROC) curves.
 
@@ -435,37 +461,68 @@ we can use these curves to illustrate by how much a given increase in sampling e
 
 
 \section{Example Results}
-We illustrate this approach on simulated data as well as several natural time-series that have been previously analyzed for early warning signals.
+We illustrate this approach on simulated data as well as several natural time-series that have been previously analyzed for early warning signals.  All data and code for simulations and analysis are found in the accompanying R package, \verb|warningsignals|.
+
 
 \subsection*{Data}
-The simulation implements an individual, continuous-time stochastic birth-death process with rates given by the master equation,
+The simulation implements an individual, continuous-time stochastic birth-death process with rates given by the master equation~\citep{Gardiner2009},
 
 \begin{align}
-    P(n,t) &= b_{n-1} p_{n-1} + d_{n+1}p_{n+1} - (b_n+d_n)p_n  \label{master} \\
-    b_n &= \frac{e K x^2}{X^2 + h_t^2} \\
-    d_n &= e X_t + a_t
+  \frac{dP(n,t)}{dt} &= b_{n-1} P(n-1,t) + d_{n+1}P(n+1,t) - (b_n+d_n) P(n,t)  \label{master} \\
+    b_n &= \frac{e K n^2}{n^2 + h^2} \\
+    d_n &= e n + a_t
 \end{align}
 
+where $P(n,t)$ is the probability of having $n$ individuals at time $t$, $b_n$ is the probability of a birth event occuring in a population of $n$ individuals, $d_n$ the probability of a death.  $e, K, h$ and $a_t$ are parameters.  
 This corresponds to the well-studied ecosystem model of over-exploitation~\citep{Noy-Meir1975, May1977},
-with stochasticity introduced from directly through the demographic process.
+with stochasticity introduced directly through the demographic process.
+We select this model since it is has discrete numbers of individuals, 
+nonlinear processes, and the noise is driven by Poisson process of births and deaths instead of a Gaussian, 
+and thus provides an illustration that our approach is robust to the violations of those
+assumptions in model~\eqref{LSN}. 
+
 This model is forced through a bifurcation by gradually increasing the $a$ parameter,
 which increases can be thought of as an increasing toxicity of the environment
 (from $a_0 = 100$ increasing at constant rate of 0.09 units/unit time).
 Other parameters are: $Xo = 730$, $e = 0.5$, $K = 1000$, $h = 200$.
 We run this model over a time interval from 0 to 500
 and sample at 40 evenly spaced time points, which were used for subsequent analysis.
-We refer to this as the simulation under a degrading environment.
-We repeat this simulation with constant value of $a$, and which we refer to as the simulation in a stable environment.
+This sampling frequency was chosen to be representative of reasonable sampling in biological time-series,
+and provides enough points to detect a signal while not too many that errors can be avoided entirely.  
 For the convenience of the inquisitive reader, we have also provided a simple function in the
 associated R package where the user can vary the sampling scheme and parameter values and rerun this analysis.
+This time series is shown in the top panel of Figure~\ref{fig:simulation}.
+
+
+%We refer to this as the simulation under a degrading environment.
+%We repeat this simulation with constant value of $a$, and which we refer to as the simulation in a stable environment.
+
+ \begin{figure}
+   \begin{center}
+     \includegraphics[width=.73\linewidth]{figures/Simulation_warningsignal.pdf}
+     \caption{A model-based calculation of warning signals for the simulated data example.  Top panel: The original time series data on which model parameters for Equations~\eqref{OU}~and~\eqref{LSN} are estimated. Middle panel: replicate simulations under the maximum likelihood estimated (MLE) parameters of the null model, Equation~\eqref{OU} and test model, Equation~\eqref{LSN}.  Bottom panel: The distribution of deviances (differences in log likelihood, Equation~\eqref{delta}), when both null and test models are fit to each of the replicates from the null model, ``null,'' in red, and these differences when estimating for each of the replicates from the test model, in blue.  The overlap of distributions indicate replicates that will be difficult to tell apart.  The observed differences in the original data are indicated by the vertical line.}
+     \label{fig:simulation}
+  \end{center}
+ \end{figure}
 
 The first empirical data set comes from the population dynamics of
 \emph{Daphnia} living in the chemostat ``H6'' in the experiments of Drake \& Griffen~\citep{Drake2010}.
 This individual replicate was chosen as an example that showed
 a pattern of increasing variance over the 16 data points where the system was being manipulated towards a crash.
-All data and code for simulations and analysis are found in the accompanying R package, \verb|warningsignals|.
+This time series is shown in the top panel of Figure~\ref{fig:chemostat}.
 
-Our second empirical data set comes from the glaciation record seen in deuterium levels in Antarctic ice cores~\citep{Petit1999},
+ \begin{figure}
+   \begin{center}
+     \includegraphics[width=.85\linewidth]{figures/Chemostat_warningsignal.pdf}
+     \caption{A model-based calculation of warning signals for the Daphnia data analyzed in ~\citet{Drake2010} (Chemostat H6).  
+     Panels as in Figure~\ref{fig:simulation}. }
+     \label{fig:chemostat}
+  \end{center}
+ \end{figure}
+
+
+Our second empirical data set comes from the glaciation record seen
+in deuterium levels in Antarctic ice cores~\citep{Petit1999},
 as analyzed by~\citet{Dakos2008}.
 The data is preprocessed by linear interpolation and de-trending by Gaussian kernel smoothing
 to be as consistent as possible with the original analysis.
@@ -474,68 +531,42 @@ The match is not exact since estimates the de-trending window size manually,
 but the estimated correlations in the first-order auto-regression coefficients are in close agreement with that analysis.
 De-trending is intended to make the data consistent with the assumptions of the warning signal detection~\citep{Dakos2008},
 which did not apply to the other data sets~\citep{Drake2010}.
+This time series is shown in the top panel of Figure~\ref{fig:glaciation}.
+ \begin{figure}
+   \begin{center}
+     \includegraphics[width=.85\linewidth]{figures/GlaciationIII_warningsignal.pdf}
+     \caption{A model-based calculation of warning signals for the Glaciation data analyzed in ~\citet{Dakos2008} (Glaciation III).  Panels as in Figure~\ref{fig:simulation}.}
+     \label{fig:glaciation}
+  \end{center}
+ \end{figure}
+
 
 \subsection*{Analysis}
-We perform the identical analysis procedure described above on each of these three data sets.
-First, we estimate parameters for the null and test model to each data set by maximum likelihood.
-Comparing the likelihood of these fits directly gives us only a minimal indication of which model fits better --
-the deviances $\delta$, Eqn~\eqref{delta} -- are 5.1, 6.0, 83.9 respectively for the simulation,
+The deviances $\delta$, Eqn~\eqref{delta} -- are 5.1, 6.0, 83.9 respectively for the simulation,
 the chemostat data and the glaciation data.
 The size of these differences reflects not only the magnitude of the difference in fit
 between the models but also the arbitrary units of the raw likelihoods,
 which are smaller for larger data-sets.
 Consequently the glaciation score reflects as much the greater length of its time series as it does anything else.
 
-To identify if these differences are significant,
-and by what probability they could arise as a false alarm or a missed event,
-we simulate 500 replicate time series from each estimated model,
-as visualized in the middle panel of each data set,
-Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation}.
+As described above, we simulate 500 replicates under each model, 
+shown in the middle panels of Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation},
+and determine the distributions in likelihood ratio under each, shown in the lower panels.  
+The observed deviance from the original data is also indicated (vertical line).
 
- \begin{figure}
-   \begin{center}
-     \includegraphics[width=.85\linewidth]{figures/Simulation_warningsignal.pdf}
-     \caption{A model-based calculation of warning signals for the simulated data example.}
-     \label{fig:simulation}
-  \end{center}
- \end{figure}
+The ROC curves for each of these data sets is plotted in Figure~\ref{fig:rocdata}.  
+While differences in the rate at which the system approaches a transition will also 
+improve the ratio of true positives to false positives, 
+here we see the best-sampled data set, Glaciation, with 121 points, 
+also has the clearest signal with no observed errors in the 500 replicates of each type.   
+Comparing the chemostat and simulation curves illustrate how the trade-off between
+false positives and true positives can vary between data.  The chemostat signal, 
+which estimates a relatively rapid rate of change but has less data, captures a higher
+rate of true positives for a given rate of false positives than the simulation data
+set with a weaker rate of change but more data, for false positive rates above 20\%.  
+However, the simulated set with more data performs better if lower false-positive rates
+are desired.  
 
- \begin{figure}
-   \begin{center}
-     \includegraphics[width=.85\linewidth]{figures/Chemostat_warningsignal.pdf}
-     \caption{A model-based calculation of warning signals for the Daphnia data analyzed in ~\citet{Drake2010} (Chemostat H6).}
-     \label{fig:chemostat}
-  \end{center}
- \end{figure}
-
- \begin{figure}
-   \begin{center}
-     \includegraphics[width=.85\linewidth]{figures/GlaciationIII_warningsignal.pdf}
-     \caption{A model-based calculation of warning signals for the Glaciation data analyzed in ~\citet{Dakos2008} (Glaciation III).}
-     \label{fig:glaciation}
-  \end{center}
- \end{figure}
-
-
-The model parameters of both models are re-estimated on both families of replicates
-(the null and test, \emph{i.e.} $2 \times 2 \times 500$ fits).
-The differences in the likelihood values between the model estimates produced from the first set of simulations
-determines the null distribution for the deviance statistic $\delta$.
-As the constant OU process model is nested within the time-heterogeneous model, these values are always positive,
-but tend to be not as large as those produced when the models are fit to the second family of data.
-These two distributions are shown in the lower panel of
-Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation},
-along with the deviance observed in the original data (vertical line).
-
-The extent to which these distributions overlap indicates our inability to distinguish between these scenarios.
-The tendency of the observed deviance (vertical line) to fall more clearly in the domain of one distribution or the other
-indicates the probability our observed data corresponds best with that model  --
-either approaching a critical transition or remaining stable.
-While it trivial to assign a statistical significance to this observation based
-on how far into the tail of the (red) null distribution it falls,
-for the reasons we discussed we prefer the more symmetric comparison of the probability that
-this value was observed in either distribution.
-We visualize the trade-off between false alarms and failed detection using the ROC curves introduced above.
 
 %Because ROC curves compare areas under the probability distributions they can always be presented on a uniform 0-1 axis
 %for both true positives and false positives, allowing us to overlay the curves from different data on the same plot,
@@ -544,7 +575,7 @@ We visualize the trade-off between false alarms and failed detection using the R
  \begin{figure}
    \begin{center}
      \includegraphics[width=\linewidth]{figures/rocplot.pdf}
-     \caption{ }
+     \caption{ROC curves for the Simulation, Chemostat, and Glaciation data, computed from the distributions shown in Figures~\ref{fig:simulation}, \ref{fig:chemostat} and \ref{fig:glaciation}, bottom panel.}
      \label{fig:rocdata}
   \end{center}
  \end{figure}
@@ -565,7 +596,16 @@ Values near zero suggest a lack of a trend, as expected in stable systems.
 \begin{figure}
    \begin{center}
      \includegraphics[width=\linewidth]{figures/Fig2.pdf}
-     \caption{Early warning signals in simulated and empirical data sets.  The first two columns are simulated data from (a) a stable system (Stable), and (b) the same system approaching a saddle-node bifurcation (Deteriorating).  Empirical examples are from (c) \emph{Daphnia magna} concentrations manipulated towards a critical transition (Daphnia), and (d) deuterium concentrations previously cited as an early warning signal of a glaciation period (Glaciation). Increases in summary statistics, computed over a moving window, have often been used to indicate if a system is moving towards a critical transition.  The increase is measured by the correlation coefficient $\tau$.  Note that positive correlation does not guarantee the system is moving towards a transition, as seen in the stable system, first column.}
+     \caption{Early warning signals in simulated and empirical data sets.  
+     The first two columns are simulated data from (a) a stable system (Stable), 
+     and (b) the same system approaching a saddle-node bifurcation (Deteriorating).  
+     Empirical examples are from (c) \emph{Daphnia magna} concentrations manipulated towards a critical transition (Daphnia), 
+     and (d) deuterium concentrations previously cited as an early warning signal of a glaciation period (Glaciation). 
+     Increases in summary statistics, computed over a moving window, 
+     have often been used to indicate if a system is moving towards a critical transition.  
+     The increase is measured by the correlation coefficient $\tau$.  
+     Note that positive correlation does not guarantee the system is moving towards a transition, 
+     as seen in the stable system, first column.}
      \label{fig:summary_stats}
   \end{center}
  \end{figure}
@@ -583,7 +623,7 @@ by chance in a stable system as follows.
  \begin{figure}
    \begin{center}
      \includegraphics[width=\linewidth]{figures/summary_box.pdf}
-     \caption{}
+     \caption{Box-plots of the distributions of Kendall's~$\tau$ observed for the summary statistic methods variance and autocorrelation, applied to three different data sets (from Figures~\ref{fig:simulation},~\ref{fig:chemostat}, \ref{fig:glaciation}).  The distributions show extensive overlap, suggesting that it will be difficult to distinguish early warning signals by the correlation coefficient in these summary statistics.}
      \label{fig:summary_box}
   \end{center}
  \end{figure}
@@ -598,13 +638,25 @@ and compute the correlation coefficient $\tau$ measuring the degree to which the
 This results in a distribution of $\tau$ values coming from a model of a stable system,
 and a corresponding distribution of $\tau$ values coming from the model with an impending transition.
 These distributions are shown in Figure~\ref{fig:summary_box}.
+Contrary to the expectation that replicates of the null model (stable system, Equation~\eqref{OU}) would cluster around zero, 
+while the test model, Equation~\eqref{LSN}, would cluster around larger positive $\tau$ values, 
+the observed $\tau$ values on the replicates extend evenly across the range.  
+This results in dramatic overlap and offers little ability to distinguish between the stable replicates 
+and the replicates approaching a transition. 
+
+The use of box plots in Figure~\ref{fig:summary_box} provide a convient and familiar way 
+to visualize the overlap between more than two distributions,
+though they lack the resolution of the overlapping density distributions in 
+Figures~\ref{fig:simulation},~\ref{fig:chemostat}, \ref{fig:glaciation}.  
+The overlapping distributions are the natural representation from which to introduce the ROC curve, as in Figure~\ref{fig:roc_intro}.  
+
 
 
 
  \begin{figure}
    \begin{center}
      \includegraphics[width=\linewidth]{figures/summary_roc.pdf}
-     \caption{}
+     \caption{ROC curves compare the performance of the summary statistics variance and autocorrelation against the likelihood-based approach from Figure~\ref{fig:rocdata} on each of three example data sets (Figures~\ref{fig:simulation},~\ref{fig:chemostat}, \ref{fig:glaciation}).}
      \label{fig:summary_roc}
   \end{center}
  \end{figure}
@@ -614,41 +666,47 @@ These distributions are shown in Figure~\ref{fig:summary_box}.
  The ROC curves for these data (Fig.~\ref{fig:summary_roc}) show that the summary-statistic based indicators
 frequently lack the sensitivity to distinguish reliably between observed patterns from a stable or unstable system.
 The large correlations observed in the empirical examples (Fig.~\ref{fig:summary_stats}) are not uncommon in stable systems.
-For instance, we can read from the curve what fraction of true positives would be detected by a variance-based indicator
-set to a 5\% false positive rate:
-25\% in the simulated set,
-5.0\% in the \emph{Daphnia} set,
-and 5.4\% in the Glaciation data set.
-Compare this to likelihood: 61\%, 34\%, and 100\% of the replicate true positives
-would be correctly identified from the respective systems.
-The value of the ROC curve is that we need not restrict the analysis to a pre-specified error such as 5\%,
-as we would in classical hypothesis testing.
-We could instead decide that we wanted not to catch no less than 90\% of the true-positives,
-and read off the corresponding false positives.
-For variance this corresponds respectively to a 49\%, 81\%, and 93\% false positive rate,
-while for likelihood a 55\%, 35\%, 0\% false positive.
+It is notable that in both empirical examples the summary statistics approach does little better than chance in distinguishing 
+replicates that have been simulated from models~\eqref{LSN} and ~\eqref{OU}, 
+despite the fact that these models correspond 
+to the assumptions of the summary statistics approaches.  
+On the simulated data, the varianced based method approaches the 
+true-positive rate of our likelihood method at higher levels of false positives, 
+but performs worse when the desired level of false postives is low.  
+The ROC curve helps us compare the performance of the different approaches at different tolerances.  
+For instance, Table~\ref{tab:falsepos} shows the fraction of true crashes caught at a 5\% false positive rate.
+We can instead set a desired True positive rate and read off the resulting number of false alarms, Table~\ref{tab:truepos}.  
 
+\begin{table}
+  \begin{center}
+    \begin{tabular}{l|l|l}
+                  &  Variance & Likelihood \\ 
+      \hline
+      Simulation  & 25 \%     & 61\% \\
+      Chemostat   & 5.0\%     & 34\% \\
+      Glaciation  & 5.4\%     & 100\% 
+    \end{tabular}
+    \caption{Fraction of \emph{crashes detected} when the desired false alarm rate is fixed to 5\%}
+    \label{tab:falsepos}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{l|l|l}
+                  &  Variance & Likelihood \\ 
+      \hline
+      Simulation  & 49 \%     & 55\% \\
+      Chemostat   & 81 \%     & 35\% \\
+      Glaciation  & 93 \%     & 0\% 
+    \end{tabular}
+    \caption{Fraction of \emph{false alarms} when the desired detection rate is fixed to 90\%}
+    \label{tab:truepos}
+  \end{center}
+\end{table}
 
 
 \section{Discussion}
-
-
-% \cb{This section used to discuss the increased data sampling version, now removed}
-%A pressing question in the application of early warning signals is quantifying
-%when the data are sufficient for detection to be reliable~\citep{Scheffer2009, Scheffer2010, Inman2011}.
-%Our approach provides a natural way to address this challenge by estimating the ROC curve under differing data sampling efforts
-%for each of the indicators (Fig 4).
-%Using our generic models estimated from the original data as in Fig. 3,
-%we generate the corresponding distributions by simulating under the models as before,
-%but with more or less frequent sampling to illustrate how our ability to detect an approaching transition
-%would be hampered or improved with more or less data.
-%While all methods improve as the number of data points increase,
-%the coefficient of variation and the variance show more substantial improvement than autocorrelation,
-%as expected~\citep{Carpenter2011};⁠
-%skew performs little better than chance, and likelihood is consistently the most reliable and sensitive (Fig. 4).
-
-
-
 By assuming the underlying model corresponds to a saddle-node bifurcation,
 our analysis presents a ``best-case scenario'' for both the summary statistics and the likelihood-based approach.
 Other literature has already begun to address the additional challenges posed when the underlying

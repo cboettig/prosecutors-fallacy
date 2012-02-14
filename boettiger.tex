@@ -86,15 +86,14 @@ of the ability of different statistics to signal impending regime shifts
 and to develop new approaches that both are more efficient 
 and also lay bare some of the important assumptions underlying attempts 
 to find general warning signs of regime shifts.  
-We caution against paradigms that are not useful for capturing uncertainty in
-a model-selection based approach, such as information criteria.
 
 
 We begin our approach by first discussing the limitations of current approaches that rely on summary statistics
 and provide a clear description of assumptions through the introduction of a model based approach to detect early warning signals.
 We then illustrate how stochastic differential equation (SDE) models can be used
-to reflect the uncertainty inherent in the detection of early warning signals.
-Finally we suggest receiver-operating characteristics~\citep{Green1989, Keller2009}
+to reflect the uncertainty inherent in the detection of early warning signals. We caution against paradigms that are not useful for capturing uncertainty in
+a model-selection based approach, such as information criteria.
+Finally we use receiver-operating characteristics~\citep{Green1989, Keller2009}
 as a powerful way to illustrate the sensitivity of different data sets
 and different indicators have in detecting early warning signals and use this to explore a number of examples.
 
@@ -106,7 +105,7 @@ looking for patterns that are associated with this kind of transition.
 Typical patterns include an increasing trend in a summary statistic such as
 variance~\citep{Carpenter2006}, autocorrelation~\citep{Held2004, Dakos2008},
 skew~\citep{Guttal2008}, spectral ratio~\citep{Biggs2009}.
-While attractive for their simplicity, such approaches are subject to numerous challenges.
+While attractive for their simplicity, such approaches must confront numerous challenges.
 In this paper we argue for a model-based approach,
 and describe how this can be done in a way that best addresses these difficulties.
 We begin by enumerating several of the difficulties encountered in approaches lacking an explicit model.
@@ -115,7 +114,7 @@ We begin by enumerating several of the difficulties encountered in approaches la
 
 
 \subsubsection*{Hidden assumptions}
-The underlying assumption that the system contains a saddle-node bifurcation,
+The underlying assumption that the system contains a saddle-node bifurcation
 can be easily overlooked in common summary-statistics based approaches.
 For instance, variance may increase for reasons that
 do not signal an approaching transition~\citep{Schreiber2003, Schreiber2008}.
@@ -131,16 +130,16 @@ it is certainly still useful to have an approach that detect transitions driven 
 saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.g.}, see][]{Scheffer2001}.
 
 %Differing causes of the transition.
-Even when we can exclude or ignore such dynamics and
-restrict ourselves to systems that can support a saddle-node bifurcation,
-these approaches must further assume that a changing parameter
+Even when we can exclude or ignore other dynamics and
+restrict ourselves to systems that can produce a saddle-node bifurcation,
+ approaches based on critical slowing down or rising variance (REFS) must further assume that a changing parameter
 has brought the system closer to the bifurcation.
-This excludes at least three alternative explanations for the transition.
-The first is that a large perturbation of the system state
+This assumption excludes at least three alternative explanations for the transition.
+The first possibility is that a large perturbation of the system state
 has moved the system into the alternative basin of attraction~\citep{Scheffer2001, Scheffer2001}.
 This is an exogenous forcing that does not arise from the system dynamics, so it is not the kind of event we can expect to forecast.
 (An example might be a sudden dramatic increase in fishing effort that pushes the population past a threshold.)
-The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary.~\citep{Ditlevsen2010}
+The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary~\citep{Ditlevsen2010}.
 As discussed in \citet{Livina2012}, such noise induced transitions cannot be predicted through early warning signals.
 The third scenario is that the system does pass through a saddle-node bifurcation,
 but rather than gradually and monotonically approaching the critical point, the
@@ -156,7 +155,7 @@ bifurcation parameter moves in a rapid or highly non-linear way, making the dete
 
 \subsubsection*{Arbitrary windows}
 In addition to the assumption of a saddle node bifurcation, 
-the calculation of these statistics is subject to several additional arbitrary choices.
+the calculation of statistics that would be used to detect an impending transition is subject to several additional arbitrary choices.
 A basic difficulty arises from the need to assume a time-series is ergodic: 
 that averaging over time is equivalent to averaging over replicate realizations,
 while trying to test if it is not.
@@ -176,7 +175,7 @@ or changing slowly enough in the window that it may appear stationary,
 the assumption is at odds with the original hypothesis
 that the system is approaching a saddle-node bifurcation.
 
-Further, certain statistics such as the critical slowing down measured in autocorrelation
+Further, certain statistics such as the critical slowing down measured by autocorrelation
 require data that is evenly sampled in time.
 Interpolating from existing data to create evenly spaced points is particularly problematic,
 as this introduces an artificial autocorrelation into the data.
@@ -227,7 +226,7 @@ Such likelihood calculations require a model-based approach.
 
 
 \section{A model based approach}
-Model-based approaches are beginning to play a larger role in early warning signals,
+Model-based approaches are beginning to play a larger role in early warning signal detection,
 though we have not as yet seen the direct fitting and simulation of models to compare hypotheses.
 While choosing appropriate models without system-specific knowledge is challenging,
 much can be accomplished by framing the implicit assumptions into equations.
@@ -277,7 +276,7 @@ The normal form~\citep{Guckenheimer1983, Kuehn2011} for the saddle-node bifurcat
 where $x$ is the state variable and $r_t$ our bifurcation parameter,
 which may be slowly varying in time and
 consequently moving the system closer to a critical transition or regime shift~\citep{Scheffer2009}.
-Transforming this canonical form to allow for an arbitrary mean $\theta$,
+Transforming this canonical form to allow for an arbitrary mean in the state variable $\theta$,
 the bifurcation looks like \( dx/dt = r_t- (\theta-x)^2 \), with fixed point \(\hat x = \sqrt{r_t} +\theta =: \phi(r_t)\).
 We expand around the fixed point and express as a stochastic differential equation~\citep[\emph{e.g.}][]{Gardiner2009}:
 
@@ -286,7 +285,7 @@ We expand around the fixed point and express as a stochastic differential equati
 \end{equation}
 
 where $B_t$ is the standard Brownian motion. 
-This expression captures the behavior of the system near the stable point as it approaches 
+This expression captures the behavior of the system near the stable point as it approaches the bifurcation.
 %It is also possible to derive this same expression from the master equation
 %of various stochastic birth/death (or gains \& losses) models
 %that contain saddle-node bifurcations, as we show in the appendix.
@@ -299,7 +298,7 @@ r_t = r_0 - m t.
 \label{R_t}
 \end{equation}
 Detecting accelerating or otherwise nonlinear approaches to the bifurcation will generally require more power.
-When the system is stable, $r_t$ is constant and Equation~\eqref{LSN} will reduce to a simple Ornstein-Uhlenbeck process,
+When the system is stable, $r_t$ is constant ($m=0$) and Equation~\eqref{LSN} will reduce to a simple Ornstein-Uhlenbeck process,
 \begin{equation}
 \ud X_t = r (\theta - X_t) \ud t + \sigma \ud B_t \label{OU}
 \end{equation}
@@ -344,7 +343,7 @@ These are numerically integrated using \texttt{lsoda} routine available in \text
 \subsection*{Comparing Models}
 Likelihood methods form the basis of much of modern statistics
 in both Frequentist and Bayesian paradigms.
-The ability evaluate likelihoods directly by computation has made it
+The ability to evaluate likelihoods directly by computation has made it
 possible to treat cases that do not conform to traditional assumptions more directly.
 The basis of likelihood comparisons has its roots in the Neyman-Pearson Lemma,
 which essentially asserts that comparing likelihoods is the most powerful test
@@ -554,7 +553,7 @@ shown in the middle panels of Figures~\ref{fig:simulation},~\ref{fig:chemostat} 
 and determine the distributions in likelihood ratio under each, shown in the lower panels.  
 The observed deviance from the original data is also indicated (vertical line).
 
-The ROC curves for each of these data sets is plotted in Figure~\ref{fig:rocdata}.  
+The ROC curves for each of these data sets are plotted in Figure~\ref{fig:rocdata}.  
 While differences in the rate at which the system approaches a transition will also 
 improve the ratio of true positives to false positives, 
 here we see the best-sampled data set, Glaciation, with 121 points, 
@@ -707,19 +706,25 @@ We can instead set a desired True positive rate and read off the resulting numbe
 
 
 \section{Discussion}
-By assuming the underlying model corresponds to a saddle-node bifurcation,
-our analysis presents a ``best-case scenario'' for both the summary statistics and the likelihood-based approach.
+
+The challenge of determining early warning signs for impending possible regime shifts requires real attention to the underlying statistical issues and other assumptions.  Doing this, does, however, open up new possibilities for asking what the goal of detection should be, and for clearly identifying underlying assumptions. We consider alternative approaches based either on summary statistics or a likelihood based model choice.  By assuming the underlying model corresponds to a saddle-node bifurcation,
+our analysis presents a ``best-case scenario'' for both  summary statistic and  likelihood-based approaches.
 Other literature has already begun to address the additional challenges posed when the underlying
 dynamics do not correspond to these models~\citep{Hastings2010}.
 Our results illustrate that even in this best-case scenario,
 reliable identification of warning signals from summary statistics can be difficult.
-The extent of this difficulty becomes clear from the ROC curves of these statistics,
+
+ 
+
+Asa way to clearly illustrate the choices involved in looking for warning signals while avoiding false alarms, we introduce an approach based on receiver operator curves. These curves XXX. The extent of the difficulty in finding reliable indicators of impending regime shifts based on summary statistics. becomes clear from the ROC curves of these statistics,
 where a 5\% false positive rate often corresponds to only a 5\% true positive rate,
 performing no better than the flip of a coin. %%%% EEEK are you really going to say that?!?!
 By estimating the ROC curve for a given set of data,
 we can better avoid applying warning signals in cases of inadequate power.
 By taking advantage of the assumptions being made to write down a specific likelihood function,
 we can develop approaches that get the most information from the data available.
+
+DISUCSS EXAMPLES HERE
 
 
 %%% Model adequacy

@@ -132,8 +132,8 @@ saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.
 %Differing causes of the transition.
 Even when we can exclude or ignore other dynamics and
 restrict ourselves to systems that can produce a saddle-node bifurcation,
- approaches based on critical slowing down or rising variance (REFS) must further assume that a changing parameter
-has brought the system closer to the bifurcation.
+approaches based on critical slowing down or rising variance~\citep[\emph{e.g.}][]{Held2004, Scheffer2009, Carpenter2011}
+must further assume that a changing parameter has brought the system closer to the bifurcation.
 This assumption excludes at least three alternative explanations for the transition.
 The first possibility is that a large perturbation of the system state
 has moved the system into the alternative basin of attraction~\citep{Scheffer2001, Scheffer2001}.
@@ -230,7 +230,7 @@ Model-based approaches are beginning to play a larger role in early warning sign
 though we have not as yet seen the direct fitting and simulation of models to compare hypotheses.
 While choosing appropriate models without system-specific knowledge is challenging,
 much can be accomplished by framing the implicit assumptions into equations.
-\citet{Lade2011} introduces the idea of generalized models for early warning signals, and
+\citet{Lade2012} introduces the idea of generalized models for early warning signals, and
 \citet{Kuehn2011} presents normal forms for bifurcation processes that can give rise to critical transitions.
 \citet{Carpenter2011e} and \citet{Dakos2011a} start by assuming the dynamics obey a generic
 stochastic differential equation (SDE), but use this only to derive or define the summary statistics of interest.
@@ -707,24 +707,40 @@ We can instead set a desired True positive rate and read off the resulting numbe
 
 \section{Discussion}
 
-The challenge of determining early warning signs for impending possible regime shifts requires real attention to the underlying statistical issues and other assumptions.  Doing this, does, however, open up new possibilities for asking what the goal of detection should be, and for clearly identifying underlying assumptions. We consider alternative approaches based either on summary statistics or a likelihood based model choice.  By assuming the underlying model corresponds to a saddle-node bifurcation,
+The challenge of determining early warning signs for impending possible regime shifts 
+requires real attention to the underlying statistical issues and other assumptions.  
+Doing this, does, however, open up new possibilities for asking what the goal of detection should be, 
+and for clearly identifying underlying assumptions. 
+We consider alternative approaches based either on summary statistics or a likelihood based model choice.  
+By assuming the underlying model corresponds to a saddle-node bifurcation,
 our analysis presents a ``best-case scenario'' for both  summary statistic and  likelihood-based approaches.
 Other literature has already begun to address the additional challenges posed when the underlying
 dynamics do not correspond to these models~\citep{Hastings2010}.
 Our results illustrate that even in this best-case scenario,
 reliable identification of warning signals from summary statistics can be difficult.
 
+ % past tense or not?
+We have used three examples to illustrate the performance of this approach in data from 
+simulation, a chemostat experiment, and paleo-atmospheric record; examples differing in 
+sampling intensity and strength of signal of an approaching collapse.  
+While the well-sampled geological data shows an unmistakable signal in this model-based approach,
+the uncertainty in the smaller simulated and experimental data forces a trade-off between errors.  
+%Because such uncertainty may be more typical of early warning signal detection 
+%than the monotonically increasing patterns often used to illustrate the approach,
  
-
-Asa way to clearly illustrate the choices involved in looking for warning signals while avoiding false alarms, we introduce an approach based on receiver operator curves. These curves XXX. The extent of the difficulty in finding reliable indicators of impending regime shifts based on summary statistics. becomes clear from the ROC curves of these statistics,
+As a way to clearly illustrate the choices involved in looking for warning signals while avoiding false alarms,
+we introduce an approach based on receiver operator curves. 
+These curves illustrate the extent to which an potential warning signal mitigates the trade-off 
+between missed events and false alarms.  
+The extent of the difficulty in finding reliable indicators of impending regime shifts
+based on summary statistics becomes clear from the ROC curves of these statistics,
 where a 5\% false positive rate often corresponds to only a 5\% true positive rate,
-performing no better than the flip of a coin. %%%% EEEK are you really going to say that?!?!
+performing no better than the flip of a coin. %%%% EEEK can we really say it that strongly?
 By estimating the ROC curve for a given set of data,
 we can better avoid applying warning signals in cases of inadequate power.
 By taking advantage of the assumptions being made to write down a specific likelihood function,
 we can develop approaches that get the most information from the data available.
 
-DISUCSS EXAMPLES HERE
 
 
 %%% Model adequacy
@@ -736,7 +752,7 @@ estimation of the nonlinear model is less powerful and less accurate.
 The performance of this approach in the simulated data -- which is nonlinear in its dynamics
 and driven with non-Gaussian noise introduced by the Poisson demographic events --
 demonstrates the accuracy under violation of these assumptions.
-
+% this robustness to assumptions can also be seen in the performance of the empirical systems
 
 The conclusion is not simply that likelihood approaches are more reliable,
 but rather more broadly that warning signals should consider

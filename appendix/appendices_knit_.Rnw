@@ -1,0 +1,304 @@
+%\VignetteIndexEntry{PMC Tutorial}
+\documentclass{elsarticle}
+
+%% Redefines the elsarticle footer
+\makeatletter
+\def\ps@pprintTitle{%
+ \let\@oddhead\@empty
+ \let\@evenhead\@empty
+ \def\@oddfoot{\it \hfill\today}%
+ \let\@evenfoot\@oddfoot}
+\makeatother
+
+
+\usepackage{graphicx}
+%\usepackage{subfigure}
+\usepackage[pdftex, colorlinks]{hyperref}
+\usepackage{amsmath, amsfonts}  % extended mathematics
+\usepackage{booktabs} % book-quality tables
+\usepackage{float}
+\textwidth 6.75in
+\oddsidemargin -0.15in
+\evensidemargin -0.15in
+\textheight 9in
+\topmargin -0.5in
+\newcommand{\ud}{\mathrm{d}}
+
+%% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options, <<options >>= 
+% \SweaveOpts{fig.width=7, fig.height=6, fig.align=center, message=FALSE, warning=FALSE}
+
+
+
+
+\begin{document}
+\begin{frontmatter}
+  \title{Limits to detection of early warning signals: Appendices}
+  \author[davis]{Carl Boettiger\corref{cor1}}
+  \ead{cboettig@ucdavis.edu}
+  %\author[davis]{}
+  \cortext[cor1]{Corresponding author.}
+  \address[davis]{Center for Population Biology, University of California, Davis, United States}
+
+  \begin{abstract}
+  These appendices explore several concepts that do not get fully developed in the paper, while also providing an introduction to the early warning signals package we provide to support this paper.  This document is written in Sweave, so the code you see is the code that generates the figures and results shown.   
+  \end{abstract}
+ \end{frontmatter}
+
+\section{Introduction}
+\setkeys{Gin}{width=0.85\textwidth}
+
+
+<<libraries, echo=FALSE>>=
+require(populationdynamics) 
+require(earlywarning)
+require(plyr)
+require(ggplot2)
+require(reshape2)
+nreps <- 64
+@
+
+
+Early warning signals are most often presented in the literature as graph showing the monotonic increase of some statistic over time.  It is not necessarily obvious how best to quantify this pattern, nor does it seem common practice to do so.  Though these patterns often look pretty montonic, we must be careful not to forget that monotonic increases in a statistic will appear by chance at some rate.  In small data sets, the probabilty of a chance pattern is higher.  These basic statistical concerns seem largely absent from this literature, but if visual patterns speak more strongly than statistics, here's the problem in visual form:
+
+Simulate from a system approaching a collapse~\Sexpr{nreps} times,
+
+
+<<crash>>=
+require(populationdynamics) 
+pars = c(Xo = 730, e = 0.5, a = 100, K = 1000, h = 200, i = 0, Da = .09, Dt = 0, p = 2)
+time=seq(0, 900, length=200)
+sn <- saddle_node_ibm(pars,time, reps=nreps)
+@
+
+
+We do a little reformatting of the data, 
+<<reformat>>=
+X <- data.frame(time=time, value=sn$x1)
+dat <- melt(X, id="time")
+names(dat)[2] <- "reps"
+@
+and compute the autocorrelation over a window in time equal half the length if the timeseries
+<<autocorr>>=
+acorr <- summary_statistic(dat, window_autocorr, windowsize=length(time)/2)
+@
+
+
+\begin{figure}[H]
+\begin{center}
+<<crashacor>>=
+ggplot(acorr) + geom_line(aes(time, value)) + facet_wrap(~reps) + 
+  opts(title="Autocorrelation on replicates from a system approaching a crash")
+@
+\caption{The pattern of autocorrelation in replicate simulations from a simulation of a system which is approaching a saddle node bifurcation.}\label{crashacor}
+\end{center}
+\end{figure}
+
+While we can see an average increasing trend, idenifying a particular squiggle as an early warning sign looks a lot more like judgement call then science.  Reality is unlikely to be any less murky, so the purpose this paper is to provide statistical guidance about how to start approaching this uncertainty.
+
+We provide the code in this document to both illustrate the steps required and also that the commands can be copy-pasted into R using different choices for the warning indicator, the sampling of the simulation, etc.   
+
+
+\section{Model-based warning signals}
+
+We load the package and the data set from the individual-based simulations.  To this data we fit both the LSN and OU models, 
+<<ibmmodels>>=
+require(earlywarning)
+data(ibms)
+A <- stability_model(ibm_critical, "OU")
+B <- stability_model(ibm_critical, "LSN")
+observed <- -2 * (logLik(A) - logLik(B))
+@
+
+Comparing the models by the bootstrapping procedure is intensive.  `compare` simulates under each model, and then estimates both models on both simulated sets of data (for a total of 4 model fits).  As only the LSN fit is computationally intensive, this takes about twice the time as the above fitting step of model B.  We will need to repeat this many times to build up a bootstrap distribution. Consequently, it is convient to run this step in parallel over multiple processors or clusters of computers.   
+
+\subsection{Parallelization of the comparison}
+Fortunately R has a diverse array of parallel tools.  Here we set up the flexible \texttt{snowfall} parallel envirnoment, which can run in serial, on a multicore chip, or over a cluster of machines.  
+
+<<snowfall, include=FALSE, eval=FALSE>>=
+require(snowfall)
+sfInit(par=T, cpu=16) 
+sfLibrary(earlywarning)
+sfExportAll()
+@
+
+Rather than build this choice into the earlywarning signals package, the user can choose whatever looping implementation they desire to compute replicates of the comparison.  The actual analysis takes just one line:
+
+<<compare, eval=FALSE>>=
+reps <- sfLapply(1:500, function(i) compare(A,B))
+@
+
+Our results are cached in the package, so anyone seeking to explore this example can run
+<<cache>>=
+data(manuscript_data)
+@
+
+
+\subsection{Visualizing the distributions}
+
+Once this step is finished, the remaining analysis is just a matter of shuffling and plotting the data.   We extract the likelihood ratios (deviances) from the null and test simulations with a simple function.  
+<<lr>>=
+lr <- lik_ratios(reps)
+@
+
+We can visualize this data in several ways: as two overlapping distributions,
+
+
+\begin{figure}[H]
+<<dists>>=
+require(ggplot2)
+ggplot(lr) + geom_density(aes(value, fill=simulation), alpha=.7) + 
+  geom_vline(xintercept=observed, lty=2)
+@
+\end{figure}
+
+or as beanplot, a modification of a boxplot showing the continuous distributions side-by-side:
+
+\begin{figure}[H]
+<<beanplot>>=
+require(beanplot)
+beanplot(value ~ simulation, lr, what=c(0,1,0,0))
+abline(h=observed, lty=2)
+@
+\end{figure}
+
+\subsection{Generating the ROC Curve}
+
+We can make the ROC curve by calculating the true and false positive rates from the overlap of these distributions using the function \verb|roc_data|.  This gives us a data frame of threshold values for our statistic, and the corresponding false positive rate and true positive rate.  We can simply plot those rates against each other to create the ROC curve. 
+
+\begin{figure}[H]
+<<rocplot>>=
+roc <- roc_data(lr)
+ggplot(roc) + geom_line(aes(False.positives, True.positives), lwd=1)
+@
+\end{figure}
+
+\subsection{ Parameter distributions}
+
+We can also look at the bootstraps of the parameters.  Another helper function will reformat this data from reps list.  The fit column uses a two-letter code to indicate first what model was used to simulate the data, and then what model was fit to the data.  For instance, AB means the data was simulated from model A (the null, OU model) but fit to B. 
+
+<<getpars>>=
+pars <- parameter_bootstraps(reps)
+head(pars)
+@
+
+There are lots of options for visualizing this relatively high-dimensional data, which we can easily explore with a few commands from the \texttt{ggplot2} package. For instance, we can look at average and range of parameters estimated in the bootstraps of each model: 
+
+\begin{figure}[H]
+<<parplot>>=
+require(Hmisc)
+ggplot(subset(pars, fit %in% c("AA", "BB")), aes(fit, value)) +
+  stat_summary(fun.y = mean, geom = "bar", position = "dodge") +
+  stat_summary(fun.data = median_hilow, geom = "pointrange", 
+               position = position_dodge(width = 0.90), conf.int = 0.95) +
+  facet_wrap(~parameter, scales="free_y")
+@
+\end{figure}
+
+
+\subsection{Visualizing the simulation replicates}
+
+The \texttt{reps} list also contains the simulation data from each replicate
+
+\begin{figure}[H]
+<<<repsplot, fig.width=10>>=
+sims <- get_replicates(reps)
+ggplot2(sims) + geom_line(aes(time, value, group=rep), alpha=0.1) + facet_wrap(~model)
+@
+\end{figure}
+
+\section{Computing summary statistics with improved sampling}
+
+Autocorrelation performs particularly poorly on the examples in the text, falling on approximately the 1:1 line in the ROC curves.  This example goes through the steps to demonstrate that in a sufficiently-frequently sampled timeseries, autocorrelation does contain *some* signal of early warning, it is simply a weaker signal than the corresponding analysis with variance, which in turn is weaker than the model-based approach. This example also illustrates the use of some of the summary statistics tools.   
+
+We begin by running the individual based simulation, supplied in our helper package, populationdynamics, with 500 sample points, instead of the 40 shown in the text.   
+
+<<resim>>=
+require(populationdynamics) 
+pars = c(Xo = 730, e = 0.5, a = 100, K = 1000, h = 200, i = 0, Da = .09, Dt = 0, p = 2)
+time=seq(0, 500, length=500)
+sn <- saddle_node_ibm(pars,time)
+X <- data.frame(time=time, value=sn$x1)
+@
+
+We compute the observed value of Kendall's tau for the autocorrelation computed in a moving window over the data.  (The warningtrend function is just a wrapper for the base function cor.test, which handles different window sizes.  The default uses half the length of the timeseries.)  
+
+<<observed_tau>>=
+observed <- warningtrend(X, window_autocorr) 
+observed
+@
+
+While this gives us single value which is useful for statistical comparisons that follow, recall that it is more common to simply plot the autocorrelation computed in this manner, and the increase is just the visual pattern.  
+
+\begin{figure}[H]
+<<plot_autocorr>>=
+npts <- length(X[["value"]])
+autocorrelation <- window_autocorr(X[["value"]], windowsize=npts/2)
+autocorrelation <- c(rep(NA, npts/2), autocorrelation)
+plot(X[[time]], autocorrelation, type="l")
+@
+\end{figure}
+
+To bootstrap the estimate of tau, we need to be able to simulate under a null and test model.  We use our models of a stable system and a system approaching a collapse to do this.  We first estimate the model parameters from the data, 
+
+<<morefits>>=
+A <- stability_model(X, "OU")
+B <- stability_model(X, "LSN")
+@
+
+and then we can simulate some replicates
+
+<<moresims>>=
+reps <- 100
+Asim <- simulate(A, reps)
+Bsim <- simulate(B, reps)
+@
+
+
+We tidy up the data a bit; columns should be variables, not replicates.   
+<<moretidy>>=
+require(reshape2)
+Asim <- melt(Asim, id="time")
+Bsim <- melt(Bsim, id="time")
+names(Asim)[2] <- "rep"
+names(Bsim)[2] <- "rep"
+@
+
+Now that we have replicates from each process, we can apply the windowed autocorrelation function to each replicate
+<<plyrstuff>>=
+require(plyr)
+wsA <- ddply(Asim, "rep", warningtrend, window_autocorr)
+wsB <- ddply(Bsim, "rep", warningtrend, window_autocorr)
+@
+
+And gather and plot the distributions,
+\begin{figure}[H]
+<<tidybean>>=
+tidy <- melt(data.frame(null=wsA$tau, test=wsB$tau))
+names(tidy) <- c("simulation", "value")
+beanplot(value ~ simulation, tidy, what=c(0,1,0,0))
+abline(h=observed, lty=2)
+@
+\end{figure}
+
+and corrsponding ROC plot,
+\begin{figure}[H]
+<<anotherroc>>=
+roc <- roc_data(tidy)
+ggplot(roc) + geom_line(aes(False.positives, True.positives), lwd=1)
+@
+\end{figure}
+
+
+
+%\section{Package Installation}
+
+
+
+
+\section*{ }%bibliography
+\bibliographystyle{elsarticle-harv}
+%\bibliography{/home/cboettig/Documents/Mendeley/bib/library}
+%\bibliography{../boettiger}
+
+\end{document}
+

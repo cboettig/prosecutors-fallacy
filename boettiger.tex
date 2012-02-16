@@ -32,7 +32,7 @@
   \author[cpb]{Carl Boettiger\corref{cor1}}
   \ead{cboettig@ucdavis.edu}
   \author[esp]{Alan Hastings}
-  \cortext[cor1]{Corresponding author.}
+  %\cortext[cor1]{Corresponding author.}
   \address[cpb]{Center for Population Biology, 1 Shields Avenue, University of California, Davis, CA, 95616 United States.}
   \address[esp]{Department of Environmental Science and Policy, University of California, Davis}
 
@@ -42,16 +42,17 @@
 Catastrophic regime shifts in complex natural systems may be averted through advanced detection.
 Recent work has provided a proof-of-principle that many systems approaching a catastrophic transition may be identified
 through the lens of early warning indicators such as rising variance or increased return times.
-Without the benefit of hindsight of a collapse,
+Despite widespread appreciation of the difficulties and uncertainty involved in such forecasts,
+proposed methods hardly ever characterize their expected error rates. 
+Without the benefits of replicates, controls, or hindsight, 
 applications of these approaches must quantify how reliable different indicators are in avoiding false alarms,
 and how sensitive they are to missing subtle warning signs.
-We propose an approach which quantifies this trade-off between reliability and sensitivity,
-allows comparisons between different indicators,
-and estimates what data are necessary to achieve a desired error rate.
+We propose a model based approach in order to quantify this trade-off between reliability and sensitivity
+and allow comparisons between different indicators.
 We show these error rates can be quite severe for common indicators even under favorable assumptions,
-and illustrate how a likelihood-based indicator can improve this performance.
-% rewrite
-
+and also illustrate how a model-based indicator can improve this performance. 
+We demonstrate how the performance of an early warning indicator varies in different data sets, 
+and suggest that uncertainty quantification become a more central part of early warning predictions.  
   \end{abstract}
 
   \begin{keyword}
@@ -63,7 +64,7 @@ early warning signals \sep tipping point \sep alternative stable states \sep lik
 There is an increasing recognition of the importance of regime shifts or critical transitions at a variety of scales in ecological systems~\citep{Holling1973, Wissel1984, Scheffer2001, Scheffer2009, Drake2010, Carpenter2011}⁠.
 % broader citations -- see how this is handled by others.  
 Many important ecosystems may currently be threatened with collapse, including corals~\citep{Bellwood2004}, fisheries~\citep{Berkes2006}⁠, lakes~\citep{Carpenter2011}, and semi-arid ecosystems~\citep{Kefi2007}⁠.
-Given the potential impact of  these shifts on the sustainable delivery of ecosystem services
+Given the potential impact of  these shifts on the sustainable delivery of ecosystem services~\citep{Folke2004}
 and the need for management to either avoid an undesirable shift or else to adapt to novel conditions,
 it is important to develop the ability to predict impending regime shifts based on early warning signs.
 
@@ -74,28 +75,34 @@ and simple models of metapopulations with differing local population sizes~\cite
 In cases like these one sensible approach to understanding 
 whether a regime shift would be likely would be 
 to fit the model using either a time series or else independent estimates of parameters. 
-More generally, with a good model of the system, detail-oriented approaches could be useful~\citep{Lenton2009}. 
+More generally, with a good model of the system, detail-oriented approaches could be useful~\citep{Lade2012}.  
+In this treatment we focus on the situation where these more detailed models are not available.  
 
-However, for many ecological systems specific models are not available and general approaches are needed~\citep{Scheffer2009}
+However, for many ecological systems specific models are not available and general approaches are needed~\citep{Scheffer2009, Lade2012}
 that do not depend on estimating the parameters of a known model of a specific system. 
 This has lead to a variety of approaches based on summary statistics
 ~\citep[\emph{e.g.}][]{Carpenter2006, Held2004, Dakos2008, Guttal2008, Biggs2009, Carpenter2011, Seekell2011}
 that look for generic signs of impending regime shifts.  
-Our goal here is to extend earlier work by providing much more precise estimates 
-of the ability of different statistics to signal impending regime shifts 
-and to develop new approaches that both are more efficient 
+Here we extend earlier work by providing estimates 
+of the ability of different potential indicators to accurately signal impending regime shifts,
+and develop new approaches that both are more efficient
 and also lay bare some of the important assumptions underlying attempts 
 to find general warning signs of regime shifts.  
+We distinguish this question from the extensive literature involving change-point analysis 
+for the post-hoc identification of if and when a regime shift has occurred~\citep{Easterling1995, Rodinonv2004, Lenton2009}, 
+which is of little use if the goal is the advanced detection of the shift.  
 
 
-We begin our approach by first discussing the limitations of current approaches that rely on summary statistics
-and provide a clear description of assumptions through the introduction of a model based approach to detect early warning signals.
+We begin by discussing the limitations of current approaches that rely on summary statistics
+and provide a description of assumptions through the introduction of a model based approach to detect early warning signals.
 We then illustrate how stochastic differential equation (SDE) models can be used
-to reflect the uncertainty inherent in the detection of early warning signals. We caution against paradigms that are not useful for capturing uncertainty in
+to reflect the uncertainty inherent in the detection of early warning signals. 
+We caution against paradigms that are not useful for capturing uncertainty in
 a model-selection based approach, such as information criteria.
 Finally we use receiver-operating characteristics~\citep{Green1989, Keller2009}
 as a powerful way to illustrate the sensitivity of different data sets
 and different indicators have in detecting early warning signals and use this to explore a number of examples.
+This approach provides a visualization of the types of errors that arise and how one can trade off between them.  
 
 
 \section{The summary statistics approach}
@@ -155,7 +162,7 @@ bifurcation parameter moves in a rapid or highly non-linear way, making the dete
 
 \subsubsection*{Arbitrary windows}
 In addition to the assumption of a saddle node bifurcation, 
-the calculation of statistics that would be used to detect an impending transition is subject to several additional arbitrary choices.
+the calculation of statistics that would be used to detect an impending transition is subject to several arbitrary choices.
 A basic difficulty arises from the need to assume a time-series is ergodic: 
 that averaging over time is equivalent to averaging over replicate realizations,
 while trying to test if it is not.
@@ -190,10 +197,13 @@ $\tau$, could be used to quantify an increase~\citep{Dakos2008, Dakos2011}
 in autocorrelation or variance.
 Other measures of increase, such as Pearson's correlation coefficient have also been proposed~\citep{Drake2010},
 while most of the literature simply forgoes quantifying the increase or estimating significance.
-While adequate in experimental systems that can compare patterns between controls and replicates~\citep[\emph{e.g.}][]{Drake2010, Carpenter2011}
+While adequate in experimental systems that can compare patterns between controls 
+and replicates~\citep[\emph{e.g.}][]{Drake2010, Carpenter2011}, 
 any real-world application of these approaches must be useful on a single time-series of observations.
 In these cases a quantitative definition of a statistically significant detection is essential.
-
+Without this, we have no assurance that a purported detection is not, in fact, a false positive. 
+By focusing primarily on examples known to be approaching a transition when testing warning signals,
+the probability of false positives has largely been overlooked.  
 
 \subsubsection*{Problematic null models}
 Specifying an appropriate null model is also difficult.
@@ -374,16 +384,13 @@ We have extended the approach by generating the test distribution
 as well as a null distribution of the statistic $\delta$.
 
 
-\subsection{A simulation-based approach estimates the distributions}
+\subsection{Simulation-based comparisons} \label{simbased}
 We perform the identical analysis procedure described above on each of these three data sets.
 First, we estimate parameters for the null and test model to each data set by maximum likelihood.
-Comparing the likelihood of these fits directly gives us only a minimal indication of which model fits better --
-
+Comparing the likelihood of these fits directly gives us only a minimal indication of which model fits better. 
 To identify if these differences are significant,
 and by what probability they could arise as a false alarm or a missed event,
-we simulate 500 replicate time series from each estimated model,
-as visualized in the middle panel of each data set,
-Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation}.
+we simulate 500 replicate time series from each estimated model.
 
 The model parameters of both models are re-estimated on both families of replicates
 (the null and test, \emph{i.e.} $2 \times 2 \times 500$ fits).
@@ -393,11 +400,11 @@ As the constant OU process model is nested within the time-heterogeneous model, 
 but tend to be not as large as those produced when the models are fit to the second family of data.
 
 The extent to which these distributions overlap indicates our inability to distinguish between these scenarios.
-The tendency of the observed deviance (vertical line) to fall more clearly in the domain of one distribution or the other
+The tendency of the observed deviance to fall more clearly in the domain of one distribution or the other
 indicates the probability our observed data corresponds best with that model  --
 either approaching a critical transition or remaining stable.
 While it trivial to assign a statistical significance to this observation based
-on how far into the tail of the (red) null distribution it falls,
+on how far into the tail of the null distribution it falls,
 for the reasons we discussed we prefer the more symmetric comparison of the probability that
 this value was observed in either distribution.
 We visualize the trade-off between false alarms and failed detection using the ROC curves introduced above.
@@ -460,7 +467,7 @@ we can use these curves to illustrate by how much a given increase in sampling e
 
 
 \section{Example Results}
-We illustrate this approach on simulated data as well as several natural time-series that have been previously analyzed for early warning signals.  All data and code for simulations and analysis are found in the accompanying R package, \verb|warningsignals|.
+We illustrate this approach on simulated data as well as several natural time-series that have been previously analyzed for early warning signals.  All data and code for simulations and analysis are found in the accompanying R package, \verb|earlywarning|.
 
 
 \subsection*{Data}
@@ -541,14 +548,19 @@ This time series is shown in the top panel of Figure~\ref{fig:glaciation}.
 
 
 \subsection*{Analysis}
-The deviances $\delta$, Eqn~\eqref{delta} -- are 5.1, 6.0, 83.9 respectively for the simulation,
-the chemostat data and the glaciation data.
+The deviances $\delta$ observed are 5.1, 6.0, 83.9 for the simulation,
+the chemostat data and the glaciation data, respectively.
+Based on AIC score each is large enough to reject the null hypothesis of a stable model 
+with it's one extra parameter, but this does not give the full picture of the anticipated error rates.  
 The size of these differences reflects not only the magnitude of the difference in fit
 between the models but also the arbitrary units of the raw likelihoods,
 which are smaller for larger data-sets.
 Consequently the glaciation score reflects as much the greater length of its time series as it does anything else.
+ 
 
-As described above, we simulate 500 replicates under each model, 
+Our simulation approach can provide a better sense of the relative trade-off in error rates associated
+with these estimates.  
+As described above (Section~\ref{simbased}), we simulate 500 replicates under each model, 
 shown in the middle panels of Figures~\ref{fig:simulation},~\ref{fig:chemostat} and~\ref{fig:glaciation},
 and determine the distributions in likelihood ratio under each, shown in the lower panels.  
 The observed deviance from the original data is also indicated (vertical line).
@@ -768,7 +780,7 @@ can ensure that data collection has adequate power to offer a reasonable chance 
 We would like to thank S. Schreiber, M. Holyoak, M. Baskett, and A. Perkins for comments on the manuscript. 
 This research was supported by funding from NSF Grant EF 0742674 
 and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308. 
-Data and code are available at \href{https://github.com/cboettig/warningsignals}{ https://github.com/cboettig/warningsignals}.
+Data and code are available at \href{https://github.com/cboettig/earlywarning}{ https://github.com/cboettig/earlywarning}.
 
 
 

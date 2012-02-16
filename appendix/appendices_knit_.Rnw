@@ -202,20 +202,22 @@ The \texttt{reps} list also contains the simulation data from each replicate
 \begin{figure}[H]
 <<<repsplot, fig.width=10>>=
 sims <- get_replicates(reps)
-ggplot2(sims) + geom_line(aes(time, value, group=rep), alpha=0.1) + facet_wrap(~model)
+ggplot(sims) + geom_line(aes(time, value, group=rep), alpha=0.1) + facet_wrap(~model)
 @
 \end{figure}
 
 \section{Computing summary statistics with improved sampling}
 
 Autocorrelation performs particularly poorly on the examples in the text, falling on approximately the 1:1 line in the ROC curves.  This example goes through the steps to demonstrate that in a sufficiently-frequently sampled timeseries, autocorrelation does contain *some* signal of early warning, it is simply a weaker signal than the corresponding analysis with variance, which in turn is weaker than the model-based approach. This example also illustrates the use of some of the summary statistics tools.   
-
-We begin by running the individual based simulation, supplied in our helper package, populationdynamics, with 500 sample points, instead of the 40 shown in the text.   
+<<npts, echo=FALSE>>=
+npts <- 1500
+@
+We begin by running the individual based simulation, supplied in our helper package, populationdynamics, with~\Sexpr{npts} sample points, instead of the 40 shown in the text.   
 
 <<resim>>=
 require(populationdynamics) 
 pars = c(Xo = 730, e = 0.5, a = 100, K = 1000, h = 200, i = 0, Da = .09, Dt = 0, p = 2)
-time=seq(0, 500, length=500)
+time=seq(0, 500, length=1500)
 sn <- saddle_node_ibm(pars,time)
 X <- data.frame(time=time, value=sn$x1)
 @
@@ -233,8 +235,8 @@ While this gives us single value which is useful for statistical comparisons tha
 <<plot_autocorr>>=
 npts <- length(X[["value"]])
 autocorrelation <- window_autocorr(X[["value"]], windowsize=npts/2)
-autocorrelation <- c(rep(NA, npts/2), autocorrelation)
-plot(X[[time]], autocorrelation, type="l")
+autocorrelation <- c(rep(NA, npts/2-1), autocorrelation)
+plot(X[["time"]], autocorrelation, type="l")
 @
 \end{figure}
 
@@ -248,7 +250,7 @@ B <- stability_model(X, "LSN")
 and then we can simulate some replicates
 
 <<moresims>>=
-reps <- 100
+reps <- 500
 Asim <- simulate(A, reps)
 Bsim <- simulate(B, reps)
 @
@@ -259,15 +261,17 @@ We tidy up the data a bit; columns should be variables, not replicates.
 require(reshape2)
 Asim <- melt(Asim, id="time")
 Bsim <- melt(Bsim, id="time")
-names(Asim)[2] <- "rep"
-names(Bsim)[2] <- "rep"
+names(Asim)[2] <- "reps"
+names(Bsim)[2] <- "reps"
 @
 
 Now that we have replicates from each process, we can apply the windowed autocorrelation function to each replicate
 <<plyrstuff>>=
 require(plyr)
-wsA <- ddply(Asim, "rep", warningtrend, window_autocorr)
-wsB <- ddply(Bsim, "rep", warningtrend, window_autocorr)
+require(doMC)
+registerDoMC()
+wsA <- ddply(Asim, "reps", warningtrend, window_autocorr, .parallel=TRUE)
+wsB <- ddply(Bsim, "reps", warningtrend, window_autocorr, .parallel=TRUE)
 @
 
 And gather and plot the distributions,
@@ -288,6 +292,12 @@ ggplot(roc) + geom_line(aes(False.positives, True.positives), lwd=1)
 @
 \end{figure}
 
+
+
+Lastly we save the data from each of these examples, that it may be available to the users later.   
+<<saveall>>=
+save(list=ls(), file="tutorial.rda")
+@
 
 
 %\section{Package Installation}

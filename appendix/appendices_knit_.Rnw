@@ -25,7 +25,7 @@
 \newcommand{\ud}{\mathrm{d}}
 
 %% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options, <<options >>= 
-% \SweaveOpts{fig.width=7, fig.height=6, fig.align=center, message=FALSE, warning=FALSE}
+% \SweaveOpts{fig.width=4, fig.height=4, fig.align=center, message=FALSE, warning=FALSE, tidy=FALSE, cache=TRUE}
 
 
 
@@ -40,12 +40,12 @@
   \address[davis]{Center for Population Biology, University of California, Davis, United States}
 
   \begin{abstract}
-  These appendices explore several concepts that do not get fully developed in the paper, while also providing an introduction to the early warning signals package we provide to support this paper.  This document is written in Sweave, so the code you see is the code that generates the figures and results shown.   
+  These appendices explore several concepts that do not get fully developed in the paper, while also providing an introduction to the early warning signals package we provide (\href{https://github.com/cboettig/earlywarning}{https://github.com/cboettig/earlywarning}) to support this paper.  We provide the code in this document to both illustrate the steps required and also that the commands can be copy-pasted into~\texttt{R} using different choices for the warning indicator, the sampling of the simulation, etc.  This document is written in Sweave, so the code you see is the code that generates the figures and results shown.   
   \end{abstract}
  \end{frontmatter}
 
-\section{Introduction}
-\setkeys{Gin}{width=0.85\textwidth}
+\section{Introduction -- Visualizing early warning patterns}
+\setkeys{Gin}{width=0.95\textwidth}
 
 
 <<libraries, echo=FALSE>>=
@@ -60,7 +60,7 @@ nreps <- 64
 
 Early warning signals are most often presented in the literature as graph showing the monotonic increase of some statistic over time.  It is not necessarily obvious how best to quantify this pattern, nor does it seem common practice to do so.  Though these patterns often look pretty montonic, we must be careful not to forget that monotonic increases in a statistic will appear by chance at some rate.  In small data sets, the probabilty of a chance pattern is higher.  These basic statistical concerns seem largely absent from this literature, but if visual patterns speak more strongly than statistics, here's the problem in visual form:
 
-Simulate from a system approaching a collapse~\Sexpr{nreps} times,
+Simulate from a system approaching a collapse~\Sexpr{nreps} times using our population dynamics package, available at \href{https://github.com/cboettig/populationdynamics}{https://github.com/cboettig/populationdynamics},
 
 
 <<crash>>=
@@ -82,20 +82,20 @@ and compute the autocorrelation over a window in time equal half the length if t
 acorr <- summary_statistic(dat, window_autocorr, windowsize=length(time)/2)
 @
 
+\setkeys{Gin}{width=0.95\textwidth}
 
 \begin{figure}[H]
 \begin{center}
-<<crashacor>>=
+<<crashacor, fig.width=7, fig.height=7>>=
 ggplot(acorr) + geom_line(aes(time, value)) + facet_wrap(~reps) + 
   opts(title="Autocorrelation on replicates from a system approaching a crash")
 @
-\caption{The pattern of autocorrelation in replicate simulations from a simulation of a system which is approaching a saddle node bifurcation.}\label{crashacor}
+\caption{The pattern of autocorrelation in replicate simulations from a simulation of a system which is approaching a saddle node bifurcation.  While a defintitive trend is occassionally visible, clearly we will statistical methods to define what constitutes an "increase."  Our model-based toolset provides this.}\label{crashacor}
 \end{center}
 \end{figure}
+\setkeys{Gin}{width=0.5\textwidth}
 
-While we can see an average increasing trend, idenifying a particular squiggle as an early warning sign looks a lot more like judgement call then science.  Reality is unlikely to be any less murky, so the purpose this paper is to provide statistical guidance about how to start approaching this uncertainty.
-
-We provide the code in this document to both illustrate the steps required and also that the commands can be copy-pasted into R using different choices for the warning indicator, the sampling of the simulation, etc.   
+While we can see an average increasing trend, idenifying a particular squiggle as an early warning sign looks a lot more like judgement call then science.  Reality is unlikely to be any less murky, so the purpose this paper is to provide statistical guidance about how to start approaching this uncertainty.  
 
 
 \section{Model-based warning signals}
@@ -154,7 +154,7 @@ ggplot(lr) + geom_density(aes(value, fill=simulation), alpha=.7) +
 or as beanplot, a modification of a boxplot showing the continuous distributions side-by-side:
 
 \begin{figure}[H]
-<<beanplot>>=
+<<beanplot, fig.width=6>>=
 require(beanplot)
 beanplot(value ~ simulation, lr, what=c(0,1,0,0))
 abline(h=observed, lty=2)
@@ -195,16 +195,18 @@ ggplot(subset(pars, fit %in% c("AA", "BB")), aes(fit, value)) +
 \end{figure}
 
 
-\subsection{Visualizing the simulation replicates}
-
-The \texttt{reps} list also contains the simulation data from each replicate
-
-\begin{figure}[H]
-<<<repsplot, fig.width=10>>=
-sims <- get_replicates(reps)
-ggplot(sims) + geom_line(aes(time, value, group=rep), alpha=0.1) + facet_wrap(~model)
-@
-\end{figure}
+%\subsection{Visualizing the simulation replicates}
+%
+%The \texttt{reps} list also contains the simulation data from each replicate
+%\setkeys{Gin}{width=0.95\textwidth}
+%
+%\begin{figure}[H]
+%<<<repsplot, fig.width=7>>=
+%sims <- get_replicates(reps)
+%ggplot(sims) + geom_line(aes(time, value, group=rep), alpha=0.1) + facet_wrap(~model)
+%@
+%\end{figure}
+%\setkeys{Gin}{width=0.5\textwidth}
 
 \section{Computing summary statistics with improved sampling}
 
@@ -250,9 +252,9 @@ B <- stability_model(X, "LSN")
 and then we can simulate some replicates
 
 <<moresims>>=
-reps <- 500
-Asim <- simulate(A, reps)
-Bsim <- simulate(B, reps)
+nreps <- 500
+Asim <- simulate(A, nreps)
+Bsim <- simulate(B, nreps)
 @
 
 
@@ -276,7 +278,7 @@ wsB <- ddply(Bsim, "reps", warningtrend, window_autocorr, .parallel=TRUE)
 
 And gather and plot the distributions,
 \begin{figure}[H]
-<<tidybean>>=
+<<tidybean, fig.width=6>>=
 tidy <- melt(data.frame(null=wsA$tau, test=wsB$tau))
 names(tidy) <- c("simulation", "value")
 beanplot(value ~ simulation, tidy, what=c(0,1,0,0))
@@ -294,7 +296,7 @@ ggplot(roc) + geom_line(aes(False.positives, True.positives), lwd=1)
 
 
 
-Lastly we save the data from each of these examples, that it may be available to the users later.   
+Lastly we save the data from each of these examples for future reference.   
 <<saveall>>=
 save(list=ls(), file="tutorial.rda")
 @

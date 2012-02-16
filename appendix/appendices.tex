@@ -420,12 +420,12 @@
   \address[davis]{Center for Population Biology, University of California, Davis, United States}
 
   \begin{abstract}
-  These appendices explore several concepts that do not get fully developed in the paper, while also providing an introduction to the early warning signals package we provide to support this paper.  This document is written in Sweave, so the code you see is the code that generates the figures and results shown.   
+  These appendices explore several concepts that do not get fully developed in the paper, while also providing an introduction to the early warning signals package we provide (\href{https://github.com/cboettig/earlywarning}{https://github.com/cboettig/earlywarning}) to support this paper.  We provide the code in this document to both illustrate the steps required and also that the commands can be copy-pasted into~\texttt{R} using different choices for the warning indicator, the sampling of the simulation, etc.  This document is written in Sweave, so the code you see is the code that generates the figures and results shown.   
   \end{abstract}
  \end{frontmatter}
 
-\section{Introduction}
-\setkeys{Gin}{width=0.85\textwidth}
+\section{Introduction -- Visualizing early warning patterns}
+\setkeys{Gin}{width=0.95\textwidth}
 
 
 
@@ -434,7 +434,7 @@
 
 Early warning signals are most often presented in the literature as graph showing the monotonic increase of some statistic over time.  It is not necessarily obvious how best to quantify this pattern, nor does it seem common practice to do so.  Though these patterns often look pretty montonic, we must be careful not to forget that monotonic increases in a statistic will appear by chance at some rate.  In small data sets, the probabilty of a chance pattern is higher.  These basic statistical concerns seem largely absent from this literature, but if visual patterns speak more strongly than statistics, here's the problem in visual form:
 
-Simulate from a system approaching a collapse~64 times,
+Simulate from a system approaching a collapse~64 times using our population dynamics package, available at \href{https://github.com/cboettig/populationdynamics}{https://github.com/cboettig/populationdynamics},
 
 
 \begin{knitrout}
@@ -442,10 +442,9 @@ Simulate from a system approaching a collapse~64 times,
 \begin{flushleft}
 \ttfamily\noindent
 \hlfunctioncall{require}\hlkeyword{(}\hlsymbol{populationdynamics}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{pars}{\ }\hlassignement{=}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlargument{Xo}{\ }\hlargument{=}{\ }\hlnumber{730}\hlkeyword{,}{\ }\hlargument{e}{\ }\hlargument{=}{\ }\hlnumber{0.5}\hlkeyword{,}{\ }\hlargument{a}{\ }\hlargument{=}{\ }\hlnumber{100}\hlkeyword{,}{\ }\hlargument{K}{\ }\hlargument{=}{\ }\hlnumber{1000}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlargument{h}{\ }\hlargument{=}{\ }\hlnumber{200}\hlkeyword{,}{\ }\hlargument{i}{\ }\hlargument{=}{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlargument{Da}{\ }\hlargument{=}{\ }\hlnumber{0.09}\hlkeyword{,}{\ }\hlargument{Dt}{\ }\hlargument{=}{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlargument{p}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{time}{\ }\hlassignement{=}{\ }\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{0}\hlkeyword{,}{\ }\hlnumber{900}\hlkeyword{,}{\ }\hlargument{length}{\ }\hlargument{=}{\ }\hlnumber{200}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{sn}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{saddle\usebox{\hlnormalsizeboxunderscore}node\usebox{\hlnormalsizeboxunderscore}ibm}\hlkeyword{(}\hlsymbol{pars}\hlkeyword{,}{\ }\hlsymbol{time}\hlkeyword{,}{\ }\hlargument{reps}{\ }\hlargument{=}{\ }\hlsymbol{nreps}\hlkeyword{)}\mbox{}
+\hlstd{}\hlsymbol{pars}{\ }\hlassignement{=}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlargument{Xo}{\ }\hlargument{=}{\ }\hlnumber{730}\hlkeyword{,}{\ }\hlargument{e}{\ }\hlargument{=}{\ }\hlnumber{0.5}\hlkeyword{,}{\ }\hlargument{a}{\ }\hlargument{=}{\ }\hlnumber{100}\hlkeyword{,}{\ }\hlargument{K}{\ }\hlargument{=}{\ }\hlnumber{1000}\hlkeyword{,}{\ }\hlargument{h}{\ }\hlargument{=}{\ }\hlnumber{200}\hlkeyword{,}{\ }\hlargument{i}{\ }\hlargument{=}{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlargument{Da}{\ }\hlargument{=}{\ }\hlnumber{.09}\hlkeyword{,}{\ }\hlargument{Dt}{\ }\hlargument{=}{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlargument{p}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{time}\hlassignement{=}\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{0}\hlkeyword{,}{\ }\hlnumber{900}\hlkeyword{,}{\ }\hlargument{length}\hlargument{=}\hlnumber{200}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{sn}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{saddle\usebox{\hlnormalsizeboxunderscore}node\usebox{\hlnormalsizeboxunderscore}ibm}\hlkeyword{(}\hlsymbol{pars}\hlkeyword{,}\hlsymbol{time}\hlkeyword{,}{\ }\hlargument{reps}\hlargument{=}\hlsymbol{nreps}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 \end{kframe}}
@@ -458,8 +457,8 @@ We do a little reformatting of the data,
 \definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
 \begin{flushleft}
 \ttfamily\noindent
-\hlsymbol{X}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{time}{\ }\hlargument{=}{\ }\hlsymbol{time}\hlkeyword{,}{\ }\hlargument{value}{\ }\hlargument{=}{\ }\hlsymbol{sn}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{x1}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{dat}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{melt}\hlkeyword{(}\hlsymbol{X}\hlkeyword{,}{\ }\hlargument{id}{\ }\hlargument{=}{\ }\hlstring{"{}time"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlsymbol{X}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{time}\hlargument{=}\hlsymbol{time}\hlkeyword{,}{\ }\hlargument{value}\hlargument{=}\hlsymbol{sn}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{x1}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{dat}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{melt}\hlkeyword{(}\hlsymbol{X}\hlkeyword{,}{\ }\hlargument{id}\hlargument{=}\hlstring{"{}time"{}}\hlkeyword{)}\hspace*{\fill}\\
 \hlstd{}\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{dat}\hlkeyword{)}\hlkeyword{[}\hlnumber{2}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlstring{"{}reps"{}}\mbox{}
 \normalfont
 \end{flushleft}
@@ -471,14 +470,14 @@ and compute the autocorrelation over a window in time equal half the length if t
 \definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
 \begin{flushleft}
 \ttfamily\noindent
-\hlsymbol{acorr}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{summary\usebox{\hlnormalsizeboxunderscore}statistic}\hlkeyword{(}\hlsymbol{dat}\hlkeyword{,}{\ }\hlsymbol{window\usebox{\hlnormalsizeboxunderscore}autocorr}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlargument{windowsize}{\ }\hlargument{=}{\ }\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{time}\hlkeyword{)}\hlkeyword{/}\hlnumber{2}\hlkeyword{)}\mbox{}
+\hlsymbol{acorr}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{summary\usebox{\hlnormalsizeboxunderscore}statistic}\hlkeyword{(}\hlsymbol{dat}\hlkeyword{,}{\ }\hlsymbol{window\usebox{\hlnormalsizeboxunderscore}autocorr}\hlkeyword{,}{\ }\hlargument{windowsize}\hlargument{=}\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{time}\hlkeyword{)}\hlkeyword{/}\hlnumber{2}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 \end{kframe}}
 \end{knitrout}
 
 
+\setkeys{Gin}{width=0.95\textwidth}
 
 \begin{figure}[H]
 \begin{center}
@@ -486,8 +485,8 @@ and compute the autocorrelation over a window in time equal half the length if t
 \definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
 \begin{flushleft}
 \ttfamily\noindent
-\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{acorr}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}line}\hlkeyword{(}\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{time}\hlkeyword{,}{\ }\hlsymbol{value}\hlkeyword{)}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{facet\usebox{\hlnormalsizeboxunderscore}wrap}\hlkeyword{(}\hlkeyword{\urltilda{}}\hlsymbol{reps}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{opts}\hlkeyword{(}\hlargument{title}{\ }\hlargument{=}{\ }\hlstring{"{}Autocorrelation{\ }on{\ }replicates{\ }from{\ }a{\ }system{\ }approaching{\ }a{\ }crash"{}}\hlkeyword{)}\mbox{}
+\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{acorr}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}line}\hlkeyword{(}\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{time}\hlkeyword{,}{\ }\hlsymbol{value}\hlkeyword{)}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{facet\usebox{\hlnormalsizeboxunderscore}wrap}\hlkeyword{(}\hlkeyword{\urltilda{}}\hlsymbol{reps}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }\hlfunctioncall{opts}\hlkeyword{(}\hlargument{title}\hlargument{=}\hlstring{"{}Autocorrelation{\ }on{\ }replicates{\ }from{\ }a{\ }system{\ }approaching{\ }a{\ }crash"{}}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 
@@ -497,13 +496,12 @@ and compute the autocorrelation over a window in time equal half the length if t
 \end{kframe}}
 \end{knitrout}
 
-\caption{The pattern of autocorrelation in replicate simulations from a simulation of a system which is approaching a saddle node bifurcation.}\label{crashacor}
+\caption{The pattern of autocorrelation in replicate simulations from a simulation of a system which is approaching a saddle node bifurcation.  While a defintitive trend is occassionally visible, clearly we will statistical methods to define what constitutes an "increase."  Our model-based toolset provides this.}\label{crashacor}
 \end{center}
 \end{figure}
+\setkeys{Gin}{width=0.5\textwidth}
 
-While we can see an average increasing trend, idenifying a particular squiggle as an early warning sign looks a lot more like judgement call then science.  Reality is unlikely to be any less murky, so the purpose this paper is to provide statistical guidance about how to start approaching this uncertainty.
-
-We provide the code in this document to both illustrate the steps required and also that the commands can be copy-pasted into R using different choices for the warning indicator, the sampling of the simulation, etc.   
+While we can see an average increasing trend, idenifying a particular squiggle as an early warning sign looks a lot more like judgement call then science.  Reality is unlikely to be any less murky, so the purpose this paper is to provide statistical guidance about how to start approaching this uncertainty.  
 
 
 \section{Model-based warning signals}
@@ -534,7 +532,7 @@ Fortunately R has a diverse array of parallel tools.  Here we set up the flexibl
 \begin{flushleft}
 \ttfamily\noindent
 \hlfunctioncall{require}\hlkeyword{(}\hlsymbol{snowfall}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlfunctioncall{sfInit}\hlkeyword{(}\hlargument{par}{\ }\hlargument{=}{\ }\hlsymbol{T}\hlkeyword{,}{\ }\hlargument{cpu}{\ }\hlargument{=}{\ }\hlnumber{16}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{sfInit}\hlkeyword{(}\hlargument{par}\hlargument{=}\hlsymbol{T}\hlkeyword{,}{\ }\hlargument{cpu}\hlargument{=}\hlnumber{16}\hlkeyword{)}\hspace*{\fill}\\
 \hlstd{}\hlfunctioncall{sfLibrary}\hlkeyword{(}\hlsymbol{earlywarning}\hlkeyword{)}\hspace*{\fill}\\
 \hlstd{}\hlfunctioncall{sfExportAll}\hlkeyword{(}\hlkeyword{)}\mbox{}
 \normalfont
@@ -549,8 +547,7 @@ Rather than build this choice into the earlywarning signals package, the user ca
 \definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
 \begin{flushleft}
 \ttfamily\noindent
-\hlsymbol{reps}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sfLapply}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{500}\hlkeyword{,}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{i}\hlkeyword{)}{\ }\hlfunctioncall{compare}\hlkeyword{(}\hlsymbol{A}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlsymbol{B}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\hlsymbol{reps}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sfLapply}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{500}\hlkeyword{,}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{i}\hlkeyword{)}{\ }\hlfunctioncall{compare}\hlkeyword{(}\hlsymbol{A}\hlkeyword{,}\hlsymbol{B}\hlkeyword{)}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 \end{kframe}}
@@ -593,8 +590,8 @@ We can visualize this data in several ways: as two overlapping distributions,
 \begin{flushleft}
 \ttfamily\noindent
 \hlfunctioncall{require}\hlkeyword{(}\hlsymbol{ggplot2}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{lr}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}density}\hlkeyword{(}\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{value}\hlkeyword{,}{\ }\hlargument{fill}{\ }\hlargument{=}{\ }\hlsymbol{simulation}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlargument{alpha}{\ }\hlargument{=}{\ }\hlnumber{0.7}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}vline}\hlkeyword{(}\hlargument{xintercept}{\ }\hlargument{=}{\ }\hlsymbol{observed}\hlkeyword{,}{\ }\hlargument{lty}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\mbox{}
+\hlstd{}\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{lr}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}density}\hlkeyword{(}\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{value}\hlkeyword{,}{\ }\hlargument{fill}\hlargument{=}\hlsymbol{simulation}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{alpha}\hlargument{=}\hlnumber{.7}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}vline}\hlkeyword{(}\hlargument{xintercept}\hlargument{=}\hlsymbol{observed}\hlkeyword{,}{\ }\hlargument{lty}\hlargument{=}\hlnumber{2}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 
@@ -614,9 +611,8 @@ or as beanplot, a modification of a boxplot showing the continuous distributions
 \begin{flushleft}
 \ttfamily\noindent
 \hlfunctioncall{require}\hlkeyword{(}\hlsymbol{beanplot}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlfunctioncall{beanplot}\hlkeyword{(}\hlsymbol{value}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{simulation}\hlkeyword{,}{\ }\hlsymbol{lr}\hlkeyword{,}{\ }\hlargument{what}{\ }\hlargument{=}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlnumber{0}\hlkeyword{,}{\ }\hlnumber{1}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlnumber{0}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlfunctioncall{abline}\hlkeyword{(}\hlargument{h}{\ }\hlargument{=}{\ }\hlsymbol{observed}\hlkeyword{,}{\ }\hlargument{lty}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\mbox{}
+\hlstd{}\hlfunctioncall{beanplot}\hlkeyword{(}\hlsymbol{value}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{simulation}\hlkeyword{,}{\ }\hlsymbol{lr}\hlkeyword{,}{\ }\hlargument{what}\hlargument{=}\hlfunctioncall{c}\hlkeyword{(}\hlnumber{0}\hlkeyword{,}\hlnumber{1}\hlkeyword{,}\hlnumber{0}\hlkeyword{,}\hlnumber{0}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{abline}\hlkeyword{(}\hlargument{h}\hlargument{=}\hlsymbol{observed}\hlkeyword{,}{\ }\hlargument{lty}\hlargument{=}\hlnumber{2}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 
@@ -638,8 +634,7 @@ We can make the ROC curve by calculating the true and false positive rates from 
 \begin{flushleft}
 \ttfamily\noindent
 \hlsymbol{roc}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{roc\usebox{\hlnormalsizeboxunderscore}data}\hlkeyword{(}\hlsymbol{lr}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{roc}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}line}\hlkeyword{(}\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{False.positives}\hlkeyword{,}{\ }\hlsymbol{True.positives}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlargument{lwd}{\ }\hlargument{=}{\ }\hlnumber{1}\hlkeyword{)}\mbox{}
+\hlstd{}\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{roc}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}line}\hlkeyword{(}\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{False.positives}\hlkeyword{,}{\ }\hlsymbol{True.positives}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{lwd}\hlargument{=}\hlnumber{1}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 
@@ -684,11 +679,11 @@ There are lots of options for visualizing this relatively high-dimensional data,
 \begin{flushleft}
 \ttfamily\noindent
 \hlfunctioncall{require}\hlkeyword{(}\hlsymbol{Hmisc}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlfunctioncall{ggplot}\hlkeyword{(}\hlfunctioncall{subset}\hlkeyword{(}\hlsymbol{pars}\hlkeyword{,}{\ }\hlsymbol{fit}{\ }\hlkeyword{\usebox{\hlnormalsizeboxpercent}in\usebox{\hlnormalsizeboxpercent}}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlstring{"{}AA"{}}\hlkeyword{,}{\ }\hlstring{"{}BB"{}}\hlkeyword{)}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{fit}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlsymbol{value}\hlkeyword{)}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{stat\usebox{\hlnormalsizeboxunderscore}summary}\hlkeyword{(}\hlargument{fun.y}{\ }\hlargument{=}{\ }\hlsymbol{mean}\hlkeyword{,}{\ }\hlargument{geom}{\ }\hlargument{=}{\ }\hlstring{"{}bar"{}}\hlkeyword{,}{\ }\hlargument{position}{\ }\hlargument{=}{\ }\hlstring{"{}dodge"{}}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{stat\usebox{\hlnormalsizeboxunderscore}summary}\hlkeyword{(}\hlargument{fun.data}{\ }\hlargument{=}{\ }\hlsymbol{median\usebox{\hlnormalsizeboxunderscore}hilow}\hlkeyword{,}{\ }\hlargument{geom}{\ }\hlargument{=}{\ }\hlstring{"{}pointrange"{}}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlargument{position}{\ }\hlargument{=}{\ }\hlfunctioncall{position\usebox{\hlnormalsizeboxunderscore}dodge}\hlkeyword{(}\hlargument{width}{\ }\hlargument{=}{\ }\hlnumber{0.9}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{conf.int}{\ }\hlargument{=}{\ }\hlnumber{0.95}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{facet\usebox{\hlnormalsizeboxunderscore}wrap}\hlkeyword{(}\hlkeyword{\urltilda{}}\hlsymbol{parameter}\hlkeyword{,}{\ }\hlargument{scales}{\ }\hlargument{=}{\ }\hlstring{"{}free\usebox{\hlnormalsizeboxunderscore}y"{}}\hlkeyword{)}\mbox{}
+\hlstd{}\hlfunctioncall{ggplot}\hlkeyword{(}\hlfunctioncall{subset}\hlkeyword{(}\hlsymbol{pars}\hlkeyword{,}{\ }\hlsymbol{fit}{\ }\hlkeyword{\usebox{\hlnormalsizeboxpercent}in\usebox{\hlnormalsizeboxpercent}}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlstring{"{}AA"{}}\hlkeyword{,}{\ }\hlstring{"{}BB"{}}\hlkeyword{)}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{fit}\hlkeyword{,}{\ }\hlsymbol{value}\hlkeyword{)}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }\hlfunctioncall{stat\usebox{\hlnormalsizeboxunderscore}summary}\hlkeyword{(}\hlargument{fun.y}{\ }\hlargument{=}{\ }\hlsymbol{mean}\hlkeyword{,}{\ }\hlargument{geom}{\ }\hlargument{=}{\ }\hlstring{"{}bar"{}}\hlkeyword{,}{\ }\hlargument{position}{\ }\hlargument{=}{\ }\hlstring{"{}dodge"{}}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }\hlfunctioncall{stat\usebox{\hlnormalsizeboxunderscore}summary}\hlkeyword{(}\hlargument{fun.data}{\ }\hlargument{=}{\ }\hlsymbol{median\usebox{\hlnormalsizeboxunderscore}hilow}\hlkeyword{,}{\ }\hlargument{geom}{\ }\hlargument{=}{\ }\hlstring{"{}pointrange"{}}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlargument{position}{\ }\hlargument{=}{\ }\hlfunctioncall{position\usebox{\hlnormalsizeboxunderscore}dodge}\hlkeyword{(}\hlargument{width}{\ }\hlargument{=}{\ }\hlnumber{0.90}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{conf.int}{\ }\hlargument{=}{\ }\hlnumber{0.95}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }\hlfunctioncall{facet\usebox{\hlnormalsizeboxunderscore}wrap}\hlkeyword{(}\hlkeyword{\urltilda{}}\hlsymbol{parameter}\hlkeyword{,}{\ }\hlargument{scales}\hlargument{=}\hlstring{"{}free\usebox{\hlnormalsizeboxunderscore}y"{}}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 
@@ -701,34 +696,18 @@ There are lots of options for visualizing this relatively high-dimensional data,
 \end{figure}
 
 
-\subsection{Visualizing the simulation replicates}
-
-The \texttt{reps} list also contains the simulation data from each replicate
-
-\begin{figure}[H]
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
-\begin{flushleft}
-\ttfamily\noindent
-\hlsymbol{sims}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{get\usebox{\hlnormalsizeboxunderscore}replicates}\hlkeyword{(}\hlsymbol{reps}\hlkeyword{)}\mbox{}
-\normalfont
-\end{flushleft}
-\begin{verbatim}
-## Error: argument is of length zero
-\end{verbatim}
-\begin{flushleft}
-\ttfamily\noindent
-\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{sims}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}line}\hlkeyword{(}\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{time}\hlkeyword{,}{\ }\hlsymbol{value}\hlkeyword{,}{\ }\hlargument{group}{\ }\hlargument{=}{\ }\hlsymbol{rep}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlargument{alpha}{\ }\hlargument{=}{\ }\hlnumber{0.1}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{facet\usebox{\hlnormalsizeboxunderscore}wrap}\hlkeyword{(}\hlkeyword{\urltilda{}}\hlsymbol{model}\hlkeyword{)}\mbox{}
-\normalfont
-\end{flushleft}
-\begin{verbatim}
-## Error: object 'sims' not found
-\end{verbatim}
-\end{kframe}}
-\end{knitrout}
-
-\end{figure}
+%\subsection{Visualizing the simulation replicates}
+%
+%The \texttt{reps} list also contains the simulation data from each replicate
+%\setkeys{Gin}{width=0.95\textwidth}
+%
+%\begin{figure}[H]
+%<<<repsplot, fig.width=7>>=
+%sims <- get_replicates(reps)
+%ggplot(sims) + geom_line(aes(time, value, group=rep), alpha=0.1) + facet_wrap(~model)
+%@
+%\end{figure}
+%\setkeys{Gin}{width=0.5\textwidth}
 
 \section{Computing summary statistics with improved sampling}
 
@@ -742,11 +721,10 @@ We begin by running the individual based simulation, supplied in our helper pack
 \begin{flushleft}
 \ttfamily\noindent
 \hlfunctioncall{require}\hlkeyword{(}\hlsymbol{populationdynamics}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{pars}{\ }\hlassignement{=}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlargument{Xo}{\ }\hlargument{=}{\ }\hlnumber{730}\hlkeyword{,}{\ }\hlargument{e}{\ }\hlargument{=}{\ }\hlnumber{0.5}\hlkeyword{,}{\ }\hlargument{a}{\ }\hlargument{=}{\ }\hlnumber{100}\hlkeyword{,}{\ }\hlargument{K}{\ }\hlargument{=}{\ }\hlnumber{1000}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlargument{h}{\ }\hlargument{=}{\ }\hlnumber{200}\hlkeyword{,}{\ }\hlargument{i}{\ }\hlargument{=}{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlargument{Da}{\ }\hlargument{=}{\ }\hlnumber{0.09}\hlkeyword{,}{\ }\hlargument{Dt}{\ }\hlargument{=}{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlargument{p}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{time}{\ }\hlassignement{=}{\ }\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{0}\hlkeyword{,}{\ }\hlnumber{500}\hlkeyword{,}{\ }\hlargument{length}{\ }\hlargument{=}{\ }\hlnumber{1500}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{sn}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{saddle\usebox{\hlnormalsizeboxunderscore}node\usebox{\hlnormalsizeboxunderscore}ibm}\hlkeyword{(}\hlsymbol{pars}\hlkeyword{,}{\ }\hlsymbol{time}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{X}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{time}{\ }\hlargument{=}{\ }\hlsymbol{time}\hlkeyword{,}{\ }\hlargument{value}{\ }\hlargument{=}{\ }\hlsymbol{sn}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{x1}\hlkeyword{)}\mbox{}
+\hlstd{}\hlsymbol{pars}{\ }\hlassignement{=}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlargument{Xo}{\ }\hlargument{=}{\ }\hlnumber{730}\hlkeyword{,}{\ }\hlargument{e}{\ }\hlargument{=}{\ }\hlnumber{0.5}\hlkeyword{,}{\ }\hlargument{a}{\ }\hlargument{=}{\ }\hlnumber{100}\hlkeyword{,}{\ }\hlargument{K}{\ }\hlargument{=}{\ }\hlnumber{1000}\hlkeyword{,}{\ }\hlargument{h}{\ }\hlargument{=}{\ }\hlnumber{200}\hlkeyword{,}{\ }\hlargument{i}{\ }\hlargument{=}{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlargument{Da}{\ }\hlargument{=}{\ }\hlnumber{.09}\hlkeyword{,}{\ }\hlargument{Dt}{\ }\hlargument{=}{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlargument{p}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{time}\hlassignement{=}\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{0}\hlkeyword{,}{\ }\hlnumber{500}\hlkeyword{,}{\ }\hlargument{length}\hlargument{=}\hlnumber{1500}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{sn}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{saddle\usebox{\hlnormalsizeboxunderscore}node\usebox{\hlnormalsizeboxunderscore}ibm}\hlkeyword{(}\hlsymbol{pars}\hlkeyword{,}\hlsymbol{time}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{X}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{time}\hlargument{=}\hlsymbol{time}\hlkeyword{,}{\ }\hlargument{value}\hlargument{=}\hlsymbol{sn}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{x1}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 \end{kframe}}
@@ -764,8 +742,8 @@ We compute the observed value of Kendall's tau for the autocorrelation computed 
 \normalfont
 \end{flushleft}
 \begin{verbatim}
-##     tau 
-## -0.1633 
+##    tau 
+## 0.8628 
 \end{verbatim}
 \end{kframe}}
 \end{knitrout}
@@ -779,10 +757,9 @@ While this gives us single value which is useful for statistical comparisons tha
 \begin{flushleft}
 \ttfamily\noindent
 \hlsymbol{npts}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{X}\hlkeyword{[[}\hlstring{"{}value"{}}\hlkeyword{]}\hlkeyword{]}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{autocorrelation}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{window\usebox{\hlnormalsizeboxunderscore}autocorr}\hlkeyword{(}\hlsymbol{X}\hlkeyword{[[}\hlstring{"{}value"{}}\hlkeyword{]}\hlkeyword{]}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlargument{windowsize}{\ }\hlargument{=}{\ }\hlsymbol{npts}\hlkeyword{/}\hlnumber{2}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{autocorrelation}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlfunctioncall{rep}\hlkeyword{(}\hlnumber{NA}\hlkeyword{,}{\ }\hlsymbol{npts}\hlkeyword{/}\hlnumber{2}{\ }\hlkeyword{-}{\ }\hlnumber{1}\hlkeyword{)}\hlkeyword{,}{\ }\hlsymbol{autocorrelation}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{X}\hlkeyword{[[}\hlstring{"{}time"{}}\hlkeyword{]}\hlkeyword{]}\hlkeyword{,}{\ }\hlsymbol{autocorrelation}\hlkeyword{,}{\ }\hlargument{type}{\ }\hlargument{=}{\ }\hlstring{"{}l"{}}\hlkeyword{)}\mbox{}
+\hlstd{}\hlsymbol{autocorrelation}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{window\usebox{\hlnormalsizeboxunderscore}autocorr}\hlkeyword{(}\hlsymbol{X}\hlkeyword{[[}\hlstring{"{}value"{}}\hlkeyword{]}\hlkeyword{]}\hlkeyword{,}{\ }\hlargument{windowsize}\hlargument{=}\hlsymbol{npts}\hlkeyword{/}\hlnumber{2}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{autocorrelation}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlfunctioncall{rep}\hlkeyword{(}\hlnumber{NA}\hlkeyword{,}{\ }\hlsymbol{npts}\hlkeyword{/}\hlnumber{2}\hlkeyword{-}\hlnumber{1}\hlkeyword{)}\hlkeyword{,}{\ }\hlsymbol{autocorrelation}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{X}\hlkeyword{[[}\hlstring{"{}time"{}}\hlkeyword{]}\hlkeyword{]}\hlkeyword{,}{\ }\hlsymbol{autocorrelation}\hlkeyword{,}{\ }\hlargument{type}\hlargument{=}\hlstring{"{}l"{}}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 
@@ -814,9 +791,9 @@ and then we can simulate some replicates
 \definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
 \begin{flushleft}
 \ttfamily\noindent
-\hlsymbol{reps}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{500}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{Asim}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{simulate}\hlkeyword{(}\hlsymbol{A}\hlkeyword{,}{\ }\hlsymbol{reps}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{Bsim}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{simulate}\hlkeyword{(}\hlsymbol{B}\hlkeyword{,}{\ }\hlsymbol{reps}\hlkeyword{)}\mbox{}
+\hlsymbol{nreps}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{500}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{Asim}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{simulate}\hlkeyword{(}\hlsymbol{A}\hlkeyword{,}{\ }\hlsymbol{nreps}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{Bsim}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{simulate}\hlkeyword{(}\hlsymbol{B}\hlkeyword{,}{\ }\hlsymbol{nreps}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 \end{kframe}}
@@ -830,8 +807,8 @@ We tidy up the data a bit; columns should be variables, not replicates.
 \begin{flushleft}
 \ttfamily\noindent
 \hlfunctioncall{require}\hlkeyword{(}\hlsymbol{reshape2}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{Asim}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{melt}\hlkeyword{(}\hlsymbol{Asim}\hlkeyword{,}{\ }\hlargument{id}{\ }\hlargument{=}{\ }\hlstring{"{}time"{}}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{Bsim}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{melt}\hlkeyword{(}\hlsymbol{Bsim}\hlkeyword{,}{\ }\hlargument{id}{\ }\hlargument{=}{\ }\hlstring{"{}time"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{Asim}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{melt}\hlkeyword{(}\hlsymbol{Asim}\hlkeyword{,}{\ }\hlargument{id}\hlargument{=}\hlstring{"{}time"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{Bsim}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{melt}\hlkeyword{(}\hlsymbol{Bsim}\hlkeyword{,}{\ }\hlargument{id}\hlargument{=}\hlstring{"{}time"{}}\hlkeyword{)}\hspace*{\fill}\\
 \hlstd{}\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{Asim}\hlkeyword{)}\hlkeyword{[}\hlnumber{2}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlstring{"{}reps"{}}\hspace*{\fill}\\
 \hlstd{}\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{Bsim}\hlkeyword{)}\hlkeyword{[}\hlnumber{2}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlstring{"{}reps"{}}\mbox{}
 \normalfont
@@ -848,10 +825,8 @@ Now that we have replicates from each process, we can apply the windowed autocor
 \hlfunctioncall{require}\hlkeyword{(}\hlsymbol{plyr}\hlkeyword{)}\hspace*{\fill}\\
 \hlstd{}\hlfunctioncall{require}\hlkeyword{(}\hlsymbol{doMC}\hlkeyword{)}\hspace*{\fill}\\
 \hlstd{}\hlfunctioncall{registerDoMC}\hlkeyword{(}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{wsA}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{ddply}\hlkeyword{(}\hlsymbol{Asim}\hlkeyword{,}{\ }\hlstring{"{}reps"{}}\hlkeyword{,}{\ }\hlsymbol{warningtrend}\hlkeyword{,}{\ }\hlsymbol{window\usebox{\hlnormalsizeboxunderscore}autocorr}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlargument{.parallel}{\ }\hlargument{=}{\ }\hlnumber{TRUE}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlsymbol{wsB}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{ddply}\hlkeyword{(}\hlsymbol{Bsim}\hlkeyword{,}{\ }\hlstring{"{}reps"{}}\hlkeyword{,}{\ }\hlsymbol{warningtrend}\hlkeyword{,}{\ }\hlsymbol{window\usebox{\hlnormalsizeboxunderscore}autocorr}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlargument{.parallel}{\ }\hlargument{=}{\ }\hlnumber{TRUE}\hlkeyword{)}\mbox{}
+\hlstd{}\hlsymbol{wsA}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{ddply}\hlkeyword{(}\hlsymbol{Asim}\hlkeyword{,}{\ }\hlstring{"{}reps"{}}\hlkeyword{,}{\ }\hlsymbol{warningtrend}\hlkeyword{,}{\ }\hlsymbol{window\usebox{\hlnormalsizeboxunderscore}autocorr}\hlkeyword{,}{\ }\hlargument{.parallel}\hlargument{=}\hlnumber{TRUE}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{wsB}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{ddply}\hlkeyword{(}\hlsymbol{Bsim}\hlkeyword{,}{\ }\hlstring{"{}reps"{}}\hlkeyword{,}{\ }\hlsymbol{warningtrend}\hlkeyword{,}{\ }\hlsymbol{window\usebox{\hlnormalsizeboxunderscore}autocorr}\hlkeyword{,}{\ }\hlargument{.parallel}\hlargument{=}\hlnumber{TRUE}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 \end{kframe}}
@@ -864,11 +839,10 @@ And gather and plot the distributions,
 \definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
 \begin{flushleft}
 \ttfamily\noindent
-\hlsymbol{tidy}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{melt}\hlkeyword{(}\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{null}{\ }\hlargument{=}{\ }\hlsymbol{wsA}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{tau}\hlkeyword{,}{\ }\hlargument{test}{\ }\hlargument{=}{\ }\hlsymbol{wsB}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{tau}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlsymbol{tidy}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{melt}\hlkeyword{(}\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{null}\hlargument{=}\hlsymbol{wsA}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{tau}\hlkeyword{,}{\ }\hlargument{test}\hlargument{=}\hlsymbol{wsB}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{tau}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
 \hlstd{}\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{tidy}\hlkeyword{)}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlstring{"{}simulation"{}}\hlkeyword{,}{\ }\hlstring{"{}value"{}}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlfunctioncall{beanplot}\hlkeyword{(}\hlsymbol{value}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{simulation}\hlkeyword{,}{\ }\hlsymbol{tidy}\hlkeyword{,}{\ }\hlargument{what}{\ }\hlargument{=}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlnumber{0}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlnumber{1}\hlkeyword{,}{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlnumber{0}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlfunctioncall{abline}\hlkeyword{(}\hlargument{h}{\ }\hlargument{=}{\ }\hlsymbol{observed}\hlkeyword{,}{\ }\hlargument{lty}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\mbox{}
+\hlstd{}\hlfunctioncall{beanplot}\hlkeyword{(}\hlsymbol{value}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{simulation}\hlkeyword{,}{\ }\hlsymbol{tidy}\hlkeyword{,}{\ }\hlargument{what}\hlargument{=}\hlfunctioncall{c}\hlkeyword{(}\hlnumber{0}\hlkeyword{,}\hlnumber{1}\hlkeyword{,}\hlnumber{0}\hlkeyword{,}\hlnumber{0}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{abline}\hlkeyword{(}\hlargument{h}\hlargument{=}\hlsymbol{observed}\hlkeyword{,}{\ }\hlargument{lty}\hlargument{=}\hlnumber{2}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 
@@ -887,8 +861,7 @@ and corrsponding ROC plot,
 \begin{flushleft}
 \ttfamily\noindent
 \hlsymbol{roc}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{roc\usebox{\hlnormalsizeboxunderscore}data}\hlkeyword{(}\hlsymbol{tidy}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{roc}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}line}\hlkeyword{(}\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{False.positives}\hlkeyword{,}{\ }\hlsymbol{True.positives}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}{\ }{\ }{\ }{\ }\hlargument{lwd}{\ }\hlargument{=}{\ }\hlnumber{1}\hlkeyword{)}\mbox{}
+\hlstd{}\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{roc}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}line}\hlkeyword{(}\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{False.positives}\hlkeyword{,}{\ }\hlsymbol{True.positives}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{lwd}\hlargument{=}\hlnumber{1}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 
@@ -902,12 +875,12 @@ and corrsponding ROC plot,
 
 
 
-Lastly we save the data from each of these examples, that it may be available to the users later.   
+Lastly we save the data from each of these examples for future reference.   
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
 \begin{flushleft}
 \ttfamily\noindent
-\hlfunctioncall{save}\hlkeyword{(}\hlargument{list}{\ }\hlargument{=}{\ }\hlfunctioncall{ls}\hlkeyword{(}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{file}{\ }\hlargument{=}{\ }\hlstring{"{}tutorial.rda"{}}\hlkeyword{)}\mbox{}
+\hlfunctioncall{save}\hlkeyword{(}\hlargument{list}\hlargument{=}\hlfunctioncall{ls}\hlkeyword{(}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{file}\hlargument{=}\hlstring{"{}tutorial.rda"{}}\hlkeyword{)}\mbox{}
 \normalfont
 \end{flushleft}
 \end{kframe}}

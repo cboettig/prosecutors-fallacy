@@ -7,8 +7,8 @@
 \usepackage{lineno}
 \linenumbers
 \usepackage[pdftex, colorlinks]{hyperref}
-\usepackage{float}
-\usepackage{endfloat}
+%\usepackage{float}
+%\usepackage{endfloat}
 
 \textwidth 6.75in
 \oddsidemargin -0.15in
@@ -117,7 +117,6 @@ In this paper we argue for a model-based approach,
 and describe how this can be done in a way that best addresses these difficulties.
 We begin by enumerating several of the difficulties encountered in approaches lacking an explicit model.
 
-%%% hmm, what about all the red-herring topics, like change point analysis?  Add a discussion such as Contamin & Ellison ~\citep{Contamin2009} have about forecasting shifts, not post-hoc identification of shifts.
 
 
 \subsubsection*{Hidden assumptions}
@@ -222,7 +221,7 @@ such as autoregressive models in~\citet{Dakos2008}, bringing us
 closer to a model-based approach with explicit assumptions.
 Others have looked for alternative summary statistics where
 reasonable null models are more readily available,
-such as~\citet{Seekell2011}'s proposal to test for conditional heteroscedaticity.
+such as~\citet{Seekell2011}'s proposal to test for conditional heteroscedasticity.
 
 \subsubsection*{Summary-statistic approaches have less statistical power.}
 Methods for the detection of early warning signals are continually challenged by inadequate data~\citep{Inman2011, Scheffer2010,Held2004, Dakos2008, Scheffer2009, Guttal2008, Carpenter2011, Bestelmeyer2011}.
@@ -479,7 +478,7 @@ The simulation implements an individual, continuous-time stochastic birth-death 
     d_n &= e n + a_t
 \end{align}
 
-where $P(n,t)$ is the probability of having $n$ individuals at time $t$, $b_n$ is the probability of a birth event occuring in a population of $n$ individuals, $d_n$ the probability of a death.  $e, K, h$ and $a_t$ are parameters.  
+where $P(n,t)$ is the probability of having $n$ individuals at time $t$, $b_n$ is the probability of a birth event occurring in a population of $n$ individuals, $d_n$ the probability of a death.  $e, K, h$ and $a_t$ are parameters.  
 This corresponds to the well-studied ecosystem model of over-exploitation~\citep{Noy-Meir1975, May1977},
 with stochasticity introduced directly through the demographic process.
 We select this model since it is has discrete numbers of individuals, 
@@ -655,7 +654,7 @@ the observed $\tau$ values on the replicates extend evenly across the range.
 This results in dramatic overlap and offers little ability to distinguish between the stable replicates 
 and the replicates approaching a transition. 
 
-The use of box plots in Figure~\ref{fig:summary_box} provide a convient and familiar way 
+The use of box plots in Figure~\ref{fig:summary_box} provide a convenient and familiar way 
 to visualize the overlap between more than two distributions,
 though they lack the resolution of the overlapping density distributions in 
 Figures~\ref{fig:simulation},~\ref{fig:chemostat}, \ref{fig:glaciation}.  
@@ -681,9 +680,9 @@ It is notable that in both empirical examples the summary statistics approach do
 replicates that have been simulated from models~\eqref{LSN} and ~\eqref{OU}, 
 despite the fact that these models correspond 
 to the assumptions of the summary statistics approaches.  
-On the simulated data, the varianced based method approaches the 
+On the simulated data, the variance based method approaches the 
 true-positive rate of our likelihood method at higher levels of false positives, 
-but performs worse when the desired level of false postives is low.  
+but performs worse when the desired level of false positives is low.  
 The ROC curve helps us compare the performance of the different approaches at different tolerances.  
 For instance, Table~\ref{tab:falsepos} shows the fraction of true crashes caught at a 5\% false positive rate.
 We can instead set a desired True positive rate and read off the resulting number of false alarms, Table~\ref{tab:truepos}.  
@@ -731,14 +730,11 @@ dynamics do not correspond to these models~\citep{Hastings2010}.
 Our results illustrate that even in this best-case scenario,
 reliable identification of warning signals from summary statistics can be difficult.
 
- % past tense or not?
 We have used three examples to illustrate the performance of this approach in data from 
 simulation, a chemostat experiment, and paleo-atmospheric record; examples differing in 
 sampling intensity and strength of signal of an approaching collapse.  
 While the well-sampled geological data shows an unmistakable signal in this model-based approach,
 the uncertainty in the smaller simulated and experimental data forces a trade-off between errors.  
-%Because such uncertainty may be more typical of early warning signal detection 
-%than the monotonically increasing patterns often used to illustrate the approach,
  
 As a way to clearly illustrate the choices involved in looking for warning signals while avoiding false alarms,
 we introduce an approach based on receiver operator curves. 
@@ -747,15 +743,13 @@ between missed events and false alarms.
 The extent of the difficulty in finding reliable indicators of impending regime shifts
 based on summary statistics becomes clear from the ROC curves of these statistics,
 where a 5\% false positive rate often corresponds to only a 5\% true positive rate,
-performing no better than the flip of a coin. %%%% EEEK can we really say it that strongly?
+performing no better than the flip of a coin. 
 By estimating the ROC curve for a given set of data,
 we can better avoid applying warning signals in cases of inadequate power.
 By taking advantage of the assumptions being made to write down a specific likelihood function,
 we can develop approaches that get the most information from the data available.
 
 
-
-%%% Model adequacy
 In any application of early warning signals, it is essential to address the question of model adequacy.
 Our approach formalizes the assumptions about the underlying process to match the assumptions of the other warning signals.
 As the bifurcation results from the principle eigenvalue passing through zero,

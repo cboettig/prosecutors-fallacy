@@ -54,15 +54,85 @@
   fact that we have observed a critical transition and those systems for which
   we wish to forecast the approach of a transition. This difference arising
   from conditional probabilities is often known as the the Prosecutor's 
-  Fallacy.  As we pursue this important question of early warning signals, 
-  we must be careful to avoid this trap.  
-
+  Fallacy.  We illustrate through simulation how examples of systems that have 
+  experienced transitions purely by chance show patterns associated with 
+  early warning signals more often than we might expect in systems that have not
+  been conditionally selected.  We further highlight how a model-based approach
+  is less subject to this bias.  In using historical examples of collapse to 
+  test and validate methods for early warning signals, greater care must be taken
+  to avoid this fallacy.
+ 
   \end{abstract}
 
   \begin{keyword}
 early warning signals \sep tipping point \sep alternative stable states \sep likelihood methods 
    \end{keyword}
  \end{frontmatter}
+
+ \section{Introduction}
+
+ \section{Methods and Results}
+ We simulated 1000 replicates of an individual-based birth-death process with an allee threshold.  Above the allee threshold the population returns to a positive equilibrium size.  Below the threshold the population decreases to zero. The simulation uses the Gillespie algorithm to provide an exact implementation of the master equation of birth-death process,
+
+\begin{align}
+  \frac{dP(n,t)}{dt} &= b_{n-1} P(n-1,t) + d_{n+1}P(n+1,t) - (b_n+d_n) P(n,t)  \label{master} \\
+    b_n &= \frac{e K n^2}{n^2 + h^2} \\
+    d_n &= e n + a
+\end{align}
+
+Though this system can be forced through a saddle-node bifurcation by
+increasing values of either $e$ or $a$, all parameters are held fixed.
+The simulation starts from the positive equilibrium population size.
+Though the chance of a transition across the allee threshold in any 
+given timestep are small, given enough time this system will eventually
+experience such a rare event driving the population extinct.  We evolved
+each replicate 50000 timesteps, sampling the system every 50 timesteps.  
+In this time window 155 of the 1000 replicates experience population collapse.  
+Nine of these replicates can be seen in Figure~\ref{fig:replicate_crashes},
+as an illustration. 
+
+We selected replicates conditional on having collapsed in the simulations.
+We then selected a window around each system that ended just before the
+collapse, while the population values were still above the allee threshold.
+For each replicate, we calculated the most common warning signals, variance
+and autocorrelation~\citep[\emph{e.g.}][]{Carpenter2006,Dakos2008,Scheffer2009}, 
+around a moving window equal to half the length of that
+timeseries.  
+
+To determine whether or not the variance or autocorrelation increased 
+over time in these 155 replicates, we computed Kendall's $\tau$ for each of the
+warning signal pattern~\citep{Dakos2008, Dakos2010}.  Positive values of $\tau$ 
+indicate an increasing trend in the warning signal.  The distribution of $\tau$ 
+values observed across these replicates is shown in Figure~\ref{fig:indicator}.
+More positive values indicate stronger trends. Assessing the statistical significance
+of a given value requires an appropriate null model, which can be difficult 
+to do~\citep{Dakos2008}. As these examples have been selected from a system
+that is not approaching a bifurcation and therefore should not exhibit any 
+early warning sign, even the very strong values of $\tau$ should be considered 
+as arising from the null model. 
+
+We compared this approach to a model-based approach 
+
+
+  \begin{figure}[ht]
+    \begin{center}
+      \includegraphics{replicate_crashes}
+    \end{center}
+    \caption{Nine of the 155 replicates that experience a critical transition by chance during the course of the simulation.}
+    \label{fig:replicate_crashes}
+  \end{figure}
+
+
+  \begin{figure}[ht]
+    \begin{center}
+      \includegraphics{fallacy}
+    \end{center}
+    \caption{The distribution of three early warning indicators on replicates conditionally selected for having collapsed by chance in simulations.}
+    \label{fig:indicator}
+  \end{figure}
+
+ \section{Discussion}
+
  \section{References}%bibliography
  \bibliography{boettiger}
  \end{document}

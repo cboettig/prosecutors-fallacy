@@ -72,7 +72,11 @@ early warning signals \sep tipping point \sep alternative stable states \sep lik
  \section{Introduction}
 
  \section{Methods and Results}
- We simulated 1000 replicates of an individual-based birth-death process with an allee threshold.  Above the allee threshold the population returns to a positive equilibrium size.  Below the threshold the population decreases to zero. The simulation uses the Gillespie algorithm to provide an exact implementation of the master equation of birth-death process,
+ We simulated 1000 replicates of an individual-based birth-death process
+ with an allee threshold.  Above the allee threshold the population returns
+ to a positive equilibrium size.  Below the threshold the population decreases
+ to zero. The simulation uses the Gillespie algorithm to provide an exact 
+ implementation of the master equation of birth-death process,
 
 \begin{align}
   \frac{dP(n,t)}{dt} &= b_{n-1} P(n-1,t) + d_{n+1}P(n+1,t) - (b_n+d_n) P(n,t)  \label{master} \\
@@ -116,7 +120,7 @@ We compared this approach to a model-based approach
 
   \begin{figure}[ht]
     \begin{center}
-      \includegraphics{replicate_crashes}
+      \includegraphics{replicate_crashes.pdf}
     \end{center}
     \caption{Nine of the 155 replicates that experience a critical transition by chance during the course of the simulation.}
     \label{fig:replicate_crashes}
@@ -125,7 +129,7 @@ We compared this approach to a model-based approach
 
   \begin{figure}[ht]
     \begin{center}
-      \includegraphics{fallacy}
+      \includegraphics{indicators.pdf}
     \end{center}
     \caption{The distribution of three early warning indicators on replicates conditionally selected for having collapsed by chance in simulations.}
     \label{fig:indicator}
@@ -133,6 +137,9 @@ We compared this approach to a model-based approach
 
  \section{Discussion}
 
+ \section{Acknowledgements}
+This research was supported by funding from NSF Grant EF 0742674 to AH
+and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308 to CB. 
  \section{References}%bibliography
  \bibliography{boettiger}
  \end{document}

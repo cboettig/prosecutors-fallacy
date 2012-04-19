@@ -1,15 +1,15 @@
 %\documentclass[authoryear,5p]{elsarticle}
-\documentclass[authoryear,preprint,11pt]{elsarticle}
+\documentclass[authoryear,review,12pt]{elsarticle}
 \bibliographystyle{elsarticle-harv}
 \usepackage{graphicx}
 \usepackage{amsmath,amsfonts}
 \usepackage{lineno}
 \linenumbers
+\usepackage{float}
 \usepackage{subfigure}
 \usepackage[pdftex]{color}
 \definecolor{darkblue}{rgb}{0,0,0.5}
 \definecolor{darkgreen}{rgb}{0,0.5,0}
-%\usepackage[pdftex, colorlinks, citecolor=darkblue,linkcolor=darkgreen]{hyperref}
 \usepackage[pdftex, colorlinks]{hyperref}
 \textwidth 6.75in
 \oddsidemargin -0.15in
@@ -20,8 +20,16 @@
 \newcommand{\E}{\mathrm{E}}
 \newcommand{\C}{\mathrm{Cov}}
 \newcommand{\V}{\mathrm{Var}}
-
 \newcommand{\cb}[1]{{\it \color{darkgreen} (#1)}}
+
+%% Redefines the elsarticle footer
+\makeatletter
+\def\ps@pprintTitle{
+\let\@oddhead\@empty
+\let\@evenhead\@empty
+\def\@oddfoot{\it \hfill\today}
+\let\@evenfoot\@oddfoot}
+\makeatother
 
 
 
@@ -69,14 +77,53 @@ early warning signals \sep tipping point \sep alternative stable states \sep lik
    \end{keyword}
  \end{frontmatter}
 
- \section{Introduction}
+\section{Introduction}
+In a criminal trial, the prosecution may introduce associative evidence such as 
+blood testing to establish a match between the perpetrator at the scene of the
+crime and a suspect on the defense stand.  Statistical testimony may accompany 
+such evidence reflecting the incidence rate of the matching characteristic -- 
+for instance, the frequency of individuals in the population with the matching
+blood type.  Such arguments may be misleading when they fail to reflect the 
+probability conditional on the manner in which the suspect was identified in 
+the first place.  If the suspect has been selected partly on the basis of belonging
+to demographic in which the characteristic is much more common than in the 
+population as a whole, these odds can be misleading.  Failing to recognize 
+these conditional probabilities leads to the ``Prosecutor's Fallacy'' -- the argument
+that the suspect is the perpetrator on the basis of the statistical probability 
+of a match without currectly identifying the baseline probability for such a match
+\citep{Thompson1987}.
 
- \section{Methods and Results}
- We simulated 1000 replicates of an individual-based birth-death process
- with an allee threshold.  Above the allee threshold the population returns
- to a positive equilibrium size.  Below the threshold the population decreases
- to zero. The simulation uses the Gillespie algorithm to provide an exact 
- implementation of the master equation of birth-death process,
+Statisical patterns associated with sudden, catastrophic transitions or ``tipping points''
+could play an important role as early warning signs or leading indicators of
+these shifts, which may give us precious time to react and avert them~\citep{Scheffer2009, Lenton2011}.
+Historical examples of sudden transitions taken from the paleoclimate record
+provide an important way to test and evaluate potential leading indicator methods,
+and have been widely used for this purpose~\citep{Livina2007,Dakos2008,Lenton2012,Ditlevsen2010,Guttal2008,Thompson2010} 
+Similarly, it has been suggested that data gathered on ecological systems such as lakes
+that were monitored before the collapsed, or grasslands subjected to overgrazing,
+could contain data that could help reveal when similar systems are approaching 
+a tipping point~\citet{Inman2011}.  This is a silver lining to the clouds of past
+catastrophes -- we may be able to learn from our mistakes. 
+
+In testing methods for early warning signals against historical examples of transitions,
+we must be careful to avoid falling into the Prosecutor's Fallacy.  Sudden transitions
+can occur for many reasons that do not involve the bifurcation proccesses on which
+most early warning indicators are predicated~\citep{Hastings2010}, including purely
+noise-induced transitions for which early warning signs will not exist~\citep{Ditlevsen2010, Lenton2011}.
+
+ 
+% Explain variance, autocorrelation, tau.  
+
+
+\emph{Add more context \dots }
+
+
+\section{Methods and Results}
+We simulated 1000 replicates of an individual-based birth-death process
+with an allee threshold.  Above the allee threshold the population returns
+to a positive equilibrium size.  Below the threshold the population decreases
+to zero. The simulation uses the Gillespie algorithm to provide an exact 
+implementation of the master equation of birth-death process,
 
 \begin{align}
   \frac{dP(n,t)}{dt} &= b_{n-1} P(n-1,t) + d_{n+1}P(n+1,t) - (b_n+d_n) P(n,t)  \label{master} \\
@@ -85,7 +132,8 @@ early warning signals \sep tipping point \sep alternative stable states \sep lik
 \end{align}
 
 Though this system can be forced through a saddle-node bifurcation by
-increasing values of either $e$ or $a$, all parameters are held fixed.
+increasing values of either $e$ or $a$, in these simulations all parameters
+are held constant and no early warning signal is anticipated.
 The simulation starts from the positive equilibrium population size.
 Though the chance of a transition across the allee threshold in any 
 given timestep are small, given enough time this system will eventually
@@ -95,13 +143,23 @@ In this time window 155 of the 1000 replicates experience population collapse.
 Nine of these replicates can be seen in Figure~\ref{fig:replicate_crashes},
 as an illustration. 
 
+  \begin{figure}[H]
+    \begin{center}
+      \includegraphics{replicate_crashes.pdf}
+    \end{center}
+    \caption{Example trajectories for nine of the 155 replicates that 
+             experience a critical transition by chance during the course
+             of the simulation.}
+    \label{fig:replicate_crashes}
+  \end{figure}
+
+
 We selected replicates conditional on having collapsed in the simulations.
 We then selected a window around each system that ended just before the
 collapse, while the population values were still above the allee threshold.
 For each replicate, we calculated the most common warning signals, variance
 and autocorrelation~\citep[\emph{e.g.}][]{Carpenter2006,Dakos2008,Scheffer2009}, 
-around a moving window equal to half the length of that
-timeseries.  
+around a moving window equal to half the length of that timeseries.  
 
 To determine whether or not the variance or autocorrelation increased 
 over time in these 155 replicates, we computed Kendall's $\tau$ for each of the
@@ -112,36 +170,104 @@ More positive values indicate stronger trends. Assessing the statistical signifi
 of a given value requires an appropriate null model, which can be difficult 
 to do~\citep{Dakos2008}. As these examples have been selected from a system
 that is not approaching a bifurcation and therefore should not exhibit any 
-early warning sign, even the very strong values of $\tau$ should be considered 
-as arising from the null model. 
-
-We compared this approach to a model-based approach 
+early warning sign. %Even the very strong values of $\tau$ should be considered 
+%as arising from the null model. 
 
 
-  \begin{figure}[ht]
-    \begin{center}
-      \includegraphics{replicate_crashes.pdf}
-    \end{center}
-    \caption{Nine of the 155 replicates that experience a critical transition by chance during the course of the simulation.}
-    \label{fig:replicate_crashes}
-  \end{figure}
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics{indicators.pdf}
+  \end{center}
+  \caption{The distribution of two early warning indicators on replicates conditionally selected for having collapsed by chance in simulations.}
+  \label{fig:indicator}
+\end{figure}
+
+For each of these replicates we also take a model-based approach, estimating 
+parameters for an approximate linear model of the system approaching a
+saddle node bifurcation.
 
 
-  \begin{figure}[ht]
-    \begin{center}
-      \includegraphics{indicators.pdf}
-    \end{center}
-    \caption{The distribution of three early warning indicators on replicates conditionally selected for having collapsed by chance in simulations.}
-    \label{fig:indicator}
-  \end{figure}
+\begin{equation}
+  dX = \sqrt{ r_t } (\phi(r_t) - X_t) dt +
+  \sigma\sqrt{\phi(r_t) } d B_t \label{LSN}
+\end{equation}
+
+where \( \phi(r_t) = \sqrt{r_t} +\theta \) is the equilbirium postition.  
+This model emerges from the canonical form of the saddle-node bifurcation,
+
+\begin{equation}
+  \frac{dX}{dt} = r - x^2
+\end{equation}
+
+Where we introduce an explicit parameter $\theta$ to account for rescaling
+to the units of the data,
+
+\begin{equation}
+   \frac{dX}{dt} = r - (x-\theta)^2
+\end{equation}
+
+and then consider the corresponding stochastic process where the noise is
+proportional to the square root of the mean, as is the case for demographic
+noise processes,
+
+\begin{equation}
+  \frac{dX}{dt} = r - (x-\theta)^2 + \sqrt{ \beta (r + (x-\theta)^2 } dB_t
+\end{equation}
+
+$r$ remains the bifurcation parameter which we imagine changing with time,
+$r_t$, then linearizing the above model in neighboorhood of
+\(\hat x = \sqrt{r_t} +\theta =: \phi(r_t)\), we recover Equation~\eqref{LSN}.
+These models can be both be fit to the data by maximum likelihood estimation
+based on the equation for the evolution of their moments, as
+in~\citet{Boettiger2012b}.  
+
+Though this approximation is more general than the original Markov process,
+it is also easier to estimate reliably from the data since it describes only 
+the process near the equilibrium where the data is avialable.  
+
+We assume that $r_t$ is varying at constant rate, according to the model
+
+\begin{equation}
+ r_t = m t + r_0 
+\end{equation}
+
+and estimate $m$, $r_0$, $\theta$, and $\beta$ by maximum likelihood on each
+of the simulated datasets.  Estimates of $m < 0 $ are expected in systems 
+approaching a bifurcation, while for stable systems $m$ should be approximately zero.
+Of the 155 simulations, only six had estimates with machine precision different
+from zero, the greatest magnitude among these was $-7.1 \times 10^{-12}$,
+which would still correspond to a negilible change in $r_0$ over the 50,000 timesteps
+of the simulation.  Consequently, the model-based estimation shows no 
+evidence of bias on data that has been selected conditional on collapse.   
 
  \section{Discussion}
+At first it seems tempting to argue that this bias is in fact valuable -- each
+of these systems did indeed collapse, so the fact that they show increased 
+probability to exhibit warning signals could be taken as a successful detection.
+Unfortunately, this reasoning is flawed. At the moment the forecast is made,
+these systems are no more likely to crash than their counterparts from the sample
+that did not collapse, just as a fair coin is still a fair coin after a string of
+consecutive ``heads.''  Taking a closer look at the patterns involved we can
+begin to understand why common indicators such as autocorrelation and variance
+can be misleading.
+
+Systems that crash by chance excursion beyond the tipping point 
+
+Systems collapsing by chance do so from a string of unexpected events 
+
+Discuss the pattern of a system crashing by chance -- why this looks like increased autocorrelation and increased variance.  
+ 
+Discuss why this cannt be considered a successful detection.  
+
+These are not more likely to crash than another system.  
+
+Not a good test of the method's ability to detect bifurcations.  
 
  \section{Acknowledgements}
 This research was supported by funding from NSF Grant EF 0742674 to AH
 and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308 to CB. 
  \section{References}%bibliography
- \bibliography{boettiger}
+ \bibliography{fallacy}
  \end{document}
 
 

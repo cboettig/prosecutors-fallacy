@@ -80,7 +80,7 @@ In this treatment we focus on the situation where these more detailed models are
 
 However, for many ecological systems specific models are not available and general approaches are needed~\citep{Scheffer2009, Lade2012}
 that do not depend on estimating the parameters of a known model of a specific system. 
-This has lead to a variety of approaches based on summary statistics
+This has led to a variety of approaches based on summary statistics
 ~\citep[\emph{e.g.}][]{Carpenter2006, Held2004, Dakos2008, Guttal2008, Biggs2009, Carpenter2011, Seekell2011}
 that look for generic signs of impending regime shifts.  
 Here we extend earlier work by providing estimates 
@@ -100,7 +100,7 @@ to reflect the uncertainty inherent in the detection of early warning signals.
 We caution against paradigms that are not useful for capturing uncertainty in
 a model-selection based approach, such as information criteria.
 Finally we use receiver-operating characteristics~\citep{Green1989, Keller2009}
-as a powerful way to illustrate the sensitivity of different data sets
+as a way to illustrate the sensitivity of different data sets
 and different indicators have in detecting early warning signals and use this to explore a number of examples.
 This approach provides a visualization of the types of errors that arise and how one can trade off between them.  
 
@@ -109,6 +109,11 @@ This approach provides a visualization of the types of errors that arise and how
 Foundational work on early warning signals has operated under the often-implicit assumption
 that the system dynamics contain a saddle-node bifurcation by
 looking for patterns that are associated with this kind of transition.
+A saddle-node bifurcation is the result of a stable node and an unstable
+saddle-point colliding and annihilating, leaving the system to transition 
+to another attractor~\citep[see ][or other dynamical systems text 
+for an introduction to this and other bifurcations]{Guckenheimer1983}.   
+
 Typical patterns include an increasing trend in a summary statistic such as
 variance~\citep{Carpenter2006}, autocorrelation~\citep{Held2004, Dakos2008},
 skew~\citep{Guttal2008}, spectral ratio~\citep{Biggs2009}.
@@ -128,12 +133,13 @@ Alternatively, variance may not increase as a bifurcation is approached~\citep{L
 Some classes of sudden transitions may exhibit no warning signals~\cite{Hastings2010}.
 Like saddle-node bifurcations, transcritical bifurcations involve an eigenvalue passing through zero,
 and exhibit the patterns of critical slowing down and increased variance~\citep{Drake2010}.  
-However, transcritical bifurcations are not ``blue-sky'' transitions that have made critical transitions so worrisome.% --
+However, transcritical bifurcations involve a change in stability of a fixed point, rather
+than the sudden dissapearance of a fixed point that has made critical transitions so worrisome.% --
 %they are characterized by a steady approach towards the alternative stable state, 
 %such as a population size gradually approaching zero.  
 While no approach will be applicable to all classes of sudden transitions,
 it is certainly still useful to have an approach that detect transitions driven by
-saddle node bifurcations, which have been found in many contexts~\citep[\emph{e.g.}, see][]{Scheffer2001}.
+saddle-node bifurcations, which have been found in many contexts~\citep[\emph{e.g.}, see][]{Scheffer2001}.
 
 %Differing causes of the transition.
 Even when we can exclude or ignore other dynamics and
@@ -146,7 +152,9 @@ has moved the system into the alternative basin of attraction~\citep{Scheffer200
 This is an exogenous forcing that does not arise from the system dynamics, so it is not the kind of event we can expect to forecast.
 (An example might be a sudden dramatic increase in fishing effort that pushes the population past a threshold.)
 The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary~\citep{Ditlevsen2010}.
-As discussed in \citet{Livina2012}, such noise induced transitions cannot be predicted through early warning signals.
+\citet{Livina2012} indicate that such noise induced transitions cannot be predicted through early warning signals -- 
+at least they are not expected to exhibit the same early warning patterns of increased variance and increased autocorrelation
+anticipated in the case of a saddle-node bifurcation.
 The third scenario is that the system does pass through a saddle-node bifurcation,
 but rather than gradually and monotonically approaching the critical point, the
 bifurcation parameter moves in a rapid or highly non-linear way, making the detection of any gradual trend impossible.
@@ -160,7 +168,7 @@ bifurcation parameter moves in a rapid or highly non-linear way, making the dete
 
 
 \subsubsection*{Arbitrary windows}
-In addition to the assumption of a saddle node bifurcation, 
+In addition to the assumption of a saddle-node bifurcation, 
 the calculation of statistics that would be used to detect an impending transition is subject to several arbitrary choices.
 A basic difficulty arises from the need to assume a time-series is ergodic: 
 that averaging over time is equivalent to averaging over replicate realizations,
@@ -262,7 +270,7 @@ In any model choice problem, it is important to identify the goal of the exercis
 such as the ability to generalize, to imitate reality, or to predict~\citep{Levins1966}.
 In this case generality is more important than realism or predictive capability:
 we will write down a general model that is capable of approximating
-a wide class of models in which regime shifts are characterized by a saddle node bifurcation,
+a wide class of models in which regime shifts are characterized by a saddle-node bifurcation,
 and a second generic model that is capable of representing the behavior of such systems
 when they are not approaching a bifurcation.
 These may be thought of as the hypothesis and null hypothesis,
@@ -282,8 +290,9 @@ The normal form~\citep{Guckenheimer1983, Kuehn2011} for the saddle-node bifurcat
 \frac{\ud x}{\ud t} = r_t- x^2.
 \label{saddle-node}
 \end{equation}
-where $x$ is the state variable and $r_t$ our bifurcation parameter,
-which may be slowly varying in time and
+where $x$ is the state variable and $r_t$ our bifurcation parameter.
+We have added a subscript $t$ to the bifurcation parameter as a reminder that
+it is the value which may be slowly varying in time and
 consequently moving the system closer to a critical transition or regime shift~\citep{Scheffer2009}.
 Transforming this canonical form to allow for an arbitrary mean in the state variable $\theta$,
 the bifurcation looks like \( dx/dt = r_t- (\theta-x)^2 \), with fixed point \(\hat x = \sqrt{r_t} +\theta =: \phi(r_t)\).
@@ -295,6 +304,9 @@ We expand around the fixed point and express as a stochastic differential equati
 
 where $B_t$ is the standard Brownian motion. 
 This expression captures the behavior of the system near the stable point as it approaches the bifurcation.
+Allowing the stochastic term to scale with the square root of $\phi$ follows from the assumption that
+of an internal-noise process, such as demographic stochasticity, that arises in deriving the SDE from
+a Markov process, see~\citet{Kampen2007a} or~\citet{Black2012}.  
 %It is also possible to derive this same expression from the master equation
 %of various stochastic birth/death (or gains \& losses) models
 %that contain saddle-node bifurcations, as we show in the appendix.
@@ -423,7 +435,7 @@ or how much data we need to be confident in our ability to detect transitions.
 
 \subsection*{Beyond hypothesis testing}
 It is possible to frame the question of sensitivity, reliability, and adequate data in the language of hypothesis testing.
-This introduces a nuisance parameter known as the statistical significance criterion.
+This introduces the need for selecting a statistical significance criterion.
 In the hypothesis testing framework, a false positive is a Type I error,
 which is defined relative to this arbitrary statistical significance criterion, most commonly 0.05.
 By changing the criterion, one can increase or decrease the probability of the Type I error
@@ -529,10 +541,10 @@ This time series is shown in the top panel of Figure~\ref{fig:chemostat}.
 Our second empirical data set comes from the glaciation record seen
 in deuterium levels in Antarctic ice cores~\citep{Petit1999},
 as analyzed by~\citet{Dakos2008}.
-The data is preprocessed by linear interpolation and de-trending by Gaussian kernel smoothing
+The data are preprocessed by linear interpolation and de-trending by Gaussian kernel smoothing
 to be as consistent as possible with the original analysis.
 We focus on the third glaciation event, consisting of 121 sample points.
-The match is not exact since estimates the de-trending window size manually,
+The match is not exact since~\citet{Dakos2008} estimates the de-trending window size manually,
 but the estimated correlations in the first-order auto-regression coefficients are in close agreement with that analysis.
 De-trending is intended to make the data consistent with the assumptions of the warning signal detection~\citep{Dakos2008},
 which did not apply to the other data sets~\citep{Drake2010}.
@@ -550,7 +562,7 @@ This time series is shown in the top panel of Figure~\ref{fig:glaciation}.
 The deviances $\delta$ observed are 5.1, 6.0, 83.9 for the simulation,
 the chemostat data and the glaciation data, respectively.
 Based on AIC score each is large enough to reject the null hypothesis of a stable model 
-with it's one extra parameter, but this does not give the full picture of the anticipated error rates.  
+with its one extra parameter, but this does not give the full picture of the anticipated error rates.  
 The size of these differences reflects not only the magnitude of the difference in fit
 between the models but also the arbitrary units of the raw likelihoods,
 which are smaller for larger data-sets.

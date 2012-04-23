@@ -96,6 +96,14 @@ of a match without currectly identifying the baseline probability for such a mat
 Statisical patterns associated with sudden, catastrophic transitions or ``tipping points''
 could play an important role as early warning signs or leading indicators of
 these shifts, which may give us precious time to react and avert them~\citep{Scheffer2009, Lenton2011}.
+
+% Explain Critical Slowing down, variance, autocorrelation, tau.  
+
+% Saddle-node bifurcation
+\emph{Add more context \dots }
+
+
+
 Historical examples of sudden transitions taken from the paleoclimate record
 provide an important way to test and evaluate potential leading indicator methods,
 and have been widely used for this purpose~\citep{Livina2007,Dakos2008,Lenton2012,Ditlevsen2010,Guttal2008,Thompson2010} 
@@ -112,10 +120,6 @@ most early warning indicators are predicated~\citep{Hastings2010}, including pur
 noise-induced transitions for which early warning signs will not exist~\citep{Ditlevsen2010, Lenton2011}.
 
  
-% Explain variance, autocorrelation, tau.  
-
-
-\emph{Add more context \dots }
 
 
 \section{Methods and Results}
@@ -241,7 +245,10 @@ of the simulation.  Consequently, the model-based estimation shows no
 evidence of bias on data that has been selected conditional on collapse.   
 
  \section{Discussion}
-At first it seems tempting to argue that this bias is in fact valuable -- each
+
+%We have shown ..
+ 
+It seems tempting to argue that this bias is in fact valuable -- each
 of these systems did indeed collapse, so the fact that they show increased 
 probability to exhibit warning signals could be taken as a successful detection.
 Unfortunately, this reasoning is flawed. At the moment the forecast is made,
@@ -251,17 +258,59 @@ consecutive ``heads.''  Taking a closer look at the patterns involved we can
 begin to understand why common indicators such as autocorrelation and variance
 can be misleading.
 
-Systems that crash by chance excursion beyond the tipping point 
+% Delete this paragraph?
+The system simulated in our examples is governed by a birth-death process --
+a discrete Markov process that can in any instant only change by a single 
+birth or single death.  At each moment in time, there is some probability 
+that either event will occur next.  The system near its stable equilibrium
+can be well approximated as a Gaussian process, where consecutive random 
+draws buffet it above and below the stable point. While these random draws
+vary in magnitude, recall that this is simply an approximation to the 
+underlying process where events are all of the same magnitude but vary
+in their frequency following a state-dependent Poisson process.  This 
+means that what looks like a large random draw from the Gaussian distribution
+really corresponds to a series of more rapid events with some excess of 
+birth or deaths.  
 
-Systems collapsing by chance do so from a string of unexpected events 
+The farther the sytem gets from that stable point (while still 
+remaining in the local region), the more likely it is to draw a random step 
+that returns it towards the stable point, like a spring that is stretched 
+further and further, but there is some probability that it will move further
+still. Systems that manage to extend this random walk far enough to cross the
+tipping point must do so rather quickly -- with a string of events moving 
+closer and closer to the edge.  This pattern, clearly visible before the 
+crashes in each of the examples in Figure 1, produces a string of observations
+that appear more highly autocorrelated (if we are sampling the system
+frequently enought to catch the excursion at all) than we observe in the rest
+of the fluctuations around the equilbrium.  Yet this autocorrelation comes from
+a chance trajectory moving quickly \emph{away} from the stable state, not from
+the critical slowing down pattern in the return times to the stable state
+which precede a saddle-node bifurcation and motivate the early warning signal.
 
-Discuss the pattern of a system crashing by chance -- why this looks like increased autocorrelation and increased variance.  
- 
-Discuss why this cannt be considered a successful detection.  
 
-These are not more likely to crash than another system.  
 
-Not a good test of the method's ability to detect bifurcations.  
+This longer than expected excursion results in a higher than expected variance
+in that window as well. Both variance and autorcorrelation are calculated using
+a moving window over the time-series, which allows the method to pick out a 
+pattern of change as the window moves along the sequence. If this chance excursion 
+that precedes the crash happens to fill a significant part of the moving window,
+the resulting pattern will tend to show an increase in autocorrelation or variance.
+If the chance excursion is relatively rapid compared to the frequency at which
+the system is observed (spacing of the data) or the width of the moving window, 
+the excursion may not significantly alter the general pattern.  In this way, 
+some of the events in which a crash is observed will appear to present these
+statistical patterns of increased variance or autocorrelation without being
+harbingers of approaching critical transitions.  
+
+Because we have selected our data by conditioning
+on the fact that they have experienced such a crash, these excursions appear
+more frequently than we would expect by chance in the observations of a given
+stable system over some finite time window.  That biased selection is the
+heart of the Prosecutor's Fallacy.  In these cases, the presence of increasing
+autocorrelation or increasing variance does not represent the critical slowing
+down process.
+
+
 
  \section{Acknowledgements}
 This research was supported by funding from NSF Grant EF 0742674 to AH

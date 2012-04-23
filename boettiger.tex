@@ -78,7 +78,7 @@ to fit the model using either a time series or else independent estimates of par
 More generally, with a good model of the system, detail-oriented approaches could be useful~\citep{Lade2012}.  
 In this treatment we focus on the situation where these more detailed models are not available.  
 
-However, for many ecological systems specific models are not available and general approaches are needed~\citep{Scheffer2009, Lade2012}
+Indeed, for many ecological systems specific models are not available and general approaches are needed~\citep{Scheffer2009, Lade2012}
 that do not depend on estimating the parameters of a known model of a specific system. 
 This has led to a variety of approaches based on summary statistics
 ~\citep[\emph{e.g.}][]{Carpenter2006, Held2004, Dakos2008, Guttal2008, Biggs2009, Carpenter2011, Seekell2011}
@@ -100,25 +100,26 @@ to reflect the uncertainty inherent in the detection of early warning signals.
 We caution against paradigms that are not useful for capturing uncertainty in
 a model-selection based approach, such as information criteria.
 Finally we use receiver-operating characteristics~\citep{Green1989, Keller2009}
-as a way to illustrate the sensitivity of different data sets
+as a way to illustrate the sensitivity different data sets
 and different indicators have in detecting early warning signals and use this to explore a number of examples.
-This approach provides a visualization of the types of errors that arise and how one can trade off between them.  
+This approach provides a visualization of the types of errors that arise and how one can trade off between them,
+and is important for framing the problem as one focused on prediction.  
 
 
 \section{The summary statistics approach}
 Foundational work on early warning signals has operated under the often-implicit assumption
 that the system dynamics contain a saddle-node bifurcation by
 looking for patterns that are associated with this kind of transition.
-A saddle-node bifurcation is the result of a stable node and an unstable
-saddle-point colliding and annihilating, leaving the system to transition 
-to another attractor~\citep[see ][or other dynamical systems text 
-for an introduction to this and other bifurcations]{Guckenheimer1983}.   
+A saddle-node bifurcation occurs when a parameter changes and a stable equilibrium 
+(node) and an unstable equilibrium (saddle) coalesce and dissapear.  The system
+then moves to a more distant equilbrium.  \citet{Guckenheimer1983} or any other 
+textbook on dynamical systems will provide precise definitions and further explanation.   
 
-Typical patterns include an increasing trend in a summary statistic such as
+Typical patterns used as warning signals include an increasing trend in a summary statistic such as
 variance~\citep{Carpenter2006}, autocorrelation~\citep{Held2004, Dakos2008},
 skew~\citep{Guttal2008}, spectral ratio~\citep{Biggs2009}.
 While attractive for their simplicity, such approaches must confront numerous challenges.
-In this paper we argue for a model-based approach,
+In this paper we argue for a model-based approach to warning signals,
 and describe how this can be done in a way that best addresses these difficulties.
 We begin by enumerating several of the difficulties encountered in approaches lacking an explicit model.
 
@@ -138,7 +139,7 @@ than the sudden dissapearance of a fixed point that has made critical transition
 %they are characterized by a steady approach towards the alternative stable state, 
 %such as a population size gradually approaching zero.  
 While no approach will be applicable to all classes of sudden transitions,
-it is certainly still useful to have an approach that detect transitions driven by
+it is certainly still useful to have an approach that detects transitions driven by
 saddle-node bifurcations, which have been found in many contexts~\citep[\emph{e.g.}, see][]{Scheffer2001}.
 
 %Differing causes of the transition.
@@ -146,11 +147,11 @@ Even when we can exclude or ignore other dynamics and
 restrict ourselves to systems that can produce a saddle-node bifurcation,
 approaches based on critical slowing down or rising variance~\citep[\emph{e.g.}][]{Held2004, Scheffer2009, Carpenter2011}
 must further assume that a changing parameter has brought the system closer to the bifurcation.
-This assumption excludes at least three alternative explanations for the transition.
+This assumption excludes at least three alternative explanations for the transition in system behavior.
 The first possibility is that a large perturbation of the system state
-has moved the system into the alternative basin of attraction~\citep{Scheffer2001, Scheffer2001}.
+has moved the system into the alternative basin of attraction~\citep{Scheffer2001}.
 This is an exogenous forcing that does not arise from the system dynamics, so it is not the kind of event we can expect to forecast.
-(An example might be a sudden dramatic increase in fishing effort that pushes the population past a threshold.)
+(An example might be a sudden dramatic increase in fishing effort that pushes a harvested population past a threshold.)
 The second scenario is a purely noise-induced transition, a chance fluctuation that happens to carry the system across the boundary~\citep{Ditlevsen2010}.
 \citet{Livina2012} indicate that such noise induced transitions cannot be predicted through early warning signals -- 
 at least they are not expected to exhibit the same early warning patterns of increased variance and increased autocorrelation
@@ -170,13 +171,13 @@ bifurcation parameter moves in a rapid or highly non-linear way, making the dete
 \subsubsection*{Arbitrary windows}
 In addition to the assumption of a saddle-node bifurcation, 
 the calculation of statistics that would be used to detect an impending transition is subject to several arbitrary choices.
-A basic difficulty arises from the need to assume a time-series is ergodic: 
+A basic difficulty arises from the need to assume a time-series is \emph{ergodic}: 
 that averaging over time is equivalent to averaging over replicate realizations,
 while trying to test if it is not.
 Theoretically, the increasing trend in variance, autocorrelation, or other statistics
 is something that would be measured across an ensemble -- across replicates. %% citation?
 As true replicates are seldom available in systems for which developing warning signals would be most desirable,
-these methods average across a single replicate using a moving window in time.
+typical methods average across a single replicate using a moving window in time.
 The selection of the size of this window and whether and by how much to overlap consecutive windows
 varies across the literature.
 \citet{Lenton2012} demonstrates that these differences can influence the results,
@@ -247,7 +248,7 @@ Model-based approaches are beginning to play a larger role in early warning sign
 though we have not as yet seen the direct fitting and simulation of models to compare hypotheses.
 While choosing appropriate models without system-specific knowledge is challenging,
 much can be accomplished by framing the implicit assumptions into equations.
-\citet{Lade2012} introduces the idea of generalized models for early warning signals, and
+\citet{Lade2012} introduce the idea of generalized models for early warning signals, and
 \citet{Kuehn2011} presents normal forms for bifurcation processes that can give rise to critical transitions.
 \citet{Carpenter2011e} and \citet{Dakos2011a} start by assuming the dynamics obey a generic
 stochastic differential equation (SDE), but use this only to derive or define the summary statistics of interest.
@@ -285,6 +286,8 @@ though the inability of either model to match the system dynamics could be an in
 
 
 \subsection*{Models}
+In the neighborhood of a bifurcation a system can be transformed into its \emph{normal form}
+by a change of variables to facilitate analysis ~\citep{Guckenheimer1983}.
 The normal form~\citep{Guckenheimer1983, Kuehn2011} for the saddle-node bifurcation is
 \begin{equation}
 \frac{\ud x}{\ud t} = r_t- x^2.
@@ -295,7 +298,7 @@ We have added a subscript $t$ to the bifurcation parameter as a reminder that
 it is the value which may be slowly varying in time and
 consequently moving the system closer to a critical transition or regime shift~\citep{Scheffer2009}.
 Transforming this canonical form to allow for an arbitrary mean in the state variable $\theta$,
-the bifurcation looks like \( dx/dt = r_t- (\theta-x)^2 \), with fixed point \(\hat x = \sqrt{r_t} +\theta =: \phi(r_t)\).
+the system near the bifurcation looks like \( dx/dt = r_t- (\theta-x)^2 \), with fixed point \(\hat x = \sqrt{r_t} +\theta =: \phi(r_t)\).
 We expand around the fixed point and express as a stochastic differential equation~\citep[\emph{e.g.}][]{Gardiner2009}:
 
 \begin{equation}
@@ -306,7 +309,11 @@ where $B_t$ is the standard Brownian motion.
 This expression captures the behavior of the system near the stable point as it approaches the bifurcation.
 Allowing the stochastic term to scale with the square root of $\phi$ follows from the assumption that
 of an internal-noise process, such as demographic stochasticity, that arises in deriving the SDE from
-a Markov process, see~\citet{Kampen2007a} or~\citet{Black2012}.  
+a Markov process, see~\citet{Kampen2007a} or~\citet{Black2012}. 
+The square root could be removed for an external noise process, such as environmental noise.
+In practice it will be difficult to descriminate between the square root and linear scaling
+in these applications, since the average value of the state changes little before the bifurcation.  
+
 %It is also possible to derive this same expression from the master equation
 %of various stochastic birth/death (or gains \& losses) models
 %that contain saddle-node bifurcations, as we show in the appendix.
@@ -314,15 +321,19 @@ a Markov process, see~\citet{Kampen2007a} or~\citet{Black2012}.
 
 As we discuss above, in this paradigm we must include an assumption on how the bifurcation parameter, $r_t$, is changing.
 We assume a gradual, monotonic change which we approximate to first order:
+
 \begin{equation}
 r_t = r_0 - m t.
 \label{R_t}
 \end{equation}
+
 Detecting accelerating or otherwise nonlinear approaches to the bifurcation will generally require more power.
-When the system is stable, $r_t$ is constant ($m=0$) and Equation~\eqref{LSN} will reduce to a simple Ornstein-Uhlenbeck process,
+When the underlying system is not changing, $r_t$ is constant ($m=0$) and Equation~\eqref{LSN} will reduce to a simple Ornstein-Uhlenbeck process,
+
 \begin{equation}
 \ud X_t = r (\theta - X_t) \ud t + \sigma \ud B_t \label{OU}
 \end{equation}
+
 This is the continuous time analog of the first-order autoregressive model considered as a null model elsewhere~\citep[\emph{e.g.}][]{Dakos2008, Guttal2008a}.
 
 
@@ -330,6 +341,7 @@ This is the continuous time analog of the first-order autoregressive model consi
 
 \subsection*{Likelihood calculations}
 The probability \(P(X|M) \) of the data \(X\) given the model \(M\) is the product of the probability of observing each point in the time series given the previous point and the length of the interval,
+
 \begin{equation}
 \log P(X | M)=  \sum_i \log P(x_i | x_{i-1}, t_i)
 \end{equation}
@@ -653,7 +665,7 @@ by chance in a stable system as follows.
 
 
 By estimating the stable and critical transition models from the data,
-and simulate 500 replicate data sets under each as in the analysis above,
+and simulating 500 replicate data sets under each as in the analysis above,
 we can then calculate the warning signals statistic over a sliding window
 of size equal to one-half the length of the time series,
 and compute the correlation coefficient $\tau$ measuring the degree to which the statistic shows an increasing trend.
@@ -783,7 +795,8 @@ can ensure that data collection has adequate power to offer a reasonable chance 
 
 
 \section{Acknowledgments}
-We would like to thank S. Schreiber, M. Holyoak, M. Baskett, A. Perkins and N. Ross for comments on the manuscript. 
+We would like to thank S. Schreiber, M. Holyoak, M. Baskett, A. Perkins, N. 
+Ross, M. Holden, and two anonymous reviewers for comments on the manuscript. 
 This research was supported by funding from NSF Grant EF 0742674 
 and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308. 
 Data and code are available at \href{https://github.com/cboettig/earlywarning}{ https://github.com/cboettig/earlywarning}.

@@ -13,10 +13,11 @@ Alan Hastings
 Referee: 1
 ==========
 
-### Comments to the Author
+Comments to the Author
+
 I think that this is one of the most important papers yet written in what is emerging as an area of great interest.  My only concern is that it is written in a highly technical way that may not be accessible to the broad audience that should read it.   The idea of using a model-based approach and approaching the problem as one of model choice is very clever, but I had to read the section three times before I knew what that meant.   I would move some of that material up front to make the main points a little less drily than they are currently made. I think also some technical terms should be embellished with discussion and explanation up front.   
 
-_We thank the reviewer for this assessment, and we have done our best to address this important issue, clarifying definitions, expanding the explanation and making other small changes that should make this more accessible._
+_We thank the reviewer for this assessment, and we have done our best to address this important issue, clarifying definitions, expanding the explanation and making other small changes that should make this more accessible.  In an effort to make these technical methods both accessible and understandable to the broad audience of Interface, we  have also provided both step-by-step tutorials and software to implement this approach, available from the link specified at the end of the manuscript._
 
 Tell the reader, for example, what a saddle-node bifurcation is. 
 
@@ -33,7 +34,8 @@ Why does the bifurcation parameter have a subscript t?
 _to indicate it is changing in time, this has been stated when it first appears_
 
 
-### Small points:  
+Small points:  
+
 - Line 25:  lead should be led
 - Line 298:  Data are
 - Line 309:  its
@@ -44,7 +46,10 @@ I like the examples.
 
 
 Referee: 2
+==========
+
 Comments to the Author
+
 I am pleased to recommend this manuscript for publication in Proceedings of the Royal Society Interface. The study of early warning indicators for biological transitions is an extremely active area of research. This paper reports the first study (to my knowledge) of the general trade-off between reliability and sensitivity of various indicators. Its introduction of an approximate method-based approach is a major contribution. 
 
 

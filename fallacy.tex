@@ -78,6 +78,56 @@ early warning signals \sep tipping point \sep alternative stable states \sep lik
  \end{frontmatter}
 
 \section{Introduction}
+
+\subsection*{Catastrophic Transitions}
+
+Catastrophic transitions or tipping points, where a complex system 
+shifts suddenly from one state to another, have been implicated in
+a wide array of ecological and global climate systems such as lake
+ecosystems~\citep{Carpenter2011}, coral reefs~\citep{Mumby2007},
+desertification~\citep{Kefi2007}, fisheries~\citep{Berkes2006}, and 
+tropical forests~\citep{Hirota2011}.  Recent research has begun to
+identify statistical patterns commonly associated with these sudden
+catastrophic transitions which could be used as an \emph{early warning sign}
+to identify an approaching tipping point, buying precious time 
+to react and avert them~\citep{Scheffer2009, Lenton2011}.  
+
+An array of statistical patterns associated with tipping point phenomena has
+been suggested for the detection of early warning signals associated with
+such sudden transitions.  Two of the most commonly used are a pattern of
+increasing variance~\citep{Carpenter2006} and a pattern of increasing 
+autocorrelation~\citep{vanNes2007}, which have been tested in both experimental
+manipulation~\citep{Drake2010, Carpenter2011, Veraart2011} and historical 
+observations~\citep{Livina2007,Dakos2008,Lenton2012,Ditlevsen2010,Guttal2008,Thompson2010}
+
+
+\subsection*{Testing patterns on historical data}
+
+Historical examples of sudden transitions taken from the paleoclimate record
+provide an important way to test and evaluate potential leading indicator 
+methods, and have been widely used for this purpose 
+\citep{Livina2007,Dakos2008,Lenton2012,Ditlevsen2010,Guttal2008,Thompson2010}.
+Similarly, it has been suggested that data gathered from ecological systems such
+as lakes that were monitored before the collapsed, or grasslands subjected to
+overgrazing, could contain data that could help reveal when similar systems 
+are approaching a tipping point~\citet{Inman2011}.  This is a silver lining to
+the clouds of past catastrophes -- we may be able to learn from our mistakes. 
+
+Yet in testing methods for early warning signals against historical examples of
+transitions, we must be careful to avoid statistical mistakes that arise when
+we select examples conditional on having exhibited a sudden transition.  Such
+sudden transitions can occur for many reasons that do not involve the 
+bifurcation processes on which most early warning indicators are predicated
+~\citep{Hastings2010}, including purely noise-induced transitions for which 
+early warning signs will not exist~\citep{Ditlevsen2010, Lenton2011}. Treating 
+such conditionally selected historical examples as if they were randomly 
+sampled representatives of systems that have experienced a saddle-node 
+bifurcation is an example of the statistical error commonly known as the
+\emph{Prosecutor's Fallacy.}
+
+\subsection*{The Prosecutor's Fallacy}
+
+
 In a criminal trial, the prosecution may introduce associative evidence such as 
 blood testing to establish a match between the perpetrator at the scene of the
 crime and a suspect on the defense stand.  Statistical testimony may accompany 
@@ -85,46 +135,22 @@ such evidence reflecting the incidence rate of the matching characteristic --
 for instance, the frequency of individuals in the population with the matching
 blood type.  Such arguments may be misleading when they fail to reflect the 
 probability conditional on the manner in which the suspect was identified in 
-the first place.  If the suspect has been selected partly on the basis of belonging
-to demographic in which the characteristic is much more common than in the 
-population as a whole, these odds can be misleading.  Failing to recognize 
-these conditional probabilities leads to the ``Prosecutor's Fallacy'' -- the argument
-that the suspect is the perpetrator on the basis of the statistical probability 
-of a match without currectly identifying the baseline probability for such a match
-\citep{Thompson1987}.
-
-Statisical patterns associated with sudden, catastrophic transitions or ``tipping points''
-could play an important role as early warning signs or leading indicators of
-these shifts, which may give us precious time to react and avert them~\citep{Scheffer2009, Lenton2011}.
-
-% Explain Critical Slowing down, variance, autocorrelation, tau.  
-
-% Saddle-node bifurcation
-\emph{Add more context \dots }
-
-
-
-Historical examples of sudden transitions taken from the paleoclimate record
-provide an important way to test and evaluate potential leading indicator methods,
-and have been widely used for this purpose~\citep{Livina2007,Dakos2008,Lenton2012,Ditlevsen2010,Guttal2008,Thompson2010} 
-Similarly, it has been suggested that data gathered on ecological systems such as lakes
-that were monitored before the collapsed, or grasslands subjected to overgrazing,
-could contain data that could help reveal when similar systems are approaching 
-a tipping point~\citet{Inman2011}.  This is a silver lining to the clouds of past
-catastrophes -- we may be able to learn from our mistakes. 
-
-In testing methods for early warning signals against historical examples of transitions,
-we must be careful to avoid falling into the Prosecutor's Fallacy.  Sudden transitions
-can occur for many reasons that do not involve the bifurcation proccesses on which
-most early warning indicators are predicated~\citep{Hastings2010}, including purely
-noise-induced transitions for which early warning signs will not exist~\citep{Ditlevsen2010, Lenton2011}.
-
- 
+the first place.  If the suspect has been selected partly on the basis of 
+belonging to demographic in which the characteristic is much more common than
+in the population as a whole, these odds can be misleading.  Failing to recognize 
+these conditional probabilities leads to the Prosecutor's Fallacy -- the 
+argument that the suspect is the perpetrator on the basis of the statistical 
+probability of a match without correctly identifying the baseline probability 
+for such a match \citep{Thompson1987}.
 
 
 \section{Methods and Results}
+We approach the problem by simulating a system that cannot undergo the saddle
+node bifurcation that underlies the usual early warning signal indicators.  
+This simulation approach is the only way to determine whether examining 
+historical events is a good way to test the utility of these indicators.
 We simulated 1000 replicates of an individual-based birth-death process
-with an allee threshold.  Above the allee threshold the population returns
+with an Allee threshold.  Above the Allee threshold the population returns
 to a positive equilibrium size.  Below the threshold the population decreases
 to zero. The simulation uses the Gillespie algorithm to provide an exact 
 implementation of the master equation of birth-death process,
@@ -139,11 +165,11 @@ Though this system can be forced through a saddle-node bifurcation by
 increasing values of either $e$ or $a$, in these simulations all parameters
 are held constant and no early warning signal is anticipated.
 The simulation starts from the positive equilibrium population size.
-Though the chance of a transition across the allee threshold in any 
-given timestep are small, given enough time this system will eventually
+Though the chance of a transition across the Allee threshold in any 
+given time step are small, given enough time this system will eventually
 experience such a rare event driving the population extinct.  We evolved
-each replicate 50000 timesteps, sampling the system every 50 timesteps.  
-In this time window 155 of the 1000 replicates experience population collapse.  
+each replicate 50000 time steps, sampling the system every 50 time steps.  
+In this time window 266 of the 1000 replicates experience population collapse.  
 Nine of these replicates can be seen in Figure~\ref{fig:replicate_crashes},
 as an illustration. 
 
@@ -151,7 +177,7 @@ as an illustration.
     \begin{center}
       \includegraphics{replicate_crashes.pdf}
     \end{center}
-    \caption{Example trajectories for nine of the 155 replicates that 
+    \caption{Example trajectories for nine of the 266 replicates that 
              experience a critical transition by chance during the course
              of the simulation.}
     \label{fig:replicate_crashes}
@@ -160,14 +186,14 @@ as an illustration.
 
 We selected replicates conditional on having collapsed in the simulations.
 We then selected a window around each system that ended just before the
-collapse, while the population values were still above the allee threshold.
+collapse, while the population values were still above the Allee threshold.
 For each replicate, we calculated the most common warning signals, variance
 and autocorrelation~\citep[\emph{e.g.}][]{Carpenter2006,Dakos2008,Scheffer2009}, 
-around a moving window equal to half the length of that timeseries.  
+around a moving window equal to half the length of that time series.  
 
 To determine whether or not the variance or autocorrelation increased 
-over time in these 155 replicates, we computed Kendall's $\tau$ for each of the
-warning signal pattern~\citep{Dakos2008, Dakos2010}.  Positive values of $\tau$ 
+over time in these 266 replicates, we computed Kendall's $\tau$ for each of the
+warning signal pattern~\citep{Dakos2008, Dakos2011}.  Positive values of $\tau$ 
 indicate an increasing trend in the warning signal.  The distribution of $\tau$ 
 values observed across these replicates is shown in Figure~\ref{fig:indicator}.
 More positive values indicate stronger trends. Assessing the statistical significance
@@ -182,7 +208,7 @@ early warning sign. %Even the very strong values of $\tau$ should be considered
   \begin{center}
     \includegraphics{indicators.pdf}
   \end{center}
-  \caption{The distribution of two early warning indicators on replicates conditionally selected for having collapsed by chance in simulations.}
+  \caption{The distribution of the correlation statistic $\tau$ for two early warning indicators (variance, autocorrelation) on replicates conditionally selected for having collapsed by chance in simulations. Positive values of $\tau$ correspond to a pattern of an indicator increasing with time; typically taken as evidence that a system is approaching a critical transition.  In these simulations, the pattern arises instead from the Prosecutor's fallacy of conditional selection.}
   \label{fig:indicator}
 \end{figure}
 
@@ -196,7 +222,7 @@ saddle node bifurcation.
   \sigma\sqrt{\phi(r_t) } d B_t \label{LSN}
 \end{equation}
 
-where \( \phi(r_t) = \sqrt{r_t} +\theta \) is the equilbirium postition.  
+where \( \phi(r_t) = \sqrt{r_t} +\theta \) is the equilibrium position.  
 This model emerges from the canonical form of the saddle-node bifurcation,
 
 \begin{equation}
@@ -219,7 +245,7 @@ noise processes,
 \end{equation}
 
 $r$ remains the bifurcation parameter which we imagine changing with time,
-$r_t$, then linearizing the above model in neighboorhood of
+$r_t$, then linearizing the above model in neighborhood of
 \(\hat x = \sqrt{r_t} +\theta =: \phi(r_t)\), we recover Equation~\eqref{LSN}.
 These models can be both be fit to the data by maximum likelihood estimation
 based on the equation for the evolution of their moments, as
@@ -227,7 +253,7 @@ in~\citet{Boettiger2012b}.
 
 Though this approximation is more general than the original Markov process,
 it is also easier to estimate reliably from the data since it describes only 
-the process near the equilibrium where the data is avialable.  
+the process near the equilibrium where the data is available.  
 
 We assume that $r_t$ is varying at constant rate, according to the model
 
@@ -238,18 +264,26 @@ We assume that $r_t$ is varying at constant rate, according to the model
 and estimate $m$, $r_0$, $\theta$, and $\beta$ by maximum likelihood on each
 of the simulated datasets.  Estimates of $m < 0 $ are expected in systems 
 approaching a bifurcation, while for stable systems $m$ should be approximately zero.
-Of the 155 simulations, only six had estimates with machine precision different
+Of the 266 simulations, only six had estimates with machine precision different
 from zero, the greatest magnitude among these was $-7.1 \times 10^{-12}$,
-which would still correspond to a negilible change in $r_0$ over the 50,000 timesteps
+which would still correspond to a negligible change in $r_0$ over the 50,000 time steps
 of the simulation.  Consequently, the model-based estimation shows no 
 evidence of bias on data that has been selected conditional on collapse.   
 
  \section{Discussion}
 
-%We have shown ..
- 
-It seems tempting to argue that this bias is in fact valuable -- each
-of these systems did indeed collapse, so the fact that they show increased 
+We have shown that selecting datasets conditional on having experienced sudden 
+noise-induced transitions can lead to patterns that are more likely to resemble
+early warning signals typically associated with critical slowing down before 
+a bifurcation event.  Purely noise-induced transitions are distinctly separate 
+mechanism from critical slowing-down phenomena, in which the transition occurs
+as the result of a single or series of extremely unlikely events rather than
+a slow but regular degradation of the system stability.  
+
+\cb{The discussion that follows here is aimed at giving some intuition for our results, but comes off as a bit more technically focused than the section above.  Should it be moved into an earlier section, or do we simply need a summarizing paragraph at the end?}
+
+It seems tempting to argue that the bias towards positive detection in historical
+examples is in fact valuable -- each of these systems did indeed collapse, so the fact that they show increased 
 probability to exhibit warning signals could be taken as a successful detection.
 Unfortunately, this reasoning is flawed. At the moment the forecast is made,
 these systems are no more likely to crash than their counterparts from the sample
@@ -258,7 +292,7 @@ consecutive ``heads.''  Taking a closer look at the patterns involved we can
 begin to understand why common indicators such as autocorrelation and variance
 can be misleading.
 
-% Delete this paragraph?
+\cb{ Delete this paragraph?}
 The system simulated in our examples is governed by a birth-death process --
 a discrete Markov process that can in any instant only change by a single 
 birth or single death.  At each moment in time, there is some probability 
@@ -272,7 +306,7 @@ means that what looks like a large random draw from the Gaussian distribution
 really corresponds to a series of more rapid events with some excess of 
 birth or deaths.  
 
-The farther the sytem gets from that stable point (while still 
+The farther the system gets from that stable point (while still 
 remaining in the local region), the more likely it is to draw a random step 
 that returns it towards the stable point, like a spring that is stretched 
 further and further, but there is some probability that it will move further
@@ -281,8 +315,8 @@ tipping point must do so rather quickly -- with a string of events moving
 closer and closer to the edge.  This pattern, clearly visible before the 
 crashes in each of the examples in Figure 1, produces a string of observations
 that appear more highly autocorrelated (if we are sampling the system
-frequently enought to catch the excursion at all) than we observe in the rest
-of the fluctuations around the equilbrium.  Yet this autocorrelation comes from
+frequently enough to catch the excursion at all) than we observe in the rest
+of the fluctuations around the equilibrium.  Yet this autocorrelation comes from
 a chance trajectory moving quickly \emph{away} from the stable state, not from
 the critical slowing down pattern in the return times to the stable state
 which precede a saddle-node bifurcation and motivate the early warning signal.
@@ -290,7 +324,7 @@ which precede a saddle-node bifurcation and motivate the early warning signal.
 
 
 This longer than expected excursion results in a higher than expected variance
-in that window as well. Both variance and autorcorrelation are calculated using
+in that window as well. Both variance and autocorrelation are calculated using
 a moving window over the time-series, which allows the method to pick out a 
 pattern of change as the window moves along the sequence. If this chance excursion 
 that precedes the crash happens to fill a significant part of the moving window,
@@ -310,6 +344,12 @@ heart of the Prosecutor's Fallacy.  In these cases, the presence of increasing
 autocorrelation or increasing variance does not represent the critical slowing
 down process.
 
+The problem we highlight ultimately stems from the difficulty of having only a
+single realization with which to examine a complex problem.  The only way to deal
+with this problem is through replication, as can be done in an experimental system
+in laboratory manipulations such as~\citet{Drake2010, Veraart2011} and at the 
+scale of whole lake ecosystems in~\citet{Carpenter2011}.  Historical data will 
+not suffice, more such replicated experiments are needed to test these patterns.  
 
 
  \section{Acknowledgements}

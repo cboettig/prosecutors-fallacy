@@ -51,28 +51,29 @@
 
   \begin{abstract}
 
-  Early warning signals have been proposed to forecast the possibility of a 
-  critical transition, such as the eutrophication of a lake, desertification
-  of savanna, the collapse of a coral reef, the end of a glacial period, or 
-  the onset of epilepsy in the brain.  While such transitions may be difficult
-  to study in the laboratory setting and unethical to introduce on the larger
-  natural scales where they may occur, it has often been observed that history
-  has already performed the experiment for us, time and again.  Here we point 
-  out a critical difference between selecting systems for study based on the 
-  fact that we have observed a critical transition and those systems for which
-  we wish to forecast the approach of a transition. This difference arises
-  by conditionally selecting systems known to experience a transition of some 
-  sort and failing to account for this selection step -- a statistical error 
-  often known as the Prosecutor's
-  Fallacy.  We illustrate through simulation how examples of systems that have 
-  experienced transitions purely by chance show patterns associated with 
-  early warning signals more often than we might expect in systems that have not
-  been conditionally selected.  We further highlight how a model-based approach
-  is less subject to this bias.  In using historical examples of collapse to 
-  test and validate methods for early warning signals, greater care must be taken
-  to avoid this fallacy.  Groundbreaking experimental studies with replicates
-  avoid this pitfall, and more of such studies are needed to provide data
-  suitable for evaluating methods for early warning.  
+  Early warning signals have been proposed to forecast the possibility
+  of a critical transition, such as the eutrophication of a lake,
+  the collapse of a coral reef, or the end
+  of a glacial period.  Because such transitions often occur on scales that
+  can be difficult to approach by experimental manipulation, research
+  has often relied on historical observations as a source of natural experiments.
+  Here we examine a critical difference between selecting systems for
+  study based on the fact that we have observed a critical transition
+  and those systems for which we wish to forecast the approach of a
+  transition. This difference arises by conditionally selecting systems
+  known to experience a transition of some sort and failing to account
+  for this bias this introduces -- a statistical error often known as the
+  Prosecutor's Fallacy.  By analyzing simulated systems that have
+  experienced transitions purely by chance, we reveal an elevated rate
+  of false postives in common warning signal statistics. We further
+  demonstrate a model-based approach which is less subject to this bias
+  than these more commonly used summary statistics.
+  In using historical examples of collapse to test and validate methods
+  for early warning signals, care must be taken to avoid this fallacy,
+  either through the use methods less sensitive to this effect or ideally
+  by greater reliance on Experimental studies with replicates avoid this 
+  pitfall entirely.  More such studies are needed to provide data suitable
+  for evaluating methods for early warning.
  
   \end{abstract}
 
@@ -83,64 +84,75 @@ early warning signals \sep tipping point \sep alternative stable states \sep lik
 
 \section{Introduction}
 
-\subsection*{Catastrophic Transitions}
+%\subsection*{Catastrophic Transitions}
 
-Catastrophic transitions or tipping points, where a complex system 
+Catastrophic transitions or tipping points, where a complex system
 shifts suddenly from one state to another, have been implicated in
 a wide array of ecological and global climate systems such as lake
 ecosystems~\citep{Carpenter2011}, coral reefs~\citep{Mumby2007},
-desertification~\citep{Kefi2007}, fisheries~\citep{Berkes2006}, and 
-tropical forests~\citep{Hirota2011}.  Recent research has begun to
-identify statistical patterns commonly associated with these sudden
-catastrophic transitions which could be used as an \emph{early warning sign}
-to identify an approaching tipping point, buying precious time 
-to react and avert them~\citep{Scheffer2009, Lenton2011}.  
-
-An array of statistical patterns associated with tipping point phenomena has
-been suggested for the detection of early warning signals associated with
-such sudden transitions.  Two of the most commonly used are a pattern of
-increasing variance~\citep{Carpenter2006} and a pattern of increasing 
-autocorrelation~\citep{vanNes2007}, which have been tested in both experimental
-manipulation~\citep{Drake2010, Carpenter2011, Veraart2011} and historical 
-observations~\citep{Livina2007,Dakos2008,Lenton2012,Ditlevsen2010,Guttal2008,Thompson2010}
+savannah~\citep{Kefi2007}, fisheries~\citep{Berkes2006}, and tropical
+forests~\citep{Hirota2011}.  Recent research has begun to identify
+statistical patterns commonly associated with these sudden catastrophic
+transitions which could be used as an \emph{early warning sign} to
+identify an approaching tipping point, which might provide managers time
+to react to and avert an undesirable state shift~\citep{Scheffer2009,
+Lenton2011}.  An array of statistical patterns associated with tipping
+point phenomena has been suggested for the detection of early warning
+signals associated with such sudden transitions.  Two of the most commonly
+used are a pattern of increasing variance~\citep{Carpenter2006} and a
+pattern of increasing autocorrelation~\citep{vanNes2007}, which have
+been tested in both experimental manipulation~\citep{Drake2010,
+Carpenter2011, Veraart2011} and historical
+observations~\citep{Livina2007,Dakos2008,Lenton2012,Ditlevsen2010,Guttal2008,Thompson2010}.
 
 
 \subsection*{Testing patterns on historical data}
 
-Historical examples of sudden transitions taken from the paleoclimate record
-provide an important way to test and evaluate potential leading indicator 
-methods, and have been widely used for this purpose 
+Historical examples of sudden transitions taken from the paleoclimate
+record provide an important way to test and evaluate potential
+leading indicator methods, and have been widely used for this purpose
 \citep{Livina2007,Dakos2008,Lenton2012,Ditlevsen2010,Guttal2008,Thompson2010}.
-Similarly, it has been suggested that data gathered from ecological systems such
-as lakes that were monitored before they collapsed, or grasslands subjected to
-overgrazing, could contain data that could help reveal when similar systems 
-are approaching a tipping point~\citep{Inman2011}.  This is a silver lining to
-the clouds of past catastrophes -- we may be able to learn from our mistakes. 
+Similarly, it has been suggested that data gathered from ecological
+systems such as lakes that were monitored before they experienced sudden
+eutriphication, or grasslands subjected to overgrazing, could contain
+data that could help reveal when similar systems are approaching a
+tipping point~\citep{Carpenter2011}.  This is a silver lining to the
+clouds of past catastrophes; we may be able to learn from such examples 
+how to detect and avert sudden shifts in the future.
 
-Yet in testing methods for early warning signals against historical examples of
-transitions, we must be careful to avoid statistical mistakes that arise when
-we select examples conditional on having exhibited a sudden transition.  Such
+However, testing methods for early warning signals against historical examples of
+transitions is suspetible to statistical mistakes that arise from selecting
+data conditional on that data having already exhibited a sudden transition.  
+A central tenent of early warning theory is that the system in question is slowly
+approaching a tipping point that lies some unknown distance away.  If nothing
+is done to remedy the situation, this slow change will inevitably carry the 
+system beyond the tipping point, which introduces a sudden, rapid transition into an 
+undesirable state~\citep{Scheffer2009}. This process can be described mathematically
+as a \emph{bifurcation}, in which a slowly changing parameter reaches a critical
+value that causes the system stability to change.  
+
+
+Such
 sudden transitions can occur for many reasons that do not involve the 
 bifurcation processes on which most early warning indicators are predicated
 ~\citep{Hastings2010}, including purely noise-induced transitions for proposed 
 early warning patterns are not anticipated~\citep{Ditlevsen2010, Lenton2011}. 
 Ignoring the potential biases introduced by conditionally selecting from 
 historical records is an example of the statistical error commonly known as the
-\emph{Prosecutor's Fallacy.}
-
-\subsection*{The Prosecutor's Fallacy}
+Prosecutor's Fallacy.
 
 
 In a criminal trial, the prosecution may introduce associative evidence such as 
 blood testing to establish a match between the perpetrator at the scene of the
 crime and a suspect on the defense stand.  Statistical testimony may accompany 
-such evidence reflecting the incidence rate of the matching characteristic -- 
-for instance, the frequency of individuals in the population with the matching
-blood type.  Such arguments may be misleading when they fail to account for  
-the manner in which the suspect was identified in 
-the first place.  If the suspect has been selected partly on the basis of 
+such evidence reflecting the incidence rate of the matching characteristic,
+such as the frequency of individuals in the population with the matching
+blood type.  Such arguments are misleading when they fail to account for  
+the manner in which the suspect was identified in the first place.  If the suspect has been selected on the basis of 
 belonging to a demographic in which the discriminating characteristic is much more common than
-in the population as a whole, these odds can be misleading.  Failing to recognize 
+in the population as a whole, .  
+
+Failing to recognize 
 these conditional probabilities leads to the Prosecutor's Fallacy: the 
 argument that the suspect is the perpetrator on the basis of the statistical 
 probability of a match without correctly identifying the baseline probability 
@@ -149,9 +161,9 @@ for such a match \citep{Thompson1987}.
 % Consider an equation 
 
 \section{Methods and Results}
-We approach the problem by simulating a system that cannot undergo the
+We approach the problem by simulating a system that will not undergo the
 saddle node bifurcation that underlies the usual early warning signal
-indicators.  This simulation approach is the only way to determine whether
+indicators.  This simulation approach allows us to determine whether
 examining historical events is a good way to test the utility of these
 indicators.  We simulated 1000 replicates of a stochastic individual-based
 birth-death process with an Allee threshold~\citep{Courchamp2008}, which
@@ -213,12 +225,12 @@ around a moving window equal to half the length of that time series.
 
 To test for the presence of a warning signal in these indicators we
 computed values of Kendall's $\tau$ for both indicators for each of
-the 266 replicates.  Kendall's $tau$ takes values in $(-1, 1)$, and is
+the 266 replicates.  Kendall's $\tau$ takes values in $(-1, 1)$, and is
 frequently used to identify an increasing trend ($\tau > 0 )$ in early
 warning signals.~\citep{Dakos2008, Dakos2011}.  The distribution
 of $\tau$ values observed across these replicates is shown in
 Figure~\ref{fig:indicator}.  More positive values indicate stronger
-trends. The common statistical significance test used for Kendall's $tau$
+trends. The common statistical significance test used for Kendall's $\tau$
 assumes independence of the variables to achieve a normal distribution,
 this isn't satisfied for indicators coming from a time series and
 computed with a sliding window.  For a more robust comparison, we
@@ -426,7 +438,9 @@ effect that selection process introduces in our data.
  \section{Acknowledgements}
 This research was supported by funding from NSF Grant EF 0742674 to AH
 and a Computational Sciences Graduate Fellowship from the Department of
-Energy grant DE-FG02-97ER25308 to CB.
+Energy grant DE-FG02-97ER25308 to CB. The authors thank M. Baskett, 
+T.A. Perkins and N. Ross for helpful comments on earlier drafts of the
+manuscript.  
 
  \section{References}%bibliography
  \bibliography{fallacy}

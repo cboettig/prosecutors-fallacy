@@ -84,6 +84,49 @@ early warning signals \sep tipping point \sep alternative stable states \sep lik
 
 \section{Introduction}
 
+\begin{quotation}
+\noindent \emph{Mathematics \dots while assisting the trier of fact in the search of truth, must not cast a spell over him.}
+-- California Supreme court, 1968.
+\end{quotation}
+
+\noindent In the case of \emph{People v. Collins} 1968, California Supreme
+Court considered the evidence of an expert witness described by the
+court as ``an instructor of mathematics at a state college'', which
+concluded that the probability that a randomly selected individual
+would match the description given by the victim would be less than 1 in
+12 million~\citep{PeopleCollins1968}.  The prosecution had produced an
+individual matching the prosecutor's detailed description, and convinced
+by the mathematics of the instructor, the lower courts had found him
+guilty.
+
+
+The prosecution has only observed that the probability of seeing the
+evidence ($E$) they produced given a random innocent individual ($I$),
+$P(E|I)$ is very small.  This is not a sufficient basis from which
+to conclude that the individual is indeed guilty, that is, that the
+probability the individual is innocent given the evidence $P(I|E)$
+is also very small. In a city with millions of people, there might
+be several individuals who match the description of the evidence.
+\footnote{Mathematically $P(E|I)$ need not equal $P(I|E)$, instead,
+these expressions are related by Bayes theorem,
+
+\begin{equation}
+  P(E|I) = P(I|E) \frac{P(E)}{P(I)}
+\end{equation} }
+
+With little other evidence supporting the conviction, The California
+Supreme Court reversed the decision, and the case became a widely
+recognized example of the Prosecutor's Fallacy~\citep{Thompson1987}.
+While DNA evidence has brought a rise in the number of probability-based
+convictions in the courtroom, and a corresponding rise in the frequency
+with which suspects are falsely accused, trial juries are not the
+only ones who are susceptible to misinterpreting probabilistic evidence.
+In this paper we explore how a similar misconception can arise from the
+use of historical data to evaluate methods for detecting early warning
+signals of critical transitions.
+
+
+
 %\subsection*{Catastrophic Transitions}
 
 Catastrophic transitions or tipping points, where a complex system
@@ -95,8 +138,8 @@ forests~\citep{Hirota2011}.  Recent research has begun to identify
 statistical patterns commonly associated with these sudden catastrophic
 transitions which could be used as an \emph{early warning sign} to
 identify an approaching tipping point, which might provide managers time
-to react to and avert an undesirable state shift~\citep{Scheffer2009,
-Lenton2011}.  An array of statistical patterns associated with tipping
+to react to and avert an undesirable state shift~\citep{Scheffer2009, Lenton2011}.
+An array of statistical patterns associated with tipping
 point phenomena has been suggested for the detection of early warning
 signals associated with such sudden transitions.  Two of the most commonly
 used are a pattern of increasing variance~\citep{Carpenter2006} and a
@@ -117,46 +160,89 @@ systems such as lakes that were monitored before they experienced sudden
 eutriphication, or grasslands subjected to overgrazing, could contain
 data that could help reveal when similar systems are approaching a
 tipping point~\citep{Carpenter2011}.  This is a silver lining to the
-clouds of past catastrophes; we may be able to learn from such examples 
+clouds of past catastrophes; we may be able to learn from such examples
 how to detect and avert sudden shifts in the future.
 
-However, testing methods for early warning signals against historical examples of
-transitions is suspetible to statistical mistakes that arise from selecting
-data conditional on that data having already exhibited a sudden transition.  
-A central tenent of early warning theory is that the system in question is slowly
-approaching a tipping point that lies some unknown distance away.  If nothing
-is done to remedy the situation, this slow change will inevitably carry the 
-system beyond the tipping point, which introduces a sudden, rapid transition into an 
-undesirable state~\citep{Scheffer2009}. This process can be described mathematically
-as a \emph{bifurcation}, in which a slowly changing parameter reaches a critical
-value that causes the system stability to change.  
+However, testing methods for early warning signals against historical
+examples of transitions is suspetible to statistical mistakes that arise
+from selecting data conditional on that data having already exhibited
+a sudden transition.  A central tenent of early warning theory is that
+the system in question is slowly approaching a tipping point that lies
+some unknown distance away.  If nothing is done to remedy the situation,
+this slow change will inevitably carry the system beyond the tipping
+point, which introduces a sudden, rapid transition into an undesirable
+state~\citep{Scheffer2009}. This process can be described mathematically
+as a \emph{bifurcation}, in which a slowly changing parameter reaches
+a critical value that causes the system stability to change.
 
 
-Such
-sudden transitions can occur for many reasons that do not involve the 
-bifurcation processes on which most early warning indicators are predicated
-~\citep{Hastings2010}, including purely noise-induced transitions for proposed 
-early warning patterns are not anticipated~\citep{Ditlevsen2010, Lenton2011}. 
-Ignoring the potential biases introduced by conditionally selecting from 
-historical records is an example of the statistical error commonly known as the
-Prosecutor's Fallacy.
+Not all sudden transitions are caused by some guilty process slowly
+driving the system over a tipping point, that is, the kind of process
+that early warning signals are designed to detect.  Some systems may
+experience such transitions purely by chance, leaving a stable state on
+an extremely unlikely excursion that happens to stray to far from the
+stable attractor~\citep[\emph{e.g.} ][consider this possibility in 
+transitions that arise from analyzing historical climate record]{Ditlevsen2010, Lenton2011}. 
+Like the evidence presented before the California Supreme
+Court in 1968, the chance of observing such an ``innocent'' transition 
+a priori may be very small, but when selected from a historical record
+of many possible transitions, this possibility can no longer be ignored.
+
+In principle, as such chance transitions do not involve the shrinking
+eigenvalue that drives the critical slowing down and increasing variance
+phenomena upon which several early warning signal statistics are based,
+such data should not appear to display a warning signal. If this is the case,
+then we can use historical data with more confidence when seeking to 
+test early warning patterns, knowing that we will not mistake such examples
+as cases of the bifurcation process we seek to detect.  
+
+Figure 1 shows a schematic illustrating critical transitions under
+each of these scenarios.  In the left panel, the system experiences 
+a bifurcation that forces it over the edge -- just the kind of data 
+we would want to test an early warning signal.  In the right panel,
+a similar-looking trajectory emerges from a simulation of a stable 
+system.  While the simulation of the bifurcation scenario shown on
+the left produces a similar transition every time, the transition 
+shown on the right is somewhat less likely, occurring in only 1\% of
+simulations.  
 
 
-In a criminal trial, the prosecution may introduce associative evidence such as 
-blood testing to establish a match between the perpetrator at the scene of the
-crime and a suspect on the defense stand.  Statistical testimony may accompany 
-such evidence reflecting the incidence rate of the matching characteristic,
-such as the frequency of individuals in the population with the matching
-blood type.  Such arguments are misleading when they fail to account for  
-the manner in which the suspect was identified in the first place.  If the suspect has been selected on the basis of 
-belonging to a demographic in which the discriminating characteristic is much more common than
-in the population as a whole, .  
 
-Failing to recognize 
-these conditional probabilities leads to the Prosecutor's Fallacy: the 
-argument that the suspect is the perpetrator on the basis of the statistical 
-probability of a match without correctly identifying the baseline probability 
-for such a match \citep{Thompson1987}.
+
+\begin{figure}
+  \begin{center}
+    \subfigure[\textbf{True criminal} A bifurcation
+    drives a transition into the undesirable state]{
+    \includegraphics[width=.4\textwidth]{bifurcation.pdf}
+    \label{fig:bifurcation} } \subfigure[\textbf{Innocent suspect} A
+    transition to the alternative stable state has occurred purely by
+    chance.]{ \includegraphics[width=.4\textwidth]{fallacytransition.pdf}
+    \label{fig:fallacy} }
+  \end{center} \caption{\textbf{The Prosecutor's Fallacy}. Plots of system
+  state vs potential in two cases.  Potential is the negative integral
+  of the mean of dynamical equation.  The potential function gives an
+  intuitive picture of the stability of a system by imagining the curve as
+  a surface on which a ball is free to bounce across -- wells correspond
+  to stable points and peaks to unstable points.  Early warning signals
+  are aimed at detecting systems which are slowly moving towards a tipping
+  point or bifurcation, illustrated in the successively darker potential
+  curves in panel~\subref{fig:bifurcation}.  An example trajectory from
+  a simulation under this process shows the state of the system as the
+  potential moves towards the bifurcation point. The state of the system
+  in the simulation is given by the horizontal axis, while the vertical
+  dimension is used to show time on the right-hand axis.  Some stable
+  systems, panel~\subref{fig:fallacy}, may experience chance transitions
+  to an alternate stable state without the presence of this slow change
+  driving the system over the edge.  An example of the trajectory of
+  such a chance transition is plotted over the potential.  While such
+  events may be unlikely over short timescales, selecting historical
+  examples of systems that have experienced sudden transitions increases
+  the probability of accidentally using chance events depicted in
+  panel~\subref{fig:fallacy} to test methods designed to detect the kind
+  of process depicted in panel~\subref{fig:bifurcation}.} \label{fig:1}
+\end{figure}
+
+
 
 % Consider an equation 
 
@@ -165,7 +251,7 @@ We approach the problem by simulating a system that will not undergo the
 saddle node bifurcation that underlies the usual early warning signal
 indicators.  This simulation approach allows us to determine whether
 examining historical events is a good way to test the utility of these
-indicators.  We simulated 1000 replicates of a stochastic individual-based
+indicators.  We simulated 20,000 replicates of a stochastic individual-based
 birth-death process with an Allee threshold~\citep{Courchamp2008}, which
 arises from positive fitness effects at low densities.  Above the Allee
 threshold the population returns to a positive equilibrium size, while
@@ -182,7 +268,7 @@ a model with a linear death rate and density dependent birth rate
 that drives the Allee effect at low densities and limits growth
 at high densities.  The key feature of this model is the alternate
 stable states introduced by this effect; other functional forms for
-Eq.~\ref{master} could serve equally well for these simulations~\citep[see
+Eq.~\eqref{master} could serve equally well for these simulations~\citep[see
 \emph{e.g.}][]{Scheffer2001}.  Though this system can be forced
 through a saddle-node bifurcation by increasing the death rate, in
 these simulations all parameters are held constant and no bifurcation
@@ -195,22 +281,7 @@ the population extinct.  We evolved each replicate 50,000 time steps,
 sampling the system every 50 time steps.  In this time window 266 of the
 1,000 replicates experience population collapse.  To keep the examples of
 comparable sample size, we focus on a section of the data 500 time points
-prior to the system approaching the transition.  Nine of these replicates
-can be seen in Figure~\ref{fig:replicate_crashes}, as an illustration.
-
-  \begin{figure}
-    \begin{center}
-      \includegraphics[width=6in]{replicate_crashes.pdf}
-    \end{center}
-    \caption{Example trajectories for nine of the 266 replicates that 
-             experience a critical transition by chance during the course
-             of the simulation, showing the window of 500 points prior to
-             crossing the threshold which is used in the analysis.  A wobble
-             at the unstable critical point is visible at the end of several 
-             trajectories.}
-    \label{fig:replicate_crashes}
-  \end{figure}
-
+prior to the system approaching the transition.  
 
 To test whether selecting systems that have experienced spontaneous transitions
 could bias the analysis towards false positive detection of early warning signals,

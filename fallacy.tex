@@ -1,10 +1,10 @@
-%\documentclass[authoryear,5p]{elsarticle}
-\documentclass[authoryear,review,12pt]{elsarticle}
+\documentclass[authoryear,5p]{elsarticle}
+%\documentclass[authoryear,review,12pt]{elsarticle}
 \bibliographystyle{elsarticle-harv}
 \usepackage{graphicx}
 \usepackage{amsmath,amsfonts}
 \usepackage{lineno}
-\linenumbers
+%\linenumbers
 \usepackage{float}
 \usepackage{subfigure}
 \usepackage[pdftex]{color}
@@ -63,17 +63,14 @@
   transition. This difference arises by conditionally selecting systems
   known to experience a transition of some sort and failing to account
   for the bias this introduces -- a statistical error often known as the
-  Prosecutor's Fallacy.  By analyzing simulated systems that have
+  Prosecutor's Fallacy.  By analysing simulated systems that have
   experienced transitions purely by chance, we reveal an elevated rate
-  of false postives in common warning signal statistics. We further
+  of false positives in common warning signal statistics. We further
   demonstrate a model-based approach that is less subject to this bias
   than these more commonly used summary statistics.
-  In using historical examples of collapse to test and validate methods
-  for early warning signals, care must be taken to avoid this fallacy,
-  either through the use of methods less sensitive to this effect or ideally
-  by greater reliance on experimental studies with replicates avoid this 
-  pitfall entirely.  More such studies are needed to provide data suitable
-  for evaluating methods for early warning.
+  We note that experimental studies with replicates avoid this 
+  pitfall entirely.  
+  
  
   \end{abstract}
 
@@ -96,14 +93,13 @@ concluded that the probability that a randomly selected individual
 would match the description given by the victim would be less than 1 in
 12 million~\citep{PeopleCollins1968}.  The prosecution had produced an
 individual matching the prosecutor's detailed description, and convinced
-by the mathematics of the instructor, the lower courts had found him
+by the mathematics, the lower courts had found him
 guilty.
 
 
 The prosecution has only observed that the probability of seeing the
 evidence ($E$) they produced given a random innocent individual ($I$),
-$P(E|I)$ is very small.  This is not a sufficient basis from which
-to conclude that the individual is indeed guilty, that is, that the
+$P(E|I)$ is very small.  From this one cannot conclude that the individual is indeed guilty, that is, that the
 probability the individual is innocent given the evidence $P(I|E)$
 is also very small. In a city with millions of people, there might
 be several individuals who match the description of the evidence.
@@ -114,12 +110,10 @@ these expressions are related by Bayes theorem,
   P(E|I) = P(I|E) \frac{P(E)}{P(I)}
 \end{equation} 
 
-} With little other evidence supporting the conviction, The California
+} The California
 Supreme Court reversed the decision, and the case became a widely
 recognized example of the Prosecutor's Fallacy~\citep{Thompson1987}.
-Trial juries are not the
-only ones susceptible to misinterpreting probabilistic evidence.
-In this paper we explore how a similar misconception can arise from the
+Here we explore how a similar misconception can arise from the
 use of historical data to evaluate methods for detecting early warning
 signals of critical transitions.
 
@@ -149,22 +143,20 @@ observations~\citep{Livina2007,Dakos2008,Lenton2012,Ditlevsen2010,Guttal2008,Tho
 
 \subsection*{Testing patterns on historical data}
 
-Historical examples of sudden transitions taken from the paleoclimate
+Historical examples of sudden transitions taken from the paleo-climate
 record provide an important way to test and evaluate potential
 leading indicator methods, and have been widely used for this purpose
 \citep{Livina2007,Dakos2008,Lenton2012,Ditlevsen2010,Guttal2008,Thompson2010}.
 Similarly, it has been suggested that data gathered from ecological
 systems such as lakes that were monitored before they experienced sudden
-eutriphication, or grasslands subjected to overgrazing, could contain
+eutrophication, or grasslands subjected to overgrazing, could contain
 data that could help reveal when similar systems are approaching a
-tipping point~\citep{Carpenter2011}.  This is a silver lining to the
-clouds of past catastrophes; we may be able to learn from such examples
-how to detect and avert sudden shifts in the future.
+tipping point~\citep{Carpenter2011}.  
 
 However, testing methods for early warning signals against historical
-examples of transitions is suspetible to statistical mistakes that arise
+examples of transitions is susceptible to statistical mistakes that arise
 from selecting data conditional on that data having already exhibited
-a sudden transition.  A central tenent of early warning theory is that
+a sudden transition.  A central tenant of early warning theory is that
 the system in question is slowly approaching a tipping point that lies
 some unknown distance away.  If nothing is done to remedy the situation,
 this slow change will inevitably carry the system beyond the tipping
@@ -224,7 +216,7 @@ occurring in only 1\% of simulations.
   to an alternate stable state without the presence of this slow change
   driving the system over the edge.  An example of the trajectory of
   such a chance transition is plotted over the potential.  While such
-  events may be unlikely over short timescales, selecting historical
+  events may be unlikely over short time-scales, selecting historical
   examples of systems that have experienced sudden transitions increases
   the probability of accidentally using chance events depicted in
   panel~\subref{fig:fallacy} to test methods designed to detect the kind
@@ -268,7 +260,7 @@ from the positive equilibrium population size.  Though the chance of
 a transition across the Allee threshold in any given time step is 
 small, given enough time this system will eventually experience such a
 rare event driving the population extinct.  We ran each replicate over
-50,000 time unitss, sampling the system every 50 time units.  In this
+50,000 time units, sampling the system every 50 time units.  In this
 time window 266 of the 1,000 replicates experience population collapse.
 To keep the examples of comparable sample size, we focus on a section of
 the data 500 time points prior to the system approaching the transition.
@@ -304,7 +296,7 @@ to be the same length.
 %that is not approaching a bifurcation, an indicator that does not suffer
 %from the bias of Prosecutor's fallacy should have the same distribution
 %in both cases.   
-Annotated, parallelized code to replicate the analysis
+Annotated, parallelised code to replicate the analysis
 and produce the figures is provided in the appendix.  (Currently at
 \href{https://github.com/cboettig/earlywarning/blob/prosecutor/inst/examples/fallacy.md}{https://github.com/cboettig/earlywarning/blob/prosecutor/inst/examples/fallacy.md}).
 
@@ -342,19 +334,8 @@ selected conditional on collapse.
 
 \section{Discussion}
 
-Historical examples of systems that have undergone sudden transitions 
-offer a unique opportunity to test methods for the detection of
-early warning signals that could have foreseen the collapse.  However,
-such data must be used with care, as the process of selecting systems
-already known to have collapsed opens up the possibility that these
-transitions were the result of rare chance events rather than examples
-of the more deterministic tipping point behaviour we wish to detect.
-When we think about forecasting potential collapse in a single system,
-these purely-chance transitions may be rare enough to ignore.  When we
-comb the historical record for any available data on sudden transitions,
-our odds of finding these chance transitions may be much higher.
 
-We have shown that systems which undergo such rare transitions look
+We have shown that systems which undergo rare sudden transitions look
 statistically different from their counterparts that do not, even though
 they are driven by the same stochastic process.  In particular, such
 conditionally selected examples are more likely to show signs associated
@@ -362,7 +343,7 @@ with an early warning of an approaching tipping point, such as increasing
 variance or increasing autocorrelation, as measured by Kendall's $\tau$.
 This increases the risk of false positives -- cases in which a warning
 signal being tested appears to have successfully detected an oncoming
-tipping point, when in fact the example is falsely accused, coming
+tipping point, when in fact the example comes
 instead from a stable system. Figure 2 shows the extent of this bias,
 where many of the chance crashes show values of $\tau$ that are 
 significantly larger than those observed in the otherwise identical
@@ -372,25 +353,20 @@ replicates that did not experience a chance transition.
 \subsection{Chance transitions are false positives for early warning signals}
 
 It seems tempting to argue that the bias towards positive detection
-in historical examples is valuable -- each of these systems did
-indeed collapse, so the fact that they show increased probability
-to exhibit warning signals could be taken as a successful detection.
+in historical examples is not problematic -- each of these systems did
+indeed collapse, so the increased probability
+of exhibiting warning signals could be taken as a successful detection.
 Unfortunately this is not the case. At the moment the forecast is made,
 these systems are no more likely to crash than their counterparts from
 the sample that did not collapse, just as a fair coin is still a fair
-coin after a string of consecutive ``heads.''  Taking a closer look at
-the patterns involved we can begin to understand why common indicators
+coin after a string of consecutive ``heads.''  A closer look at
+the patterns involved shows why common indicators
 such as autocorrelation and variance can be misleading.
 
-The farther the system gets from its stable point (while still remaining
-in the local region), the more likely it is to draw a random step that
-returns it towards the stable point, like a spring that is stretched
-further and further. Despite this, there is always some probability that
-it will move further still, and with enough possible examples to choose
-from, we can be sure to see this happen occasionally.  Systems that manage
-to extend this random walk far enough to cross the tipping point must do
-so rather quickly -- with a string of events moving closer and closer to
-the edge.  This pattern, clearly visible before the crashes in each of
+As the system gets farther from its stable point, it it more likely to draw a random step that
+returns it towards the stable point. Despite this, there is always some probability that
+it will move further still, so systems that do cross the tipping point must do
+so rather quickly by a string of events.  This pattern, clearly visible before the crashes in each of
 the examples in Figure 1, produces a string of observations that appear
 more highly autocorrelated (if we are sampling the system frequently
 enough to catch the excursion at all) than we observe in the rest of the
@@ -419,7 +395,7 @@ transitions.
 
 \subsection{Comparing to the model-based method}
 
-In our experiment, the model-based estimate of early warning signals
+In our numerical experiment, the model-based estimate of early warning signals
 appears more robust than the summary statistics, producing the same
 estimates on both the conditionally selected replicates as on a random
 sample of the replicates.  This is a consequence of the more rigid
@@ -435,19 +411,16 @@ approach is immune to the bias of the Prosecutor's Fallacy.
 
 The problem we highlight ultimately stems from the difficulty of having
 only a single realization with which to examine a complex problem.
-The only way to deal with this problem is through replication, as
+The only way to deal with this problem embodied is through replication, as
 can be done in an experimental system in laboratory manipulations
 such as~\citet{Drake2010, Veraart2011} and at the scale of whole lake
-ecosystems in~\citet{Carpenter2011}.  Historical data will not suffice,
-more such replicated experiments are needed to test these patterns.
+ecosystems in~\citet{Carpenter2011}.  
 Experimental procedures avoid the hazard of the Prosecutor's fallacy by
 generating a complete sample of replicates, rather than selecting a subset
-of cases some larger historical sample where the risk that if selecting a
-chance transition cannot be ignored.  Further, we note that the influence
-of the Prosecutors Fallacy need not be restricted to the context of early
-warning signals, but may arise any time we search historical data for
-examples containing some feature of interest and ignore the statistical
-effect that selection process introduces in our data.
+of cases from some larger historical sample.  
+%We note as well that the Prosecutors Fallacy 
+%may arise in other contexts where we search historical data for
+%examples containing some feature of interest.
 
 
 

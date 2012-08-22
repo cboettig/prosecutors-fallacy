@@ -1,12 +1,14 @@
 %\documentclass[authoryear,5p]{elsarticle}
 %\documentclass[authoryear,preprint,11pt]{elsarticle}
 \documentclass[authoryear,review,11pt]{elsarticle}
+%\documentclass{article}
 \bibliographystyle{elsarticle-harv}
-\usepackage{graphicx}
+%\usepackage{graphicx}
 \usepackage{amsmath,amsfonts}
 %\usepackage{lineno}
 %\linenumbers
 %\usepackage[pdftex, colorlinks]{hyperref}
+%\usepackage{natbib}
 %\usepackage{float}
 %\usepackage{endfloat}
 
@@ -17,22 +19,23 @@
 \topmargin -0.5in
 
 \newcommand{\ud}{\mathrm{d}}
-\newcommand{\E}{\mathrm{E}}
-\newcommand{\C}{\mathrm{Cov}}
-\newcommand{\V}{\mathrm{Var}}
 
-\newcommand{\cb}[1]{{\it (#1)}}
+
+ % \title{Quantifying Limits to Detection of Early Warning for Critical Transitions}
+ % \author{Carl Boettiger \& Alan Hastings}
 
 
 
 \journal{\tiny Journal of the Royal Society Interface}
 \begin{document}
+%\maketitle
+
 \begin{frontmatter}
   \title{Quantifying Limits to Detection of Early Warning for Critical Transitions}
   \author[cpb]{Carl Boettiger\corref{cor1}}
   \ead{cboettig@ucdavis.edu}
   \author[esp]{Alan Hastings}
-  %\cortext[cor1]{Corresponding author.}
+  \cortext[cor1]{Corresponding author.}
   \address[cpb]{Center for Population Biology, 1 Shields Avenue, University of California, Davis, CA, 95616 United States.}
   \address[esp]{Department of Environmental Science and Policy, University of California, Davis, CA, 95616 United States}
 
@@ -479,7 +482,7 @@ we can use these curves to illustrate by how much a given increase in sampling e
 
 \begin{figure}
    \begin{center}
-     \includegraphics[width=\linewidth]{figures/Fig1.pdf}
+     \includegraphics[width=\linewidth]{Fig1.pdf}
      \caption{Top row: The distributions of a hypothetical warning indicator are shown under the case of a stable system (blue) and a system approaching a critical transition (red).  Bottom row: Points along the ROC curve are calculated for each possible threshold indicated in the top row.  The false positive rate is the integral of the distribution of the test statistic under the stable system right of the threshold (blue shaded area, corresponding to blue vertical line).  The true positive rate is the integral of the system approaching a transition left of the threshold (red shaded area, corresponds to the red line).  Successive columns show the threshold increasing, tracing out the ROC curve.}
      \label{fig:roc_intro}
   \end{center}
@@ -528,7 +531,7 @@ This time series is shown in the top panel of Figure~\ref{fig:simulation}.
 
  \begin{figure}
    \begin{center}
-     \includegraphics[width=.73\linewidth]{figures/Simulation_warningsignal.pdf}
+     \includegraphics[width=.73\linewidth]{Simulation_warningsignal.pdf}
      \caption{A model-based calculation of warning signals for the simulated data example.  Top panel: The original time series data on which model parameters for Equations~\eqref{OU}~and~\eqref{LSN} are estimated. Middle panel: replicate simulations under the maximum likelihood estimated (MLE) parameters of the null model, Equation~\eqref{OU} and test model, Equation~\eqref{LSN}.  Bottom panel: The distribution of deviances (differences in log likelihood, Equation~\eqref{delta}), when both null and test models are fit to each of the replicates from the null model, ``null,'' in red, and these differences when estimating for each of the replicates from the test model, in blue.  The overlap of distributions indicate replicates that will be difficult to tell apart.  The observed differences in the original data are indicated by the vertical line.}
      \label{fig:simulation}
   \end{center}
@@ -542,7 +545,7 @@ This time series is shown in the top panel of Figure~\ref{fig:chemostat}.
 
  \begin{figure}
    \begin{center}
-     \includegraphics[width=.85\linewidth]{figures/Chemostat_warningsignal.pdf}
+     \includegraphics[width=.85\linewidth]{Chemostat_warningsignal.pdf}
      \caption{A model-based calculation of warning signals for the Daphnia data analyzed in ~\citet{Drake2010} (Chemostat H6).  
      Panels as in Figure~\ref{fig:simulation}. }
      \label{fig:chemostat}
@@ -563,7 +566,7 @@ which did not apply to the other data sets~\citep{Drake2010}.
 This time series is shown in the top panel of Figure~\ref{fig:glaciation}.
  \begin{figure}
    \begin{center}
-     \includegraphics[width=.85\linewidth]{figures/GlaciationIII_warningsignal.pdf}
+     \includegraphics[width=.85\linewidth]{GlaciationIII_warningsignal.pdf}
      \caption{A model-based calculation of warning signals for the Glaciation data analyzed in ~\citet{Dakos2008} (Glaciation III).  Panels as in Figure~\ref{fig:simulation}.}
      \label{fig:glaciation}
   \end{center}
@@ -608,7 +611,7 @@ are desired.
 
  \begin{figure}
    \begin{center}
-     \includegraphics[width=\linewidth]{figures/rocplot.pdf}
+     \includegraphics[width=\linewidth]{rocplot.pdf}
      \caption{ROC curves for the Simulation, Chemostat, and Glaciation data, computed from the distributions shown in Figures~\ref{fig:simulation}, \ref{fig:chemostat} and \ref{fig:glaciation}, bottom panel.}
      \label{fig:rocdata}
   \end{center}
@@ -629,7 +632,7 @@ Values near zero suggest a lack of a trend, as expected in stable systems.
 
 \begin{figure}
    \begin{center}
-     \includegraphics[width=\linewidth]{figures/Fig2.pdf}
+     \includegraphics[width=\linewidth]{Fig2.pdf}
      \caption{Early warning signals in simulated and empirical data sets.  
      The first two columns are simulated data from (a) a stable system (Stable), 
      and (b) the same system approaching a saddle-node bifurcation (Deteriorating).  
@@ -656,7 +659,7 @@ by chance in a stable system as follows.
 
  \begin{figure}
    \begin{center}
-     \includegraphics[width=\linewidth]{figures/summary_box.pdf}
+     \includegraphics[width=\linewidth]{summary_box.pdf}
      \caption{Box-plots of the distributions of Kendall's~$\tau$ observed for the summary statistic methods variance and autocorrelation, applied to three different data sets (from Figures~\ref{fig:simulation},~\ref{fig:chemostat}, \ref{fig:glaciation}).  The distributions show extensive overlap, suggesting that it will be difficult to distinguish early warning signals by the correlation coefficient in these summary statistics.}
      \label{fig:summary_box}
   \end{center}
@@ -689,7 +692,7 @@ The overlapping distributions are the natural representation from which to intro
 
  \begin{figure}
    \begin{center}
-     \includegraphics[width=\linewidth]{figures/summary_roc.pdf}
+     \includegraphics[width=.8\linewidth]{summary_roc.pdf}
      \caption{ROC curves compare the performance of the summary statistics variance and autocorrelation against the likelihood-based approach from Figure~\ref{fig:rocdata} on each of three example data sets (Figures~\ref{fig:simulation},~\ref{fig:chemostat}, \ref{fig:glaciation}).}
      \label{fig:summary_roc}
   \end{center}
@@ -799,7 +802,7 @@ We would like to thank S. Schreiber, M. Holyoak, M. Baskett, A. Perkins, N.
 Ross, M. Holden, and two anonymous reviewers for comments on the manuscript. 
 This research was supported by funding from NSF Grant EF 0742674 
 and a Computational Sciences Graduate Fellowship from the Department of Energy grant DE-FG02-97ER25308. 
-Data and code are available at \href{https://github.com/cboettig/earlywarning}{ https://github.com/cboettig/earlywarning}.
+Data and code are available at https://github.com/cboettig/earlywarning.
 
 
 

@@ -257,12 +257,11 @@ indicators.  We simulated 20,000 replicates of a stochastic individual-based
 birth-death process with an Allee threshold~\citep{Courchamp2008}, which
 arises from positive fitness effects at low densities.  Above the Allee
 threshold the population returns to a positive equilibrium size, whereas
-below the threshold the population decreases to zero. The model can be represented as a continuous time birth-death process where births and deaths are Poisson events whcih depend on the current density,
+below the threshold the population decreases to zero. The model can be represented as a continuous time birth-death process where births and deaths are Poisson events which depend on the current density with rates given by
 
 \begin{align}
-    b(X) &= \frac{e K n^2}{n^2 + h^2}, \\
-    d(X) &= e n + a,
-
+    b(n) &= \frac{e K n^2}{n^2 + h^2}, \label{master} \\
+    d(n) &= e n + a, 
 \end{align}
 
 

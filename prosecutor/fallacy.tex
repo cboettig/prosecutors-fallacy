@@ -111,14 +111,15 @@ $P(E|I)$ is very small.  From this one cannot conclude that the individual
 is indeed guilty, that is, that the probability the individual is innocent
 given the evidence $P(I|E)$ is also very small. In a city with millions
 of people, there might be several individuals who match the description
-of the evidence\footnote{Mathematically $P(E|I)$ need not equal $P(I|E)$,
+of the evidence.  Mathematically $P(E|I)$ need not equal $P(I|E)$,
 instead, these expressions are related by Bayes theorem,
 
 \begin{equation}
-  P(E|I) = P(I|E) \frac{P(E)}{P(I)}
+  P(E|I) = P(I|E) \frac{P(E)}{P(I)},
 \end{equation} 
 
-}. The California Supreme Court reversed the decision, and
+$P(E) \ll 1$ and $P(I)\approx 1$ , so $P(E|I) \approx P(I|E) P(E)$, and consequently we cannot conclude that $P(I|E) \ll 1$ from $P(E|I) \ll 1$.  
+Realizing this mistake, the California Supreme Court reversed the decision, and
 the case became a widely recognized example of the Prosecutor's
 Fallacy~\citep{Thompson1987}.  Here we explore how a similar misconception
 can arise from the use of historical data to evaluate methods for
@@ -249,28 +250,35 @@ occurring in only 1\% of simulations.
 
 \section{Methods and Results}
 To investigate if early warning signals are vulnerable to this fallacy,
-we simulating a system that is not driven towards a bifurcation such as
+we simulate a system that is not driven towards a bifurcation such as
 in Fig~\ref{fig:fallacy}.  This simulation approach allows us to determine whether
 examining historical events is a valid way to test the utility of these
 indicators.  We simulated 20,000 replicates of a stochastic individual-based
 birth-death process with an Allee threshold~\citep{Courchamp2008}, which
 arises from positive fitness effects at low densities.  Above the Allee
 threshold the population returns to a positive equilibrium size, whereas
-below the threshold the population decreases to zero. The
-simulation uses the Gillespie algorithm to provide an exact implementation
-of the master equation of the birth-death process,
+below the threshold the population decreases to zero. The model can be represented as a continuous time birth-death process where births and deaths are Poisson events whcih depend on the current density,
 
 \begin{align}
-  \frac{dP(n,t)}{dt} &= b_{n-1} P(n-1,t) + d_{n+1}P(n+1,t) - (b_n+d_n) P(n,t)  \label{master}, \\
-    b_n &= \frac{e K n^2}{n^2 + h^2}, \\
-    d_n &= e n + a,
+    b(X) &= \frac{e K n^2}{n^2 + h^2}, \\
+    d(X) &= e n + a,
+
 \end{align}
+
+
+%The simulation uses the Gillespie algorithm to provide an exact implementation\footnote{ of the birth-death process,
+
+%\begin{align}
+%  \frac{dP(n,t)}{dt} &= b_{n-1} P(n-1,t) + d_{n+1}P(n+1,t) - (b_n+d_n) P(n,t)  \label{master}, \\
+%    b_n &= \frac{e K n^2}{n^2 + h^2}, \\
+%    d_n &= e n + a,
+%\end{align}
 
 a model with a linear death rate and density-dependent birth
 rate that drives the Allee effect at low densities and limits
 growth at high densities.  In this model $n$ indicates the discrete
 number of individuals in the population, $K$ indicates a carrying 
-capacity as set by a limiting resource, $e$ a per-capita death rate, 
+capacity as set by a limiting resource, $e$ a per-capita death rate (the $e$ scaling term in the birth equation allows the carrying capacity $K$ to correspond to a positive equilibrium point), 
 $a$ an additional mortality imposed on the population such as harvest,
 $h$ is a parameter controlling at what population size the addition of 
 more individuals switches from conferring a positive benefit on growth 
@@ -308,9 +316,7 @@ around a moving window equal to half the length of that time series.
 
 To test for the presence of a warning signal in these indicators we
 computed values of Kendall's $\tau$ for both indicators for each of
-the 266 replicates.  Kendall's $\tau$ takes values in $(-1, 1)$, and is
-frequently used to identify an increasing trend ($\tau > 0 )$ in early
-warning signals~\citep{Dakos2008, Dakos2011}.  The distribution
+the 266 replicates.  Kendall's $\tau$ is a non-parametric measure of rank correlation frequently used to identify an increasing trend ($\tau > 0 )$ in early warning signals~\citep{Dakos2008, Dakos2011}, defined as $\tau \def \tfrac{(\text{number of concordant pairs}) - (\text{number of discordant pairs})}{\frac{1}{2} n (n-1) }$ in $n$ observations.  \footnote{A pair of observations $(x_i,y_i)$ and $(x_j, y_j)$ are concordant if $x_i > x_j$ and $y_i > y_j$ or $x_i < x_j$ and $y_i < y_j$ and discordant otherwise; equalties excepted.}  $\tau$ takes values in $(-1, 1)$.  The distribution
 of $\tau$ values observed across these replicates is shown in
 Figure~\ref{fig:indicator}.   
 %The common statistical significance test used for Kendall's $\tau$
@@ -351,7 +357,15 @@ and produce the figures is provided in the appendix.
 For each of these replicates we also take a model-based
 approach, estimating parameters for an approximate linear
 model of the system approaching a saddle node bifurcation, as
-described~\citet{Boettiger2012b}.  In this model, the parameter $m$
+described by~\citet{Boettiger2012b},
+
+
+\begin{equation}
+\ud X = \sqrt{ r_t } (\phi(r_t) - X_t)\ud t + \sigma\sqrt{\phi(r_t) } \ud B_t \label{LSN}
+\end{equation}
+
+
+In this model, the parameter $m$
 describes the approach towards the saddle-node bifurcation.  Estimates
 $m < 0 $ are expected in systems approaching a bifurcation, while for
 stable systems $m$ should be approximately zero. None of the estimates
@@ -364,46 +378,59 @@ selected conditional on collapse.
 \section{Discussion}
 
 
-We have shown that systems which undergo rare sudden transitions look
-statistically different from their counterparts that do not, even though
-they are driven by the same stochastic process.  In particular, such
-conditionally selected examples are more likely to show signs associated
-with an early warning of an approaching tipping point, such as increasing
-variance or increasing autocorrelation, as measured by Kendall's $\tau$.
-This increases the risk of false positives -- cases in which a warning
-signal being tested appears to have successfully detected an oncoming
-tipping point, when in fact the example comes
-instead from a stable system. Figure 2 shows the extent of this bias,
-where many of the chance crashes show values of $\tau$ that are 
-significantly larger than those observed in the otherwise identical
-replicates that did not experience a chance transition.  
+The attempts to detect early warning signs for critical transitions
+are based on the concept of a deteriorating environment as embodied
+in a changing parameter~\cite{Scheffer2009}, which is a different kind
+of transition than one which is driven instead by stochasticity in an
+environment which is otherwise constant and exhibiting no directional
+change. When trying to use historical data to understand critical
+transitions we often do not know which category, changing environment
+or simply chance, an observed large change falls into.
+
+
+
+We have shown here that systems which undergo rare sudden transitions
+due to chance look statistically different from their counterparts that
+do not, even though they are driven by the same stochastic process.
+In particular, such conditionally selected examples are more likely to
+show signs associated with an early warning of an approaching tipping
+point, such as increasing variance or increasing autocorrelation,
+as measured by Kendall's $\tau$.  This increases the risk of false
+positives -- cases in which a warning signal being tested appears to
+have successfully detected an underlying change in the system leading
+to a tipping point, when in fact the example comes instead from a stable
+system with no underlying change in parameters. Figure 2 shows that many
+of the chance crashes show values of $\tau$ that are significantly larger
+than those observed in the otherwise identical replicates that did not
+experience a chance transition, thus ``detecting'' an underlying change
+in the system dynamics that is not in fact present.
 
 
 \subsection{Chance transitions are false positives for early warning signals}
 
-It seems tempting to argue that the bias towards positive detection
-in historical examples is not problematic -- each of these systems did
-indeed collapse, so the increased probability
-of exhibiting warning signals could be taken as a successful detection.
-Unfortunately this is not the case. At the moment the forecast is made,
-these systems are no more likely to crash than their counterparts from
-the sample that did not collapse, just as a fair coin is still a fair
-coin after a string of consecutive ``heads.''  A closer look at
-the patterns involved shows why common indicators
-such as autocorrelation and variance can be misleading.
+It seems tempting to argue that this bias towards positive detection in
+historical examples is not problematic -- each of these systems did
+indeed collapse, so the increased probability of exhibiting warning
+signals could be taken as a successful detection.  Unfortunately this
+is not the case. At the moment the forecast is made, these systems are
+no more likely to crash than their counterparts from the sample that did
+not collapse, just as a fair coin is still a fair coin after a string of
+consecutive ``heads.''  A closer look at the patterns involved shows why
+common indicators such as autocorrelation and variance can be misleading.
 
-As the system gets farther from its stable point, it it more likely to draw a random step that
-returns it towards the stable point. Despite this, there is always some probability that
-it will move further still, so systems that do cross the tipping point must do
-so rather quickly by a string of events.  This pattern, clearly visible before the crashes in each of
-the examples in Figure 1, produces a string of observations that appear
-more highly autocorrelated (if we are sampling the system frequently
-enough to catch the excursion at all) than we observe in the rest of the
-fluctuations around the equilibrium.  Yet this autocorrelation comes from
-a chance trajectory moving quickly \emph{away} from the stable state,
-not from the critical slowing down pattern in the return times to the
-stable state which precede a saddle-node bifurcation and motivate the
-early warning signal.
+As the system gets farther from its stable point, it it more likely to
+draw a random step that returns it towards the stable point. Despite
+this, there is always some probability that it will move further still,
+so systems that do cross the tipping point must do so rather quickly by
+a string of events.  This pattern, clearly visible before the crashes
+in each of the examples in Figure 1, produces a string of observations
+that appear more highly autocorrelated (if we are sampling the system
+frequently enough to catch the excursion at all) than we observe in the
+rest of the fluctuations around the equilibrium.  Yet this autocorrelation
+comes from a chance trajectory moving quickly \emph{away} from the
+stable state, not from the critical slowing down pattern in the return
+times to the stable state which precede a saddle-node bifurcation and
+motivate the early warning signal.
 
 
 This longer than expected excursion results in a higher than expected
@@ -437,7 +464,7 @@ increasing autocorrelation and the pattern anticipated in the saddle-node
 model. This should not however be taken as evidence that the model-based
 approach is immune to the bias of the Prosecutor's Fallacy.
 
-
+\subsection{Importance of experimental approaches}
 The problem we highlight ultimately stems from the difficulty of having
 only a single realization with which to examine a complex problem.
 The only way to deal with this problem embodied is through replication, as

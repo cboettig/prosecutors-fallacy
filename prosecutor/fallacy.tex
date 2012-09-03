@@ -38,9 +38,9 @@
 \renewcommand{\listoftables}{} % supress these lists
 % compile without figures?
 \newif\ifhavefigures
-%\havefigurestrue
+\havefigurestrue
 \newif\ifnohavefigures % allows alternate condition
-\nohavefigurestrue     % turn on the alternate condition uncommenting this
+%\nohavefigurestrue     % turn on the alternate condition uncommenting this
 
 \journal{\tiny Proceedings of the Royal Society B} 
 \begin{document}
@@ -199,49 +199,36 @@ occurring in only 1\% of simulations.
 
 \begin{figure}
   \begin{center}
-    \subfigure[\textbf{True criminal} A bifurcation
-      drives a transition into the undesirable state]{
       \ifhavefigures
-%        \includegraphics[width=.4\textwidth]{figure1a}
+        \includegraphics[width=\textwidth]{Figure1}
       \fi
       \ifnohavefigures
-        \hspace{.4\textwidth}
+        \hspace{\textwidth}
       \fi
       \label{fig:bifurcation}
-    } 
-    \subfigure[\textbf{Innocent suspect} A
-    transition to the alternative stable state has occurred purely by
-    chance.]{
-    \ifhavefigures
-%      \includegraphics[width=.4\textwidth]{figure1b}
-    \fi
-    \ifnohavefigures
-      \hspace{.4\textwidth}
-    \fi
-    \label{fig:fallacy} }
-  \end{center} \caption{\textbf{The Prosecutor's Fallacy}. Plots of system
-  state versus potential in two cases.  Potential is the negative integral
-  of the mean of dynamical equation.  The potential function gives an
-  intuitive picture of the stability of a system by imagining the curve as
-  a surface on which a ball is free to bounce across -- wells correspond
-  to stable points and peaks to unstable points.  Early warning signals
-  are aimed at detecting systems which are slowly moving towards a tipping
-  point or bifurcation, illustrated in the successively darker potential
-  curves in panel~\subref{fig:bifurcation}.  An example trajectory from
-  a simulation under this process shows the state of the system as the
-  potential moves towards the bifurcation point. The state of the system
-  in the simulation is given by the horizontal axis, while the vertical
-  dimension is used to show time on the right-hand axis.  Some stable
-  systems, panel~\subref{fig:fallacy}, may experience chance transitions
-  to an alternate stable state without the presence of this slow change
-  in the shape of the potential well which tips the system off to the left.
-  An example of the trajectory of such a chance transition is
-  plotted over the potential.  While such events may be unlikely over
-  short time-scales, selecting historical examples of systems that
-  have experienced sudden transitions increases the probability of
-  accidentally using chance events depicted in panel~\subref{fig:fallacy}
-  to test methods designed to detect the kind of process depicted in
-  panel~\subref{fig:bifurcation}.} \label{fig:1}
+  \end{center} \caption{\textbf{The Prosecutor's Fallacy}. 
+\textbf{(a)} Plot of the model functions shown in Eq~\eqref{master}
+with parameters $a=180$, $K=500$, $e=.5$, and $h=200$.  When the death
+rate is higher than the birth rate, the system dynamics drive the state
+(population size) to smaller values.  When birth rate is higher, the
+system moves right, as indicated by the arrows.\textbf{(b)} The potential
+energy is given by the negative integral of $b(n)-d(n)$, shown in the
+lower plot.   The potential function gives an intuitive picture of
+the stability of a system by imagining the curve as a surface on which
+a ball is free to bounce across -- wells correspond to stable points
+and peaks to unstable points. While most trajectories remain near the
+stable well, some transition out merely by chance.  An example of such
+a trajectory is shown in the top panel, in which time increases along
+the vertical axis. Though initially oscillating around the stable state,
+a chance excursion carries it beyond the threshold (vertical dotted line).
+Such chance trajectories can produce the statistical patterns as observed
+in true critical transitions seen in panel \textbf{(c)}: Early warning
+signals  are aimed at detecting systems which are slowly moving towards
+a tipping point or bifurcation, illustrated in the successive curves
+(detiorating and critical). Top panel: An example trajectory from a
+simulation under this process shows the state of the system as the
+potential moves towards the bifurcation point.
+} \label{fig:1}
 \end{figure}
 
 
@@ -251,7 +238,7 @@ occurring in only 1\% of simulations.
 \section{Methods and Results}
 To investigate if early warning signals are vulnerable to this fallacy,
 we simulate a system that is not driven towards a bifurcation such as
-in Fig~\ref{fig:fallacy}.  This simulation approach allows us to determine whether
+in Fig~ref{fig:1}(b).  This simulation approach allows us to determine whether
 examining historical events is a valid way to test the utility of these
 indicators.  We simulated 20,000 replicates of a stochastic individual-based
 birth-death process with an Allee threshold~\citep{Courchamp2008}, which
@@ -260,7 +247,7 @@ threshold the population returns to a positive equilibrium size, whereas
 below the threshold the population decreases to zero. The model can be represented as a continuous time birth-death process where births and deaths are Poisson events which depend on the current density with rates given by
 
 \begin{align}
-    b(n) &= \frac{e K n^2}{n^2 + h^2}, \label{master} \\
+    b(n) &= \frac{ K n^2}{n^2 + h^2}, \label{master} \\
     d(n) &= e n + a, 
 \end{align}
 
@@ -269,27 +256,28 @@ below the threshold the population decreases to zero. The model can be represent
 
 %\begin{align}
 %  \frac{dP(n,t)}{dt} &= b_{n-1} P(n-1,t) + d_{n+1}P(n+1,t) - (b_n+d_n) P(n,t)  \label{master}, \\
-%    b_n &= \frac{e K n^2}{n^2 + h^2}, \\
+%    b_n &= \frac{K n^2}{n^2 + h^2}, \\
 %    d_n &= e n + a,
 %\end{align}
 
-a model with a linear death rate and density-dependent birth
-rate that drives the Allee effect at low densities and limits
-growth at high densities.  In this model $n$ indicates the discrete
-number of individuals in the population, $K$ indicates a carrying 
-capacity as set by a limiting resource, $e$ a per-capita death rate (the $e$ scaling term in the birth equation allows the carrying capacity $K$ to correspond to a positive equilibrium point), 
-$a$ an additional mortality imposed on the population such as harvest,
-$h$ is a parameter controlling at what population size the addition of 
-more individuals switches from conferring a positive benefit on growth 
-from Allee interactions $n < h$ to a negative impact on growth due to 
-increased competition, $n > h$.  The key feature of this model is the
-alternate stable states introduced by this effect; other functional
-forms for Eq.~\eqref{master} could serve equally well for these
-simulations~\citep[see \emph{e.g.}][]{Scheffer2001}.  Though this
-system can be forced through a bifurcation by increasing
+a model with a linear death rate and density-dependent birth rate
+that drives the Allee effect at low densities and limits growth at high
+densities.  In this model $n$ indicates the discrete number of individuals
+in the population, $K$ indicates a carrying capacity as set by a limiting
+resource, $e$ a per-capita death rate (the $e$ scaling term in the birth
+equation allows the carrying capacity $K$ to correspond to a positive
+equilibrium point), $a$ an additional mortality imposed on the population
+such as harvest, $h$ is a parameter controlling at what population size
+the addition of more individuals switches from conferring a positive
+benefit on growth from Allee interactions $n < h$ to a negative impact
+on growth due to increased competition, $n > h$.  The key feature of
+this model is the alternate stable states introduced by this effect;
+other functional forms for Eq.~\eqref{master} could serve equally
+well for these simulations~\citep[see \emph{e.g.}][]{Scheffer2001}.
+Though this system can be forced through a bifurcation by increasing
 the death rate, in these simulations all parameters are held constant
 and no bifurcation occurs.  Consequently we do not anticipate an early
-warning signal of an approaching bifurcation.  
+warning signal of an approaching bifurcation.
 
 The simulation starts from the positive equilibrium population size.
 Though the chance of a transition across the Allee threshold in any
@@ -315,28 +303,35 @@ around a moving window equal to half the length of that time series.
 
 To test for the presence of a warning signal in these indicators we
 computed values of Kendall's $\tau$ for both indicators for each of
-the 266 replicates.  Kendall's $\tau$ is a non-parametric measure of rank correlation frequently used to identify an increasing trend ($\tau > 0 )$ in early warning signals~\citep{Dakos2008, Dakos2011}, defined as $\tau \def \tfrac{(\text{number of concordant pairs}) - (\text{number of discordant pairs})}{\frac{1}{2} n (n-1) }$ in $n$ observations.  \footnote{A pair of observations $(x_i,y_i)$ and $(x_j, y_j)$ are concordant if $x_i > x_j$ and $y_i > y_j$ or $x_i < x_j$ and $y_i < y_j$ and discordant otherwise; equalties excepted.}  $\tau$ takes values in $(-1, 1)$.  The distribution
-of $\tau$ values observed across these replicates is shown in
-Figure~\ref{fig:indicator}.   
-%The common statistical significance test used for Kendall's $\tau$
-%assumes independence of the variables to achieve a normal distribution,
-%this isn't satisfied for indicators coming from a time series and
-%computed with a sliding window.  For a more robust comparison, 
-We compare the distribution of $\tau$ from all the simulations to
-the distribution conditioned on experiencing a chance transition to the
-alternative stable state.  To avoid an effect of sample size the time series are all chosen
-to be the same length.  
-%As these examples have been selected from a system
-%that is not approaching a bifurcation, an indicator that does not suffer
-%from the bias of Prosecutor's fallacy should have the same distribution
-%in both cases.   
-Annotated, parallelised code to replicate the analysis
-and produce the figures is provided in the appendix. 
+the 266 replicates.  Kendall's $\tau$ is a non-parametric measure
+of rank correlation frequently used to identify an increasing trend
+($\tau > 0 )$ in early warning signals~\citep{Dakos2008, Dakos2011},
+defined as $\tau \def \tfrac{(\text{number of concordant pairs}) -
+(\text{number of discordant pairs})}{\frac{1}{2} n (n-1) }$ in $n$
+observations.  \footnote{A pair of observations $(x_i,y_i)$ and $(x_j,
+y_j)$ are concordant if $x_i > x_j$ and $y_i > y_j$ or $x_i < x_j$ and
+$y_i < y_j$ and discordant otherwise; equalities excepted.}  $\tau$ takes
+values in $(-1, 1)$.  The distribution of $\tau$ values observed across
+these replicates is shown in Figure~\ref{fig:indicator}.  We compare
+the distribution of $\tau$ from all the simulations to the distribution
+conditioned on experiencing a chance transition to the alternative
+stable state.  To avoid an effect of sample size the time series are
+all chosen to be the same length.
+
+
+To demonstrate the effect we observe is not unique to models with Allee
+effects, we provide an example of the effect arising in a discrete-time
+model with two non-zero stable states adapted from~\citep{May1977},
+\begin{equation}
+X_{t+1} = X_t \exp\left( r \left(1 - \frac{ X_t }{ K } \right) - \frac{ a * X_t ^ {Q - 1} }{s ^ Q + H ^ Q} \right). \label{May1977}
+\end{equation}
+Annotated, parallel code to replicate the analysis presented here is
+also provided in the appendix.
 
 \begin{figure}
   \begin{center}
     \ifhavefigures
-%    \includegraphics[width=6in]{figure2}
+    \includegraphics[width=6in]{figure2}
     \fi
   \end{center}
   \caption{The distribution of the correlation statistic $\tau$ for two
@@ -386,8 +381,6 @@ change. When trying to use historical data to understand critical
 transitions we often do not know which category, changing environment
 or simply chance, an observed large change falls into.
 
-
-
 We have shown here that systems which undergo rare sudden transitions
 due to chance look statistically different from their counterparts that
 do not, even though they are driven by the same stochastic process.
@@ -405,16 +398,17 @@ experience a chance transition, thus ``detecting'' an underlying change
 in the system dynamics that is not in fact present.
 
 
+
+
 \subsection{Chance transitions are false positives for early warning signals}
 
-It seems tempting to argue that this bias towards positive detection in
-historical examples is not problematic -- each of these systems did
+It seems tempting to argue that this bias towards positive detection
+in historical examples is not problematic -- each of these systems did
 indeed collapse, so the increased probability of exhibiting warning
-signals could be taken as a successful detection.  Unfortunately this
-is not the case. At the moment the forecast is made, these systems are
-no more likely to crash than their counterparts from the sample that did
-not collapse, just as a fair coin is still a fair coin after a string of
-consecutive ``heads.''  A closer look at the patterns involved shows why
+signals could be taken as a successful detection.  Unfortunately this is
+not the case. At the moment the forecast is made, these systems are not
+likely to transition, since they experience a strong pull towards the
+original stable state.  A closer look at the patterns involved shows why
 common indicators such as autocorrelation and variance can be misleading.
 
 As the system gets farther from its stable point, it it more likely to
@@ -448,13 +442,51 @@ or autocorrelation without being harbingers of approaching critical
 transitions.
 
 
+\subsection{ The truncation of observations }
+
+If we had a complete knowledge of the system dynamics, then we could
+eliminate the bias we observe here since the bias arises from the
+transient branch of the trajectory that crosses the threshold, and
+if the system were truncated at the minimum of the potential then the
+effect we emphasize here would not appear.  But, it is not possible to
+truncate the system in any practical application. The precise location of
+the minimum of the potential which is the location of the deterministic
+equilibrium is unknown. Moreover, under the hypothesis that the system is
+approaching a critical transition, the location of the minimum potential
+moves so it cannot easily be estimated by previous observations, (see
+Figure 1c where the equilibrium point moves in the direction of the
+transition). Thus it is neither practical nor desirable to suggest that
+historical time series can be used by following a simple truncation rule
+that avoids the branch of a trajectory crossing the threshold to another
+basin of attraction.  Exactly where a particular study will choose
+to truncate such a trajectory will necessarily be arbitrary without an
+underlying model of the process.  Frequently this is done by removing
+the very steep, monotonic branch of the trajectory expected once the
+system crosses the unstable threshold.  Such an approach corresponds
+with our choice of termination and produces the bias we discuss here.
+
+The examples of Figure 1, though only single replicates, may be useful
+in illustrating these issues.  Figure 1c, top panel shows a sample
+trajectory of a system with a parameter shift, while 1b shows a trajectory
+without a shift.  Both trajectories become more highly autocorrelated
+and higher variance near the end of the time series (time increases
+on the y axis in Figure 1).  The part of the time series following
+the critical transition shows a fast and monotonic trajectory to the
+unstable trajectory, and would usually be excluded by an analysis for
+warning signals in advance of the transition.  No such clear pattern
+exists prior to the transition in Figure 1b.   An alternative proposal
+to terminate the trajectory in panel B earlier would also risk decreasing
+the signal seen in panel c, and would be inconsistent with the application
+of warning signals in the forecasting context, where there would be no
+such truncation.
+
 \subsection{Comparing to the model-based method}
 
-In our numerical experiment, the model-based estimate of early warning signals
-appears more robust than the summary statistics, producing the same
-estimates on both the conditionally selected replicates as on a random
-sample of the replicates.  This is a consequence of the more rigid
-specifications that come with a model-based approach -- the pattern
+In our numerical experiment, the model-based estimate of early warning
+signals appears more robust than the summary statistics, producing
+the same estimates on both the conditionally selected replicates as on
+a random sample of the replicates.  This is a consequence of the more
+rigid specifications that come with a model-based approach -- the pattern
 expected is less general than any increase in variance or autocorrelation,
 but instead must be one that matches its approximation of the saddle-node
 bifurcation. This observation highlights the difference between the
@@ -463,19 +495,17 @@ increasing autocorrelation and the pattern anticipated in the saddle-node
 model. This should not however be taken as evidence that the model-based
 approach is immune to the bias of the Prosecutor's Fallacy.
 
-\subsection{Importance of experimental approaches}
-The problem we highlight ultimately stems from the difficulty of having
-only a single realization with which to examine a complex problem.
-The only way to deal with this problem embodied is through replication, as
-can be done in an experimental system in laboratory manipulations
-such as~\citet{Drake2010, Veraart2011, Dai2012} and at the scale of whole lake
-ecosystems in~\citet{Carpenter2011}.  
-Experimental procedures avoid the hazard of the Prosecutor's fallacy by
-generating a complete sample of replicates, rather than selecting a subset
-of cases from some larger historical sample.  
-%We note as well that the Prosecutors Fallacy 
-%may arise in other contexts where we search historical data for
-%examples containing some feature of interest.
+
+\subsection{Importance of experimental approaches} The problem we
+highlight ultimately stems from the difficulty of having only a single
+realization with which to examine a complex problem.  The only way
+to deal with this problem embodied is through replication, as can
+be done in an experimental system in laboratory manipulations such
+as~\citet{Drake2010, Veraart2011, Dai2012} and at the scale of whole
+lake ecosystems in~\citet{Carpenter2011}.  Experimental procedures avoid
+the hazard of the Prosecutor's fallacy by generating a complete sample
+of replicates, rather than selecting a subset of cases from some larger
+historical sample.
 
 
 
@@ -486,7 +516,14 @@ This research was supported by funding from NSF Grant EF 0742674 to AH
 and a Computational Sciences Graduate Fellowship from the Department of
 Energy grant DE-FG02-97ER25308 to CB. The authors thank M. Baskett, 
 T.A. Perkins and N. Ross for helpful comments on earlier drafts of the
-manuscript.  
+manuscript, and also P. Ditlevsen and an anonymous reviewer for their 
+comments.  
+
+\section{References}%bibliography
+\bibliography{fallacy}
+
+ \end{document}
+
 
  \section{References}%bibliography
 
@@ -642,7 +679,3 @@ Veraart, A.~J., Faassen, E.~J., Dakos, V., van Nes, E.~H., L\"{u}rling, M.,
 
 \end{thebibliography}
  
- \end{document}
-
-
-

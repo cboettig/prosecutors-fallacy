@@ -1,6 +1,7 @@
 
 
-Associate Editor, Dr Minus van Baalen
+Reply to the associate Editor, Dr Minus van Baalen
+--------------------------------------------------
 
 > I like the ms as does one of the referees. The other referee (who signed
 his review) has provided an extensive review with numerous suggestions
@@ -13,13 +14,14 @@ this made explicit.
 
 We provide a detailed response to concerns of Reviewer 1 below.
 In addition, to address the concern about whether these phenomena arise
-only when Allee effects are operating, we provide as an appendix a
-similar example in a system that does not experience an Allee effect
+only when Allee effects are operating, we have added a second example using 
+simulations from a system that does not experience an Allee effect
 (i.e. a bistable system with a strictly positive lower stable state,
-adapted from May 1977).
+adapted from May 1977).  These results are now presented in Figure 3.  
 
 
-Reply to Reviewer 1, Peter Ditlevsen ------------------------------------
+Reply to Reviewer 1, Peter Ditlevsen 
+------------------------------------
 
 > My major concern is the following: This result must be a consequence
 of the realizations chosen to close to the actual jump (with the last
@@ -91,9 +93,6 @@ Yup, removed.
 
 > The appendix is not really relevant
 
-We have amended the appendix to provide an additional demonstration of
-the same effect in a different model.
-
 The appendix provides complete code to replicate the results by copying
 and pasting the commands given into an R terminal, a practice recommended
 by Peng (2012) in Science and many others.  Readers not interested in
@@ -122,7 +121,11 @@ The definition has been added at the first mention.
 > Figure 2: It is surprising that the distribution of tau is bimodal. Is
 this due to small sample size?
 
-Yes. This is now stated.
+Yes. This is now been clarified in the figure caption.  (The
+individual-based simulations are rather computationally intensive --
+extra simulations have been included in the null distribution of the
+May model we have introduced as a second example, and the bimodality
+does not appear.)
 
 > p6, L 133 the reference to "m" from Boettiger & Hastings 2012 needs
 to be expanded.
@@ -169,7 +172,8 @@ in the printed acknowledgement.
 
 
 
-Reply to Reviewer 2 -------------------
+Reply to Reviewer 2 
+-------------------
 
 > I had a hard time following figure 1.
 

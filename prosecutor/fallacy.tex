@@ -31,6 +31,11 @@
 \let\@evenfoot\@oddfoot}
 \makeatother
 
+\usepackage[hyphens]{url}
+\usepackage[pdftex]{color}
+\usepackage[breaklinks=true,linktocpage,colorlinks]{hyperref}
+\hypersetup{breaklinks=true, pdfborder={0 0 0}}
+
 
 
 \usepackage{endfloat} % Move floats to the end of the document
@@ -323,10 +328,10 @@ To demonstrate the effect we observe is not unique to models with Allee
 effects, we provide an example of the effect arising in a discrete-time
 model with two non-zero stable states adapted from~\citep{May1977},
 \begin{equation}
-X_{t+1} = X_t \exp\left( r \left(1 - \frac{ X_t }{ K } \right) - \frac{ a * X_t ^ {Q - 1} }{s ^ Q + H ^ Q} \right). \label{May1977}
+X_{t+1} = X_t \exp\left( r \left(1 - \frac{ X_t }{ K } \right) - \frac{ a * X_t ^ {Q - 1} }{X_t ^ Q + H ^ Q} \right). \label{May1977}
 \end{equation}
-Annotated, parallel code to replicate the analysis presented here is
-also provided in the appendix.
+which combines a logistic growth model with a saturating predator response (See~\citet{May1977} for detailed discussion), shown in Figure~\ref{fig:may}.  Code to replicate the analysis can be found at \\ 
+\begin{sloppy}\href{https://github.com/cboettig/earlywarning/tree/prosecutor/}{https://github.com/cboettig/earlywarning/tree/prosecutor/}\end{sloppy}.
 
 \begin{figure}
   \begin{center}
@@ -343,9 +348,21 @@ also provided in the appendix.
   a pattern of an indicator increasing with time; typically taken as
   evidence that a system is approaching a critical transition.  In these
   simulations, the pattern arises instead from the Prosecutor's fallacy
-  of conditional selection.}
+  of conditional selection. (the slight bimodality in the null distribution
+  arises from limited sample size).}
   \label{fig:indicator}
 \end{figure}
+
+\begin{figure}
+  \begin{center}
+    \ifhavefigures
+    \includegraphics[width=6in]{figure3}
+    \fi
+  \end{center}
+  \caption{The identical analysis from Figure~\ref{fig:indicator} is shown for the model in Eq~\eqref{May1977} using parameters $r = 0.75$, $K=10$, $a=1.7$, $Q=3$, and $H=1$. A similar statistical bias, particularly towards positive values of $tau$ occurs in this model as well.}
+  \label{fig:may}
+\end{figure}
+
 
 
 For each of these replicates we also take a model-based
@@ -519,7 +536,6 @@ T.A. Perkins and N. Ross for helpful comments on earlier drafts of the
 manuscript, and also P. Ditlevsen and an anonymous reviewer for their 
 comments.  
 
-\section{References}%bibliography
 \bibliography{fallacy}
 
  \end{document}

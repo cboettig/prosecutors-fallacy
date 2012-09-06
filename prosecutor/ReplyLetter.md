@@ -1,7 +1,20 @@
+Dear Professor Michael Hassell,
+
+Thank you for the reviews of our manuscript, "Early Warning Signals and the Prosecutor’s Fallacy."
+The responses of the reviewers were most helpful, and we are pleased to present our revised version addressing their concerns.  A summary of our changes is provided below, with the critiques of the associate editor and reviewers experted above each response.  
+
+Sincerely,
+
+Carl Boettiger
+
+Alan Hastings
+
 
 
 Reply to the associate Editor, Dr Minus van Baalen
 --------------------------------------------------
+
+
 
 > I like the ms as does one of the referees. The other referee (who signed
 his review) has provided an extensive review with numerous suggestions
@@ -93,11 +106,16 @@ Yup, removed.
 
 > The appendix is not really relevant
 
+We instead simply provide the code necessary to replicate the results on 
+an online code repository (Github), and have eliminated the appendix section. 
+If accepted, these files can also be deposited in a more long-term guarenteed
+repository such as Dryad (http://datadryad.org). 
+
 The appendix provides complete code to replicate the results by copying
 and pasting the commands given into an R terminal, a practice recommended
 by Peng (2012) in Science and many others.  Readers not interested in
 this kind of thing are free to ignore this material; since as the reviewer
-notes all relevant details are already described in the main text.
+notes all relevant details are already described in the main text.  
 
 > suggest to show a figure of b_n, d_n, and state the parameter values
 used.  Also the stated parameters do not match those shown in figure 1.

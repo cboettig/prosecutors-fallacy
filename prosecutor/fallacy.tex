@@ -5,12 +5,7 @@
 \usepackage{amsmath,amsfonts}
 \usepackage{lineno}
 \linenumbers
-%\usepackage{float}
 \usepackage{subfigure}
-%\usepackage[pdftex]{color}
-%\definecolor{darkblue}{rgb}{0,0,0.5}
-%\definecolor{darkgreen}{rgb}{0,0.5,0}
-%\usepackage[pdftex, colorlinks]{hyperref}
 \textwidth 6.75in
 \oddsidemargin -0.15in
 \evensidemargin -0.15in
@@ -31,10 +26,6 @@
 \let\@evenfoot\@oddfoot}
 \makeatother
 
-\usepackage[hyphens]{url}
-\usepackage[pdftex]{color}
-\usepackage[breaklinks=true,linktocpage,colorlinks]{hyperref}
-\hypersetup{breaklinks=true, pdfborder={0 0 0}}
 
 
 
@@ -45,7 +36,7 @@
 \newif\ifhavefigures
 \havefigurestrue
 \newif\ifnohavefigures % allows alternate condition
-%\nohavefigurestrue     % turn on the alternate condition uncommenting this
+\nohavefigurestrue     % turn on the alternate condition uncommenting this
 
 \journal{\tiny Proceedings of the Royal Society B} 
 \begin{document}
@@ -205,7 +196,7 @@ occurring in only 1\% of simulations.
 \begin{figure}
   \begin{center}
       \ifhavefigures
-        \includegraphics[width=\textwidth]{Figure1}
+%        \includegraphics[width=\textwidth]{Figure1}
       \fi
       \ifnohavefigures
         \hspace{\textwidth}
@@ -331,14 +322,17 @@ model with two non-zero stable states adapted from~\citep{May1977},
 X_{t+1} = X_t \exp\left( r \left(1 - \frac{ X_t }{ K } \right) - \frac{ a * X_t ^ {Q - 1} }{X_t ^ Q + H ^ Q} \right). \label{May1977}
 \end{equation}
 which combines a logistic growth model with a saturating predator response (See~\citet{May1977} for detailed discussion), shown in Figure~\ref{fig:may}.  Code to replicate the analysis can be found at \\ 
-\begin{sloppy}\href{https://github.com/cboettig/earlywarning/tree/prosecutor/}{https://github.com/cboettig/earlywarning/tree/prosecutor/}\end{sloppy}.
+\verb|https://github.com/cboettig/earlywarning/tree/prosecutor/|.
 
 \begin{figure}
   \begin{center}
     \ifhavefigures
-    \includegraphics[width=6in]{figure2}
+%    \includegraphics[width=6in]{Figure2}
     \fi
-  \end{center}
+     \ifnohavefigures
+     \hspace{6in}
+    \fi
+ \end{center}
   \caption{The distribution of the correlation statistic $\tau$ for two
   early warning indicators (variance, autocorrelation) on replicates
   conditionally selected for having collapsed by chance in simulations
@@ -348,15 +342,17 @@ which combines a logistic growth model with a saturating predator response (See~
   a pattern of an indicator increasing with time; typically taken as
   evidence that a system is approaching a critical transition.  In these
   simulations, the pattern arises instead from the Prosecutor's fallacy
-  of conditional selection. (the slight bimodality in the null distribution
-  arises from limited sample size).}
+  of conditional selection.}
   \label{fig:indicator}
 \end{figure}
 
 \begin{figure}
   \begin{center}
     \ifhavefigures
-    \includegraphics[width=6in]{figure3}
+%    \includegraphics[width=6in]{Figure3}
+    \fi
+    \ifnohavefigures
+     \hspace{6in}
     \fi
   \end{center}
   \caption{The identical analysis from Figure~\ref{fig:indicator} is shown for the model in Eq~\eqref{May1977} using parameters $r = 0.75$, $K=10$, $a=1.7$, $Q=3$, and $H=1$. A similar statistical bias, particularly towards positive values of $tau$ occurs in this model as well.}
@@ -536,8 +532,163 @@ T.A. Perkins and N. Ross for helpful comments on earlier drafts of the
 manuscript, and also P. Ditlevsen and an anonymous reviewer for their 
 comments.  
 
-\bibliography{fallacy}
+\begin{thebibliography}{25}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
 
+\bibitem[{Berkes et~al.(2006)Berkes, Hughes, Steneck, Wilson, Bellwood, Crona,
+  Folke, Gunderson, Leslie, Norberg, Nystr\"{o}m, Olsson, Osterblom, Scheffer,
+  and Worm}]{Berkes2006}
+Berkes, F., Hughes, T.~P., Steneck, R.~S., Wilson, J.~A., Bellwood, D.~R.,
+  Crona, B., Folke, C., Gunderson, L.~H., Leslie, H.~M., Norberg, J.,
+  Nystr\"{o}m, M., Olsson, P., Osterblom, H., Scheffer, M., Worm, B., Mar.
+  2006. {Ecology. Globalization, roving bandits, and marine resources.} Science
+  (New York, N.Y.) 311~(5767), 1557--8.
+
+
+\bibitem[{Boettiger and Hastings(2012)}]{Boettiger2012b}
+Boettiger, C., Hastings, A., May 2012. {Quantifying limits to detection of
+  early warning for critical transitions}. Journal of The Royal Society
+  Interface 9~(75), 2527 -- 2539.
+
+
+\bibitem[{Carpenter(2011)}]{Carpenter2011}
+Carpenter, J., Feb. 2011. {May the Best Analyst Win}. Science 331~(6018),
+  698--699.
+
+
+\bibitem[{Carpenter and Brock(2006)}]{Carpenter2006}
+Carpenter, S.~R., Brock, W.~A., 2006. {Rising variance: a leading indicator of
+  ecological transition.} Ecology letters 9~(3), 311--8.
+
+
+\bibitem[{Courchamp et~al.(2008)Courchamp, Berec, and
+  Gascoigne}]{Courchamp2008}
+Courchamp, F., Berec, L., Gascoigne, J., 2008. {Allee Effects in Ecology and
+  Conservation}. Oxford University Press, USA.
+
+
+\bibitem[{Dai et~al.(2012)Dai, Vorselen, Korolev, and Gore}]{Dai2012}
+Dai, L., Vorselen, D., Korolev, K.~S., Gore, J., May 2012. {Generic Indicators
+  for Loss of Resilience Before a Tipping Point Leading to Population
+  Collapse}. Science 336~(6085), 1175--1177.
+
+
+\bibitem[{Dakos et~al.(2011)Dakos, K\'{e}fi, Rietkerk, Nes, and
+  Scheffer}]{Dakos2011}
+Dakos, V., K\'{e}fi, S., Rietkerk, M., Nes, E. H.~V., Scheffer, M., 2011.
+  {Slowing Down in Spatially Patterned Ecosystems at the Brink of Collapse}.
+  The American Naturalist.
+
+\bibitem[{Dakos et~al.(2008)Dakos, Scheffer, van Nes, Brovkin, Petoukhov, and
+  Held}]{Dakos2008}
+Dakos, V., Scheffer, M., van Nes, E.~H., Brovkin, V., Petoukhov, V., Held, H.,
+  Sep. 2008. {Slowing down as an early warning signal for abrupt climate
+  change.} Proceedings of the National Academy of Sciences 105~(38), 14308--12.
+
+
+\bibitem[{Ditlevsen and Johnsen(2010)}]{Ditlevsen2010}
+Ditlevsen, P.~D., Johnsen, S.~J., Oct. 2010. {Tipping points: Early warning and
+  wishful thinking}. Geophysical Research Letters 37~(19), 2--5.
+
+
+\bibitem[{Drake and Griffen(2010)}]{Drake2010}
+Drake, J.~M., Griffen, B.~D., Sep. 2010. {Early warning signals of extinction
+  in deteriorating environments}. Nature 467~(7314), 456--459.
+
+
+\bibitem[{Guttal and Jayaprakash(2008)}]{Guttal2008}
+Guttal, V., Jayaprakash, C., Dec. 2008. {Spatial variance and spatial skewness:
+  leading indicators of regime shifts in spatial ecological systems}.
+  Theoretical Ecology 2~(1), 3--12.
+
+
+\bibitem[{Hirota et~al.(2011)Hirota, Holmgren, {Van Nes}, and
+  Scheffer}]{Hirota2011}
+Hirota, M., Holmgren, M., {Van Nes}, E.~H., Scheffer, M., Oct. 2011. {Global
+  Resilience of Tropical Forest and Savanna to Critical Transitions}. Science
+  334~(6053), 232--235.
+
+
+\bibitem[{K\'{e}fi et~al.(2007)K\'{e}fi, Rietkerk, Alados, Pueyo, Papanastasis,
+  Elaich, and de~Ruiter}]{Kefi2007}
+K\'{e}fi, S., Rietkerk, M., Alados, C.~L., Pueyo, Y., Papanastasis, V.~P.,
+  Elaich, A., de~Ruiter, P.~C., Sep. 2007. {Spatial vegetation patterns and
+  imminent desertification in Mediterranean arid ecosystems.} Nature
+  449~(7159), 213--7.
+
+
+\bibitem[{Lenton(2011)}]{Lenton2011}
+Lenton, T.~M., Jun. 2011. {Early warning of climate tipping points}. Nature
+  Climate Change 1~(4), 201--209.
+
+
+\bibitem[{Lenton et~al.(2012)Lenton, Livina, and Dakos}]{Lenton2012}
+Lenton, T.~M., Livina, V., Dakos, V., 2012. {Early warning of climate tipping
+  points from critical slowing down: comparing methods to improve robustness}.
+  Philosophical Transactions of The Royal Society A (in press).
+
+
+\bibitem[{Livina and Lenton(2007)}]{Livina2007}
+Livina, V.~N., Lenton, T.~M., Feb. 2007. {A modified method for detecting
+  incipient bifurcations in a dynamical system}. Geophysical Research Letters
+  34~(3), 1--5.
+
+
+\bibitem[{May(1977)}]{May1977}
+May, R.~M., Oct. 1977. {Thresholds and breakpoints in ecosystems with a
+  multiplicity of stable states}. Nature 269~(5628), 471--477.
+
+
+\bibitem[{Mumby et~al.(2007)Mumby, Hastings, and Edwards}]{Mumby2007}
+Mumby, P.~J., Hastings, A., Edwards, H.~J., Nov. 2007. {Thresholds and the
+  resilience of Caribbean coral reefs.} Nature 450~(7166), 98--101.
+
+
+\bibitem[{Scheffer et~al.(2009)Scheffer, Bascompte, Brock, Brovkin, Carpenter,
+  Dakos, Held, van Nes, Rietkerk, and Sugihara}]{Scheffer2009}
+Scheffer, M., Bascompte, J., Brock, W.~A., Brovkin, V., Carpenter, S.~R.,
+  Dakos, V., Held, H., van Nes, E.~H., Rietkerk, M., Sugihara, G., 2009.
+  {Early-warning signals for critical transitions.} Nature 461~(7260), 53--9.
+
+
+\bibitem[{Scheffer et~al.(2001)Scheffer, Carpenter, Foley, Folke, and
+  Walker}]{Scheffer2001}
+Scheffer, M., Carpenter, S.~R., Foley, J.~A., Folke, C., Walker, B., Oct. 2001.
+  {Catastrophic shifts in ecosystems.} Nature 413~(6856), 591--6.
+
+
+\bibitem[{{Supreme Court}(1968)}]{PeopleCollins1968}
+{Supreme Court}, C., 1968. {People v. Collins}.
+
+\bibitem[{Thompson and Sieber(2010)}]{Thompson2010}
+Thompson, J. M.~T., Sieber, J., Dec. 2010. {Climate tipping as a noisy
+  bifurcation: a predictive technique}. IMA Journal of Applied Mathematics
+  76~(1), 27--46.
+
+
+\bibitem[{Thompson and Schumann(1987)}]{Thompson1987}
+Thompson, W.~C., Schumann, E.~L., 1987. {Interpretation of statistical evidence
+  in criminal trials: The prosecutor's fallacy and the defense attorney's
+  fallacy.} Law and Human Behavior 11~(3), 167--187.
+
+
+\bibitem[{van Nes and Scheffer(2007)}]{vanNes2007}
+van Nes, E.~H., Scheffer, M., Jun. 2007. {Slow recovery from perturbations as a
+  generic indicator of a nearby catastrophic shift.} The American naturalist
+  169~(6), 738--47.
+
+
+\bibitem[{Veraart et~al.(2011)Veraart, Faassen, Dakos, van Nes, L\"{u}rling,
+  and Scheffer}]{Veraart2011}
+Veraart, A.~J., Faassen, E.~J., Dakos, V., van Nes, E.~H., L\"{u}rling, M.,
+  Scheffer, M., Dec. 2011. {Recovery rates reflect distance to a tipping point
+  in a living system}. Nature, 2--5.
+
+
+\end{thebibliography}
  \end{document}
 
 

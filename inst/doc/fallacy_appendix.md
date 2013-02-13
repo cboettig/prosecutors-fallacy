@@ -1,51 +1,15 @@
 
 
 # Code for Prosecutors Fallacy 
-<!--
-
-`FALSE`
+`TRUE`
 This code is written in the `R` language for statistical computing.  
 Population dynamics are simulated using the `populationdynamics` package
-
-
-```
-
-Error in eval(expr, envir, enclos) : could not find function "citep"
-
-```
-
- for exact simulations of 
+(Boettiger, 2012) for exact simulations of 
 discrete birth-death processes in continuous time using the Gillespie
-agorithm 
-
-```
-
-Error in eval(expr, envir, enclos) : could not find function "citep"
-
-```
-
-.  Early warning signals
+agorithm (Gillespie, 1977).  Early warning signals
 of variance and autocorrelation, as well as the model-based estimate
-of 
-
-```
-
-Error in eval(expr, envir, enclos) : could not find function "citet"
-
-```
-
- are estimated using the 
-`earlywarning` package 
-
-```
-
-Error in parse(text = code[i]) : 2:0: unexpected end of input
-1: citep(citation("earlywarning")
-  ^
-
-```
-
-.  These
+of Boettiger & Hastings, (2012) are estimated using the 
+`earlywarning` package (Boettiger, 2012).  These
 packages can be installed from Github using the `devtools` R package
 
 ```r
@@ -54,7 +18,7 @@ install_github("populationdynamics", "cboettig")
 install_github("earlywarning", "cboettig")
 ```
 
-For the individual-based simulation, the population dynamics are given by
+In the examples of this manuscript, the population dynamics are given by
 
 <div>
 \begin{align}
@@ -65,27 +29,6 @@ For the individual-based simulation, the population dynamics are given by
 </div>
 
 which is provided by the `saddle_node_ibm` model in `populationdynamics`. 
-
-We also consider the discrete time version of the model of 
-
-```
-
-Error in eval(expr, envir, enclos) : could not find function "citet"
-
-```
-
-,
-
-
--->
-
-
-<div>
-\begin{equation}
-X_{t+1} =     X_t  \exp\left( r \left(1 - \frac{ X_t }{  K } \right) - \frac{ a * X_t ^ {Q - 1} }{s ^ Q + H ^ Q} \right) 
-\end{equation}
-
-We will use parameters r = .75, k = 10, a=1.7, H=1, Q = 3.  In this model Q is a parameter that will force the system through a bifurcation point at a = 2.  
 
 For each of the warning signal statistics in question, 
 we need to generate the distibution over all replicates
@@ -133,42 +76,6 @@ select_crashes <- function(n){
 
 
 
-
-This setting toggles the simulation model to use the May formulation instead.  
-
-
-
-```r
-threshold <- 1.5
-select_crashes <- function(n){
-  n <- n/10 # doesn't need as long as the individual-based
-  sn <- 
-  sapply(1:1000, function(rep){
-    x <- vector(mode="double", length=n)
-    x[1] <- 8 # positive equilibrium
-    z <- rlnorm(n, 0, .1)
-    r = .75; k = 10; a=1.55; H=1; Q = 3
-    for(t in 1:n){
-      x[t+1] = z[t] *  x[t] * exp(r * (1 - x[t] / k) - a * x[t] ^ (Q - 1) / (x[t] ^ Q + H ^ Q)) 
-    }
-    x
-  })
-	crashed <- which(sn[n,] < threshold)
-  # length(crashed)/1000 # fraction that crash
-	sn[,crashed] 
-}
-```
-
-
-
-
-
-
-
-
-
-
-
 To take advantage of parallelization, we loop over this function a set number of times.  The `snowfall` library provides the parallelization
 of the `lapply` loop.  A few extra commands format the data into a table
 with columns of times, replicate id number, and population value at the
@@ -181,18 +88,26 @@ given time.
 sfInit(parallel=TRUE, cpu=12)
 ```
 
+
+
 ```
 R Version:  R version 2.15.0 (2012-03-30) 
 
 ```
 
+
+
 ```r
 sfLibrary(populationdynamics)
 ```
 
+
+
 ```
 Library populationdynamics loaded.
 ```
+
+
 
 ```r
 sfExportAll()
@@ -205,17 +120,6 @@ levels(dat$reps) <- 1:length(levels(dat$reps)) # use numbers for reps
 
 
 
-
-
-
-```r
-ggplot(subset(dat, reps %in% levels(dat$reps)[1:9])) + geom_line(aes(time, value)) + facet_wrap(~reps, scales="free")
-```
-
-![plot of chunk testing](http://farm9.staticflickr.com/8287/7846795140_d5d810125a_o.png) 
-
-
-
 Zoom in on the relevant area of data near the crash
 
 
@@ -223,9 +127,8 @@ Zoom in on the relevant area of data near the crash
 ```r
 require(plyr)
 zoom <- ddply(dat, "reps", function(X){
-    tip <- min(which(X$value<threshold))
-# print(tip)
-    index <- max(tip-200,1):tip
+    tip <- min(which(X$value==0))
+    index <- max(tip-500,1):tip
     data.frame(time=X$time[index], value=X$value[index])
     })
 ```
@@ -235,20 +138,12 @@ zoom <- ddply(dat, "reps", function(X){
 
 
 
-```r
-ggplot(subset(zoom, reps %in% levels(zoom$reps)[1:9])) + geom_line(aes(time, value)) + facet_wrap(~reps, scales="free")
-```
-
-![plot of chunk example-trajectories](http://farm8.staticflickr.com/7139/7846795368_6b701a7fe5_o.png) 
-
-
-
 Compute model-based warning signals on all each of these.  
 
 
 
 ```r
-dt <- data.table(subset(zoom, value>threshold))
+dt <- data.table(subset(zoom, value>250))
 var <- dt[, warningtrend(data.frame(time=time, value=value), window_var), by=reps]$V1
 acor <- dt[, warningtrend(data.frame(time=time, value=value), window_autocorr), by=reps]$V1
 dat <- melt(data.frame(Variance=var, Autocorrelation=acor))
@@ -280,39 +175,19 @@ select_crashes <- function(n){
 
 
 
-```r
-select_crashes <- function(n){
-  n <- n/10 # doesn't need as long as the individual-based
-  sn <- 
-  sapply(1:1000, function(rep){
-    x <- vector(mode="double", length=n)
-    x[1] <- 8 # positive equilibrium
-    z <- rlnorm(n, 0, .1)
-    r = .75; k = 10; a=1.55; H=1; Q = 3
-    for(t in 1:n){
-      x[t+1] = z[t] *  x[t] * exp(r * (1 - x[t] / k) - a * x[t] ^ (Q - 1) / (x[t] ^ Q + H ^ Q)) 
-    }
-    x
-  })
-	sn[1:201,] 
-}
-
-
-
-
-```
-
-
-
 
 ```r
 sfInit(parallel=TRUE, cpu=12)
 sfLibrary(populationdynamics)
 ```
 
+
+
 ```
 Library populationdynamics loaded.
 ```
+
+
 
 ```r
 sfExportAll()
@@ -362,7 +237,7 @@ ggplot(dat) + geom_histogram(aes(value, y=..density..), binwidth=0.2, alpha=.5) 
  geom_density(data=nulldat, aes(value), bw=0.2)
 ```
 
-![plot of chunk figure2](http://farm9.staticflickr.com/8435/7846795570_87ac2e71fd_o.png) 
+![plot of chunk figure2](appendix/figure2.png) 
 
 
-
+list(title = "populationdynamics: Tools to simulate various population dynamics models in ecology", author = list(list(given = "Carl", family = "Boettiger", role = NULL, email = "cboettig@gmail.com", comment = NULL)), year = "2012", note = "R package version 0.0-1"), list(title = "Exact Stochastic Simulation of Coupled Chemical Reactions", author = list(list(given = c("Daniel", "T."), family = "Gillespie", role = NULL, email = NULL, comment = NULL)), journal = "The Journal of Physical Chemistry", year = "1977", month = "12", volume = "81", doi = "10.1021/j100540a008", issn = "0022-3654"), list(title = "Quantifying Limits to Detection of Early Warning For Critical Transitions", author = list(list(given = "C.", family = "Boettiger", role = NULL, email = NULL, comment = NULL), list(given = "A.", family = "Hastings", role = NULL, email = NULL, comment = NULL)), journal = "Journal of The Royal Society Interface", year = "2012", month = "05", doi = "10.1098/rsif.2012.0125", issn = "1742-5689")

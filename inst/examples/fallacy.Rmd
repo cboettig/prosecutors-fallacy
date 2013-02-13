@@ -110,7 +110,7 @@ Zoom in on the relevant area of data near the crash
 require(plyr)
 zoom <- ddply(dat, "reps", function(X){
     tip <- min(which(X$value<threshold))
-print(tip)
+#print(tip)
     index <- max(tip-200,1):tip
     data.frame(time=X$time[index], value=X$value[index])
     })

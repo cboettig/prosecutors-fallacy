@@ -1,13 +1,14 @@
 
 
 
-## May Model 
+## Code for the May Model 
 
 <div>
 \begin{equation}
-X_{t+1} =     X_t  \exp\left( r \left(1 - \frac{ X_t }{  K } \right) - \frac{ a * X_t ^ {Q - 1} }{s ^ Q + H ^ Q} \right) 
+X_{t+1} =     X_t  \exp\left( r \left(1 - \frac{ X_t }{  K } \right) - \frac{ a * X_t ^ {Q - 1} }{X_t ^ Q + H ^ Q} \right) 
 \end{equation}
 </div>
+
 
 We will use parameters r = .75, k = 10, a=1.7, H=1, Q = 3.  In this model Q is a parameter that will force the system through a bifurcation point at a = 2.  
 
@@ -15,6 +16,7 @@ For each of the warning signal statistics in question,
 we need to generate the distibution over all replicates
 and then over replicates which have been selected conditional 
 on having experienced a crash.  
+
 
 Load the required libraries
  
@@ -28,8 +30,8 @@ library(snowfall)		# parallel
 ```
 
 
-
 This just sets our plotting preferences
+
 
 ```r
 theme_publish <- theme_set(theme_bw(12))
@@ -44,7 +46,8 @@ theme_publish <-
 
 ### Conditional distribution
 
-Then we fix a set of paramaters we will use for the simulation function.  Since we will simulate 20,000 replicates with 5,000 pts a piece, we can save memory by performing the conditional selection on the ones that crash as we go along and disgard the others. 
+Then we fix a set of paramaters we will use for the simulation function.  Since we will simulate 20,000 replicates with 5,000 pts a piece, we can save memory by performing the conditional selection on the ones that crash as we go along and disgard the others.  
+
 
 ```r
 threshold <- 1.5
@@ -68,12 +71,16 @@ select_crashes <- function(n){
 
 
 
-Initialize the parallel enviromment
- 
+Initialize the parallel enviromment 
+
+
 ```r
-sfInit(parallel=TRUE, cpu=12)
-sfLibrary(populationdynamics)
+sfInit(parallel=FALSE)
 ```
+
+
+and run the simulations:
+
 
 ```r
 sfExportAll()
@@ -87,12 +94,12 @@ levels(dat$reps) <- 1:length(levels(dat$reps)) # use numbers for reps
 
 
 ```r
-ggplot(subset(dat, reps %in% levels(dat$reps)[1:9])) +
-  geom_line(aes(time, value)) + 
+ggplot(subset(dat, reps %in% levels(dat$reps)[1:9])) + 
+  geom_line(aes(time, value)) +
   facet_wrap(~reps, scales="free")
 ```
 
-![plot of chunk testing](http://farm9.staticflickr.com/8040/7925692422_bde0b54eaf_o.png) 
+![plot of chunk testing](http://farm9.staticflickr.com/8296/7940591844_ee90533fe4_o.png) 
 
 
 
@@ -110,13 +117,14 @@ zoom <- ddply(dat, "reps", function(X){
 
 
 
+
 ```r
-ggplot(subset(zoom, reps %in% levels(zoom$reps)[1:9])) +
-  geom_line(aes(time, value)) +
+ggplot(subset(zoom, reps %in% levels(zoom$reps)[1:9])) + 
+  geom_line(aes(time, value)) + 
   facet_wrap(~reps, scales="free")
 ```
 
-![plot of chunk example-trajectories](http://farm9.staticflickr.com/8298/7925692690_226a3d647a_o.png) 
+![plot of chunk example-trajectories](http://farm9.staticflickr.com/8309/7940592044_0cf24971a4_o.png) 
 
 
 
@@ -134,7 +142,6 @@ dat <- melt(data.frame(Variance=var, Autocorrelation=acor))
 ### Null distribution 
 
 To compare against the expected distribution of these statistics, we create another set of simulations without conditioning on having experienced a chance transition, on which we perform the identical analysis.  
-
 
 
 ```r
@@ -161,19 +168,12 @@ select_crashes <- function(n){
 
 
 ```r
-sfInit(parallel=TRUE, cpu=12)
 sfLibrary(populationdynamics)
-```
-
-```
-Library populationdynamics loaded.
-```
-
-```r
 sfExportAll()
-examples <-  sfLapply(1:24, function(i) select_crashes(50000))
+examples <-  sfLapply(1:10, function(i) select_crashes(50000))
 nulldat <- melt(as.matrix(as.data.frame(examples, check.names=FALSE)))
 nulldat <- melt(examples)
+
 names(nulldat) = c("time", "reps", "value")
 levels(nulldat$reps) <- 1:length(levels(dat$reps)) 
 ```
@@ -190,7 +190,7 @@ nullzoom <- ddply(nulldat, "reps", function(X){
 ```
 
 
-
+Compute the warning signals on the null distribution for comparison:
 
 
 ```r
@@ -201,14 +201,25 @@ nulldat <- melt(data.frame(Variance=nullvar, Autocorrelation=nullacor))
 ```
 
 
+Plot the final figure:
+
 
 ```r
-ggplot(dat) + geom_histogram(aes(value, y=..density..), binwidth=0.2, alpha=.5) +
- facet_wrap(~variable) + xlim(c(-1, 1)) + 
- geom_density(data=nulldat, aes(value), bw=0.2)
+ggplot(dat) + 
+	geom_histogram(aes(value, y=..density..), binwidth=0.3, alpha=.5) +
+	facet_wrap(~variable) + xlim(c(-1, 1)) + 
+	geom_density(data=nulldat, aes(value), adjust=3) + 
+	xlab("Kendall's tau") + theme_bw()
 ```
 
-![plot of chunk figure2](http://farm9.staticflickr.com/8299/7925692880_f80ea200cd_o.png) 
+![plot of chunk fig3](http://farm9.staticflickr.com/8311/7940592210_be8a43106a_o.png) 
+
+```r
+
+```
+
+
+
 
 
 

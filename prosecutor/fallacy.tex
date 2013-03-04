@@ -36,7 +36,7 @@
 \newif\ifhavefigures
 \havefigurestrue
 \newif\ifnohavefigures % allows alternate condition
-\nohavefigurestrue     % turn on the alternate condition uncommenting this
+%\nohavefigurestrue     % turn on the alternate condition uncommenting this
 
 \journal{\tiny Proceedings of the Royal Society B} 
 \begin{document}
@@ -196,7 +196,7 @@ occurring in only 1\% of simulations.
 \begin{figure}
   \begin{center}
       \ifhavefigures
-%        \includegraphics[width=\textwidth]{Figure1}
+        \includegraphics[width=\textwidth]{Figure1}
       \fi
       \ifnohavefigures
         \hspace{\textwidth}
@@ -216,14 +216,15 @@ and peaks to unstable points. While most trajectories remain near the
 stable well, some transition out merely by chance.  An example of such
 a trajectory is shown in the top panel, in which time increases along
 the vertical axis. Though initially oscillating around the stable state,
-a chance excursion carries it beyond the threshold (vertical dotted line).
+a chance excursion carries it beyond the Allee threshold (vertical dotted line).
 Such chance trajectories can produce the statistical patterns as observed
 in true critical transitions seen in panel \textbf{(c)}: Early warning
 signals  are aimed at detecting systems which are slowly moving towards
 a tipping point or bifurcation, illustrated in the successive curves
-(detiorating and critical). Top panel: An example trajectory from a
+(deteriorating and critical). Top panel: An example trajectory from a
 simulation under this process shows the state of the system as the
-potential moves towards the bifurcation point.
+potential moves towards the bifurcation point. The original position of the Allee threshold
+is shown by the vertical dotted line (though it moves slightly as the parameter changes).  
 } \label{fig:1}
 \end{figure}
 
@@ -327,7 +328,7 @@ which combines a logistic growth model with a saturating predator response (See~
 \begin{figure}
   \begin{center}
     \ifhavefigures
-%    \includegraphics[width=6in]{Figure2}
+    \includegraphics[width=6in]{Figure2}
     \fi
      \ifnohavefigures
      \hspace{6in}
@@ -349,7 +350,7 @@ which combines a logistic growth model with a saturating predator response (See~
 \begin{figure}
   \begin{center}
     \ifhavefigures
-%    \includegraphics[width=6in]{Figure3}
+    \includegraphics[width=6in]{Figure3}
     \fi
     \ifnohavefigures
      \hspace{6in}
@@ -524,13 +525,13 @@ historical sample.
 
 
 
- \section{Acknowledgements}
+ \section{Acknowledgments}
 This research was supported by funding from NSF Grant EF 0742674 to AH
-and a Computational Sciences Graduate Fellowship from the Department of
-Energy grant DE-FG02-97ER25308 to CB. The authors thank M. Baskett, 
-T.A. Perkins and N. Ross for helpful comments on earlier drafts of the
-manuscript, and also P. Ditlevsen and an anonymous reviewer for their 
-comments.  
+and a Computational Sciences Graduate Fellowship from the Department
+of Energy grant DE-FG02-97ER25308 and NERSC Supercomputing grant
+DE-AC02-05CH11231 to CB. The authors thank M. Baskett, T.A. Perkins
+and N. Ross for helpful comments on earlier drafts of the manuscript,
+and also P. Ditlevsen and an anonymous reviewer for their comments.
 
 \begin{thebibliography}{25}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi

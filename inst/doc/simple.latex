@@ -1,0 +1,50 @@
+\documentclass{article} 
+\usepackage{hyperref}
+$if(tables)$
+\usepackage{longtable}
+$endif$
+$if(graphics)$
+\usepackage{graphicx}
+% We will generate all images so they have a width \maxwidth. This means
+% that they will get their normal width if they fit onto the page, but
+% are scaled down if they would overflow the margins.
+$endif$
+
+\usepackage{setspace, lineno}
+\doublespacing
+\linenumbers
+
+\title{$title$}
+\author{%
+  Carl Boettiger\thanks{Center for Stock Assessment Research, Department of Applied Math and Statistics, University of California, Mail Stop SOE-2, Santa Cruz, CA 95064, USA} \and Alan Hastings\thanks{Department of Environmental Science and Policy, University of California Davis, 1 Shields Avenue, Davis, CA 95616 USA}}
+\begin{document}
+  
+\maketitle
+
+
+$body$
+
+$if(natbib)$
+$if(biblio-files)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+\bibliography{$biblio-files$}
+
+$endif$
+$endif$
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+
+$endif$
+$for(include-after)$
+$include-after$
+
+$endfor$
+\end{document}
+
+

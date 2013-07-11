@@ -9,10 +9,12 @@ dat <- read.csv("Figure1.csv")
 ```
 
 
+(there should be some clever way in plyr or data.table to do these combinations automatically, but anyway)
 
-There should be some clever way in plyr or data.table to do these combinations automatically, but anyway:
 
-Focusing on the OU model, we see that autocorrelation is not sufficiently different: 
+
+
+Focusing on the OU model, we do see some 'significant' difference in autocorrelation distributions:
 
 
 ```r

@@ -14,8 +14,8 @@ Focusing on the OU model, we see that autocorrelation is not sufficiently differ
 ```{r}
 x <- subset(dat, variable=="Autocorrelation" & data=="null" & model == "OU")$value
 y <- subset(dat, variable=="Autocorrelation" & data=="conditional" & model == "OU")$value
-wilcox.test(x,y, alternative="greater")
-ks.test(x,y, alternative="greater")
+wilcox.test(x,y, alternative="less") # x - y < 0 since y bigger than x
+ks.test(x,y, alternative="greater") # CDF x > then CDF y since more weight to the left
 ```
 
 Variances are more different:
@@ -23,8 +23,8 @@ Variances are more different:
 ```{r}
 x <- subset(dat, variable=="Variance" & data=="null" & model == "OU")$value
 y <- subset(dat, variable=="Variance" & data=="conditional" & model == "OU")$value
-wilcox.test(x,y, alternative="greater")
-ks.test(x,y, alternative="greater")
+wilcox.test(x,y, alternative="less") # x - y < 0 since y bigger than x
+ks.test(x,y, alternative="greater") # CDF x > then CDF y since more weight to the left
 ```
 
 
@@ -33,8 +33,8 @@ Clearer for Allee case:
 ```{r}
 x <- subset(dat, variable=="Variance" & data=="null" & model == "Allee")$value
 y <- subset(dat, variable=="Variance" & data=="conditional" & model == "Allee")$value
-wilcox.test(x,y, alternative="greater")
-ks.test(x,y, alternative="greater")
+wilcox.test(x,y, alternative="less") # x - y < 0 since y bigger than x
+ks.test(x,y, alternative="greater") # CDF x > then CDF y since more weight to the left
 ```
 
 We opt not to include a comparison statistic since it is unclear to me what is most appropriate.  Wilcox test is a bit of a strange choice given the skew of the conditional distribution.  Kolmogorov-Smirnov is slightly more natural, but really hard to defend either one in this context, as distributions of Kendall's $\tau$ statistics is already a somewhat curious distribution - ideally we should consider how it should actually be distributed given the dynamical process as the null (which is what we generate numerically).  

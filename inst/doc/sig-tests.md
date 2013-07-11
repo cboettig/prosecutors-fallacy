@@ -19,7 +19,7 @@ Focusing on the OU model, we see that autocorrelation is not sufficiently differ
 x <- subset(dat, variable == "Autocorrelation" & data == "null" & model == "OU")$value
 y <- subset(dat, variable == "Autocorrelation" & data == "conditional" & model == 
     "OU")$value
-wilcox.test(x, y, alternative = "greater")
+wilcox.test(x, y, alternative = "less")  # x - y < 0 since y bigger than x
 ```
 
 ```
@@ -27,12 +27,12 @@ wilcox.test(x, y, alternative = "greater")
 	Wilcoxon rank sum test with continuity correction
 
 data:  x and y
-W = 135229, p-value = 0.9884
-alternative hypothesis: true location shift is greater than 0
+W = 135229, p-value = 0.01158
+alternative hypothesis: true location shift is less than 0
 ```
 
 ```r
-ks.test(x, y, alternative = "greater")
+ks.test(x, y, alternative = "greater")  # CDF x > then CDF y since more weight to the left
 ```
 
 ```
@@ -55,7 +55,7 @@ Variances are more different:
 ```r
 x <- subset(dat, variable == "Variance" & data == "null" & model == "OU")$value
 y <- subset(dat, variable == "Variance" & data == "conditional" & model == "OU")$value
-wilcox.test(x, y, alternative = "greater")
+wilcox.test(x, y, alternative = "less")  # x - y < 0 since y bigger than x
 ```
 
 ```
@@ -63,12 +63,12 @@ wilcox.test(x, y, alternative = "greater")
 	Wilcoxon rank sum test with continuity correction
 
 data:  x and y
-W = 112149, p-value = 1
-alternative hypothesis: true location shift is greater than 0
+W = 112149, p-value = 3.409e-08
+alternative hypothesis: true location shift is less than 0
 ```
 
 ```r
-ks.test(x, y, alternative = "greater")
+ks.test(x, y, alternative = "greater")  # CDF x > then CDF y since more weight to the left
 ```
 
 ```
@@ -92,7 +92,7 @@ Clearer for Allee case:
 ```r
 x <- subset(dat, variable == "Variance" & data == "null" & model == "Allee")$value
 y <- subset(dat, variable == "Variance" & data == "conditional" & model == "Allee")$value
-wilcox.test(x, y, alternative = "greater")
+wilcox.test(x, y, alternative = "less")  # x - y < 0 since y bigger than x
 ```
 
 ```
@@ -100,12 +100,12 @@ wilcox.test(x, y, alternative = "greater")
 	Wilcoxon rank sum test with continuity correction
 
 data:  x and y
-W = 25599, p-value = 1
-alternative hypothesis: true location shift is greater than 0
+W = 25599, p-value < 2.2e-16
+alternative hypothesis: true location shift is less than 0
 ```
 
 ```r
-ks.test(x, y, alternative = "greater")
+ks.test(x, y, alternative = "greater")  # CDF x > then CDF y since more weight to the left
 ```
 
 ```

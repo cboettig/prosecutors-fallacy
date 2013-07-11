@@ -73,7 +73,8 @@ least -4, and analyzed the 1,500 data points prior to the threshold
 to determine a warning signal (following @Dakos2008).  (Code at:
 https://raw.github.com/cboettig/earlywarning/resubmission/inst/doc/Figure1.Rmd,
 data at:
-https://raw.github.com/cboettig/earlywarning/resubmission/inst/doc/Figure1.csv (these links should be replaced with the appropriate citation to Dryad, where these files are now deposited under provisional DOI: 10.5061/dryad.1dj62)](Figure1.pdf)
+https://raw.github.com/cboettig/earlywarning/resubmission/inst/doc/Figure1.csv 
+(Once published, code and data will appear in Dryad via doi: 10.5061/dryad.1dj62)](Figure1.pdf)
 
 
 We find (Figure 1) that $\tau$ is significantly skewed towards positive

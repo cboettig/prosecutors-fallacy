@@ -1,0 +1,10 @@
+We are pleased to submit our manuscript, "Early warning signals & the prosecutor's fallacy" 
+for consideration for publication in the Proceedings of the Royal Society, B.  There is much 
+recent research interest in the potential to identify early warning signs that a population, 
+ecosystem, or environment is approaching a critical transition.  Historical data on systems 
+that have experienced sudden shifts between to alternative stable states, such as the collapse
+of a coral reef or end of a glacial period, have been used or proposed to evaluate these early 
+warning indicators.  In this manuscript we demonstrate that such historical data sources must
+be used with caution, as their selection can introduce a statistical bias to the results that 
+dramatically increases the chance of false positives.  We also demonstrate how more explicit
+model-based indicators are less vulnerable to this pattern. 

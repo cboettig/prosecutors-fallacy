@@ -1,0 +1,11 @@
+*.rda
+*.pdf
+*.sty
+*.log
+*.fff
+*.spl
+*.dvi
+*.bbl
+*.blg
+*.cls
+*.eps

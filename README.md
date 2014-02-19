@@ -1,5 +1,5 @@
-Accompanying Code for the Prosecutor's Fallacy
-=============================================
+The Prosecutor's Fallacy
+==========================
 
 Author: Carl Boettiger <cboettig@gmail.com>
 
@@ -16,7 +16,6 @@ Installation
 ```r
 require(devtools)
 install_github("populationdynamics", "cboettig")
-install_github("earlywarning", "cboettig", branch="prosecutor")
 ```
 
 **Note:** Several of the examples use code parallelized for multiple processors.  If your machine has greater/fewer than the specified number of cpus available, modify the cpu settings in the code for optimal performance. Several of the examples may take several days to run on 16 processor machines specified in the code.   

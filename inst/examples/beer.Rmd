@@ -93,6 +93,6 @@ ggplot(dat) + geom_histogram(aes(value, y=..density..), binwidth=0.3, alpha=.5) 
 
 
 ``` {r save_final_data}
-write.csv(dat, file="beer_dat.csv")
-write.csv(nulldat, file="beer_nulldat.csv")
+write.csv(dat, file="ou_dat.csv")
+write.csv(nulldat, file="ou_nulldat.csv")
 ```

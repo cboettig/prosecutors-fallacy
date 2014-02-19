@@ -169,8 +169,8 @@ ggplot(dat) + geom_histogram(aes(value, y=..density..), binwidth=0.3, alpha=.5) 
 ````
 
 ``` {r save_final_data}
-write.csv(dat, file="Comment_dat.csv")
-write.csv(nulldat, file="Comment_nulldat.csv")
+write.csv(dat, file="allee.csv")
+write.csv(nulldat, file="allee_nulldat.csv")
 ```
 
 ``` {r comment, dev="CairoPS", fig.ext="eps", fig.width=6, fig.height=5, include=FALSE}

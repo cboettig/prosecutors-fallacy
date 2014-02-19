@@ -3,20 +3,54 @@ The Prosecutor's Fallacy
 
 Author: Carl Boettiger <cboettig@gmail.com>
 
+Overview
+--------
+
+This package is provided as supplementary material to fully document
+the research methods leading up to and used in my paper:
+
+Boettiger, C. & Hastings, A. 2012 Early warning
+signals and the prosecutor’s fallacy. Proc. R. Soc. B
+Biol. Sci. (doi:10.1098/rspb.2012.2085)
+
+The resulting data, along with the code as it appeared
+at the time of acceptance is permanently [archived on
+Dryad](http://datadryad.org/resource/doi:10.5061/dryad.2k462).
+
+This package was later used in deriving the additional results presented
+in the paper:
+
+Boettiger, C. & Hastings, A. 2013 No early warning signals for stochastic
+transitions: insights from large deviation theory. Proc. R. Soc. B
+Biol. Sci. 280, 20131372–20131372. (doi:10.1098/rspb.2013.1372)
+
+
+This package makes use of existing software libraries, and cannot
+guarentee future compatibility with later versions of those dependencies
+(For instance, the `odesolve` R package has since been removed from
+CRAN.) Intepretation and modification of the methods should still be
+facilitated by the availability of the code, however as time passes it
+will be increasingly unlikely that the package can simply be installed
+and the code executed without error. I welcome bug reports for any such
+difficulties and will try to address them as time allows.
+
 
 Installation
 ------------
 
 #### Requirements
 
-* R (>= 2.15)
-* R packages: `devtools,` `ggplot2`, `odesolve`, `reshape2`, `psych`, and `plyr`
-* Install the package for generating the simulations
+The `devtools` package (available on CRAN) should automatically handle most of the package dependencies, with one exception of a separate package I use to provide routines to simulate the individual-based population dynamics. See https://github.com/cboettig/populationdynamics for details.   
+
+If you have the GSL libraries installed on your machine, this might work for you: 
 
 ```r
 require(devtools)
 install_github("populationdynamics", "cboettig")
+install_github("prosecutors-fallacy", "cboettig")
 ```
+
+Please file a bug report if you encounter problems.  
 
 **Note:** Several of the examples use code parallelized for multiple processors.  If your machine has greater/fewer than the specified number of cpus available, modify the cpu settings in the code for optimal performance. Several of the examples may take several days to run on 16 processor machines specified in the code.   
 

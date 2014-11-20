@@ -3,38 +3,32 @@
 
 require(ggplot2)
 require(reshape2)
-theme_publish <- theme_set(theme_bw(12))
-theme_publish <- 
-  theme_update(axis.line=theme_blank(),
-        axis.text.y=theme_blank(),
-        legend.position=c(0.18,.78),
-        panel.grid.major=theme_blank(),panel.grid.minor=theme_blank(),
-        plot.background=theme_blank(), legend.title=theme_blank())
-```
+theme_publish <- theme_set(theme_bw(14))
 
-```{r }
-e <- 0.5 
-a <- 180 
-K <- 1000
-h <- 200
-b <- function(n)  (0.5 * K * n ^ 2) / (n ^ 2 + h ^ 2)
-d <- function(n) e * n + a
-f <- function(n) b(n) - d(n)
-```
-
-
-
-```{r Figure1a, fig.keep="last"}
 lower <- 0
 upper <- 700
 x <- seq(lower, upper, length.out=100)
+e <- 0.5 
+K <- 1000
+h <- 200
+
+a <- seq(120, 220, by=20)
+
+d0 <- sapply(a, function(a){
+b <- function(n)  (0.5 * K * n ^ 2) / (n ^ 2 + h ^ 2)
+d <- function(n) e * n + a
+f <- function(n) b(n) - d(n)
 bx <- sapply(x, b) 
 dx <- sapply(x, d) 
-d0 <- melt(data.frame(State=x, birth=bx, death=dx), id="State")
-p0 <- ggplot(d0) + 
-  geom_line(aes(State, value, lty=variable)) + 
-  ylab("growth rate") + opts(title = "(a) Birth rate and death rate functions \n used in the model")
-write.csv(d0, "Figure1_panela.csv")
+growth <- bx-dx
+})
+
+
+d1 <- melt(data.frame(State=x, d0), id="State")
+ggplot(d1) + 
+  geom_line(aes(State, value, lty=variable), lwd=1) + 
+  ylab("growth rate") 
+  
 ```
 
 ```{r }

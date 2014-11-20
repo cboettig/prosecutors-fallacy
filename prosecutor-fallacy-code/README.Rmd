@@ -5,21 +5,17 @@ provided in the R scripts, Figure1.Rmd, Figure2.Rmd, and Figure3.Rmd.  These fil
 are dynamic documents, and can be run directly in R using the `knitr` package command,
 such as:
 
+
 ```r
 library(knitr)
-knit("Figure1.Rmd")
+knit("Figure2.Rmd")
 ```
+
+Note that `Figure1.Rmd` uses data generated the `Figure2.Rmd` script, so run that one first!
+
 
 which will generate a file Figure1.md, a plain text (markdown) file of the results
-with links to the figures.  The file can also be viewed as html using the `markdownToHTML`
-function in the `markdown` package:
-
-```r
-library(markdown)
-markdownToHTML("Figure1.md")
-```
-
-After running `knit`, all variables are available at the R command line for further exploration as well.  
+with links to the figures. After running `knit`, all variables are available at the R command line for further exploration as well.  
 
 
 ## Reproducing the figures

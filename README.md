@@ -43,6 +43,10 @@ Installation
 The `devtools` package (available on CRAN) should automatically handle most of the package dependencies, with one exception of a separate package I use to provide routines to simulate the individual-based population dynamics. See https://github.com/cboettig/populationdynamics for details.   
 
 If you have the GSL libraries installed on your machine, this might work for you: 
+=======
+* R (>= 2.15)
+* R packages: `devtools,` `ggplot2`, `deSolve`, `reshape2`, `psych`, and `plyr`
+* Install the package for generating the simulations
 
 ```r
 require(devtools)

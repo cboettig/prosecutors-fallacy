@@ -1,3 +1,6 @@
+[![DOI](https://zenodo.org/badge/11325852.svg)](https://zenodo.org/badge/latestdoi/11325852)
+
+
 The Prosecutor's Fallacy
 ==========================
 
